@@ -24,7 +24,7 @@ const Stack = createStackNavigator()
 function HomeStackScreen() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Home" component={Home} options={{
+            <Stack.Screen name="HomeScreen" component={Home} options={{
                 title: false,
                 headerMode:false,
         }}/>
@@ -35,7 +35,7 @@ function HomeStackScreen() {
 function TopicsStackScreen() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Topics" component={Topics} options={{
+            <Stack.Screen name="TopicsScreen" component={Topics} options={{
                 title: false,
                 headerMode:false,
         }}/>
@@ -46,7 +46,7 @@ function TopicsStackScreen() {
 function NotificationsStackScreen() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Notifications" component={Notifications} options={{
+            <Stack.Screen name="NotificationsScreen" component={Notifications} options={{
                 title: false,
                 headerMode:false,
         }}/>
@@ -57,7 +57,7 @@ function NotificationsStackScreen() {
 function MessagesStackScreen() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Messages" component={Messages} options={{
+            <Stack.Screen name="MessagesScreen" component={Messages} options={{
                 title: false,
                 headerMode:false,
         }}/>
