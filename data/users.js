@@ -1,6 +1,6 @@
 export const USERS = [
     {
-        user: "Steven"
+        user: "Steven" 
     },
     {
         user: "Jainam"

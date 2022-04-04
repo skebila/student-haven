@@ -3,14 +3,14 @@ import React from 'react'
 import { Ionicons, FontAwesome } from 'react-native-vector-icons';
 
 
-const Header = () => {
+const Header = (props) => {
   return (
       <View style={styles.container}>
           <TouchableOpacity>
             <Ionicons name="menu" style={styles.icon} />
           </TouchableOpacity>
         
-          <Text style={styles.logo}> Student Haven </Text>
+          <Text style={styles.logo}>{props.title}</Text>
 
           <TouchableOpacity>
             <FontAwesome name="gear" style={styles.icon} />
