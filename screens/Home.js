@@ -5,7 +5,7 @@ import Header from '../components/home/Header'
 const Home = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Header title="Student Haven"/>
+      <Header LeftIconName= "menu" RightIconName="ios-person-sharp" title="Student Haven"/>
       
     </SafeAreaView>
   )
