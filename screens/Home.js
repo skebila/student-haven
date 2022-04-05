@@ -1,12 +1,19 @@
 import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
 import React from 'react'
 import Header from '../components/home/Header'
+import Post from '../components/home/Post'
+import { ScrollView } from 'react-native-gesture-handler'
+import { POSTS } from '../data/posts'
 
 const Home = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Header LeftIconName= "menu" RightIconName="ios-person-sharp" title="Student Haven"/>
-      
+      <Header LeftIconName= "menu" RightIconName="ios-person-sharp" title="Haven Hub"/>
+      <ScrollView>
+        {POSTS.map((post, index) => (
+          <Post post={post} key={index} /> 
+        ))}
+      </ScrollView>
     </SafeAreaView>
   )
 }

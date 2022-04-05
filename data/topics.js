@@ -1,22 +1,22 @@
 export const TOPICS = [
     {
-        topic: "Accomodation",
+        topic: 'Accomodation',
         icon:''
     },
     {
-        topic: "Jobs",
+        topic: 'Jobs',
         icon:''
     },
     {
-        topic: "Room Mates",
+        topic: 'Room Mates',
         icon:''
     },
     {
-        topic: "Events",
+        topic: 'Events',
         icon:''
     },
     {
-        topic: "Buddies",
+        topic: 'Buddies',
         icon:''
     },
     

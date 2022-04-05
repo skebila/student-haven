@@ -35,14 +35,6 @@ export const POSTS = [
                 user: 'sam05',
                 comment: 'My guy'
             },
-            {
-                user: 'sara03',
-                comment: 'We should play 1V1 someday'
-            },
-            {
-                user: 'luke04',
-                comment: 'you Kobe now uhh? '
-            },
             
         ]
     }
