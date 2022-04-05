@@ -8,7 +8,7 @@ import { POSTS } from '../data/posts'
 const Home = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Header LeftIconName= "menu" RightIconName="ios-person-sharp" title="Haven Hub"/>
+      <Header LeftIconName= "menu" RightIconName="ios-person-sharp" title="Haven Hub" PostIcon='squared-plus'/>
       <ScrollView>
         {POSTS.map((post, index) => (
           <Post post={post} key={index} /> 

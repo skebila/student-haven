@@ -30,7 +30,7 @@ const PostBody = ({post}) => (
             source={{ uri: post.profile_picture }} style={styles.postHeaderImage} />
            
         <View style={{ flexDirection: 'column', width: '80%', marginRight: 10}}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2}}>
                 <Text //user name
                     style={{
                     color: 'white',
@@ -42,9 +42,11 @@ const PostBody = ({post}) => (
                     {post.user}
                 </Text>
 
-                <Text //post menu
+                <Text //post menu button
                     style={{ color: 'white', fontWeight: '900', margin: 10, marginBottom: 0, }}>...</Text>
             </View>
+            <Topics //Topics (Clickable)
+                post={post} />
             <PostImage //post image
                 post={post}
             />
@@ -136,6 +138,17 @@ const Comments = ({ post }) => (
             </View>
         ))}
     </>
+)
+
+const Topics = ({ post }) => (
+    
+    <View style={{opacity: .7, marginBottom: 10, flexDirection:'row' }}>
+            <Text style={{ color: 'white', fontWeight: '900' }}>Topic: </Text>
+        <TouchableOpacity>
+            <Text style={{ color: 'white'}}>{post.topic}</Text>
+        </TouchableOpacity>
+    </View>
+    
 )
 
 const styles = StyleSheet.create({ //styles

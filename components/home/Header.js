@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { Ionicons, FontAwesome } from 'react-native-vector-icons';
+import { Ionicons, FontAwesome, Entypo } from 'react-native-vector-icons';
 
 
 const Header = (props) => {
@@ -11,10 +11,16 @@ const Header = (props) => {
           </TouchableOpacity>
         
           <Text style={styles.logo}>{props.title}</Text>
+      <View style={{flexDirection:'row',}}>
+          <TouchableOpacity style={{marginRight:20}}>
+            <Entypo name={props.PostIcon} style={styles.icon} />
+          </TouchableOpacity>
 
           <TouchableOpacity>
             <Ionicons name={props.RightIconName} style={styles.icon} />
           </TouchableOpacity>
+      </View>
+          
     </View>
   )
 }
@@ -36,7 +42,7 @@ const styles = StyleSheet.create({
     logo: {
         fontSize: 16,
         color: 'white',
-        fontWeight: "900",
+      fontWeight: "900",
     }
 })
 
