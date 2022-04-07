@@ -1,8 +1,7 @@
 import React from 'react'
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { Divider } from 'react-native-elements/dist/divider/Divider'
-import { color } from 'react-native-elements/dist/helpers';
-import { Ionicons, FontAwesome } from 'react-native-vector-icons';
+import { Ionicons } from 'react-native-vector-icons';
 
 
 const Post = ({post}) => {

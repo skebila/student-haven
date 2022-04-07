@@ -12,6 +12,7 @@ import Notifications from '../screens/Notifications'
 //import Profile from '../screens/Profile'
 import Topics from '../screens/Topics'
 import NewPost from '../screens/NewPost'
+import Login from '../screens/Login';
 
 const Stack = createStackNavigator()
 
@@ -22,10 +23,11 @@ const screenOptions = {
 const SignedInStack = () => (
     <NavigationContainer>
         <Stack.Navigator
-            initialRouteName='HomeScreen'
+            initialRouteName='LoginScreen'
             screenOptions={screenOptions}>
             
             <Stack.Screen name="HomeScreen" component={Home} />
+            <Stack.Screen name="LoginScreen" component={Login} />
             <Stack.Screen name="TopicsScreen" component={Topics} />
             <Stack.Screen name="NotificationsScreen" component={Notifications} />
             <Stack.Screen name="MessagesScreen" component={Messages} />

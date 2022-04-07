@@ -7,12 +7,14 @@ import UserContext from './UserContext';
 import NewPost from './screens/NewPost';
 import SignedInStack from './components/navigation';
 import SelectPost from './screens/SelectPost';
+import Topics from './screens/Topics';
 
 export default function App() {
   return (
     <>
       {/*<SelectPost/>*/}
-      <SignedInStack />
+      {/*<TopicsSignedInStack />*/}
+      <SignedInStack/>
       
     </>
   );
