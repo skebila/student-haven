@@ -13,6 +13,7 @@ import Notifications from '../screens/Notifications'
 import Topics from '../screens/Topics'
 import NewPost from '../screens/NewPost'
 import Login from '../screens/Login';
+import Signup from '../screens/Signup';
 
 const Stack = createStackNavigator()
 
@@ -28,6 +29,7 @@ const SignedInStack = () => (
             
             <Stack.Screen name="HomeScreen" component={Home} />
             <Stack.Screen name="LoginScreen" component={Login} />
+            <Stack.Screen name="SignupScreen" component={Signup} />
             <Stack.Screen name="TopicsScreen" component={Topics} />
             <Stack.Screen name="NotificationsScreen" component={Notifications} />
             <Stack.Screen name="MessagesScreen" component={Messages} />

@@ -7,22 +7,25 @@ import * as Yup from 'yup'
 import Validator from 'email-validator'
 
 
-const LoginForm = () => {
-    const LoginFormSchema = Yup.object().shape({
+const SignupForm = () => {
+    const SignupFormSchema = Yup.object().shape({
         email: Yup.string().email().required('An email is required'),
+        username: Yup.string().
+            required()
+            .min(2, 'An username is required'),
         password: Yup.string()
             .required()
-        .min(6, 'Your password must contain atleast 8 characters')
+            .min(6, 'Your password must contain atleast 6 characters')
     })
 
   return (
       <View style={styles.wrapper}>
           <Formik
-              initialValues={{ email: '', password: '' }}
+              initialValues={{ email: '', username: '', password: '' }}
               onSubmit={values => {
                   console.log(values)
               }}
-              validationSchema={LoginFormSchema}
+              validationSchema={SignupFormSchema}
               validateOnMount={true}
           >
 
@@ -56,6 +59,31 @@ const LoginForm = () => {
                         />
                     
                       </View>
+
+                      <View style={[
+                          styles.inputField,
+                          {
+                              borderColor:
+                                1 > values.username.length || values.username.length >= 2
+                                  ? '#444444'
+                                  : '#F24A72',
+                          },
+                      ]}>
+                        
+                          <TextInput
+                              style={styles.textInput}
+                              placeholderTextColor='#CDD0CB'
+                              placeholder='Username'
+                              autoCapitalize='none'
+                              keyboardType='username'
+                              keyboardAppearance='dark'
+                              textContentType='username'
+                              onChangeText={handleChange('username')}
+                              onBlur={handleBlur('username')}
+                              value={values.username}
+                        />
+                    
+                      </View>
                     
                     <View style={[
                           styles.inputField,
@@ -82,21 +110,11 @@ const LoginForm = () => {
                         />
                     </View>
                     
-                    <TouchableOpacity
-                        style={{
-                            alignItems: 'flex-end',
-                            paddingRight: 20,
-                            marginTop: 10,
-                            marginBottom: 30
-                            }}> 
-                        <Text style={{color: '#3282B8', }}
-                        >Forgot password?</Text>
-                    </TouchableOpacity>
                         
                     <Pressable
                         titleSize={20} style={styles.button(isValid)}
                         onPress={handleSubmit}>
-                        <Text style={{color: 'white', fontWeight:'500', fontSize: 16}}>Login</Text>
+                        <Text style={{color: 'white', fontWeight:'500', fontSize: 16}}>Sign Up</Text>
                     </Pressable>
 
                     <Divider style={{ marginTop: 20, opacity: .3 }} />
@@ -107,10 +125,10 @@ const LoginForm = () => {
                                 color: '#EEEEEE',
                                 alignItems: 'center',
                                 marginBottom: 30
-                            }}>Don't have an account yet?</Text>
+                            }}>Already have an account?</Text>
                         
                         <TouchableOpacity> 
-                            <Text style={{ color: '#3282B8', }}> Sign up.</Text>
+                            <Text style={{ color: '#3282B8', }}> Login.</Text>
                         </TouchableOpacity>
                     </View> 
                   </>
@@ -150,6 +168,7 @@ const styles = StyleSheet.create({
         minHeight: 42,
         borderRadius: 4,
         marginHorizontal: 20,
+        marginTop: 60,
     }),
 })
-export default LoginForm
+export default SignupForm
