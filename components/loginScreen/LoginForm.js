@@ -21,7 +21,18 @@ const LoginForm = ({navigation}) => {
             await firebase.auth().signInWithEmailAndPassword(email, password)
             console.log('firebase login successful', email, password)
         } catch (error) {
-            Alert.alert(error.message)
+            Alert.alert(
+                'Wrong password...',
+                error.message + '\n\n Please try again'
+                [
+                    {
+                        text: 'OKAY',
+                        onPress: () => console.log('OK'),
+                        style:'cancel',
+                    }
+                    //{ text: 'Reset password', onPress: ()=> console.log('Reset password requested')}
+                ]
+            )
         }
     }
 
