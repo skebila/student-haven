@@ -6,20 +6,14 @@ import Home from './screens/Home';
 import UserContext from './UserContext';
 import NewPost from './screens/NewPost';
 import SignedInStack from './components/navigation';
-
+import SelectPost from './screens/SelectPost';
 
 export default function App() {
   return (
     <>
-      {/*<Navigation />*/}
-      <SignedInStack/>
+      {/*<SignedInStack />*/}
+      <SelectPost/>
     </>
-
-    /* Burger Menu */
-    
-    /* Feed */
-
-    /* Widgets */
   );
 }
 

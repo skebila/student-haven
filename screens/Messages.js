@@ -17,6 +17,7 @@ const Header = () => {
           fontSize: 16,
           color: 'white',
           fontWeight: "900",
+          textAlign: 'center'
         }}>Messages</Text>
       </View>
   )
