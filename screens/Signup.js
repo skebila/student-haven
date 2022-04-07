@@ -2,7 +2,7 @@ import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 import SignupForm from '../components/signupScreen/SignupForm'
 
-const Signup = () => (
+const Signup = ({navigation}) => (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
       <Text
@@ -12,7 +12,7 @@ const Signup = () => (
           fontSize: 25
       }}>Student Haven</Text>
         </View>
-        <SignupForm/>
+        <SignupForm navigation={navigation}/>
   </View>
   
 )

@@ -7,7 +7,7 @@ import * as Yup from 'yup'
 import Validator from 'email-validator'
 
 
-const LoginForm = () => {
+const LoginForm = ({navigation}) => {
     const LoginFormSchema = Yup.object().shape({
         email: Yup.string().email().required('An email is required'),
         password: Yup.string()
@@ -44,7 +44,7 @@ const LoginForm = () => {
                           <TextInput
                               style={styles.textInput}
                               placeholderTextColor='#CDD0CB'
-                              placeholder='Email address'
+                              placeholder='Email or username'
                               autoCapitalize='none'
                               keyboardType='email-address'
                               keyboardAppearance='dark'
@@ -109,7 +109,7 @@ const LoginForm = () => {
                                 marginBottom: 30
                             }}>Don't have an account yet?</Text>
                         
-                        <TouchableOpacity> 
+                        <TouchableOpacity onPress={()=> navigation.push('SignupScreen')}> 
                             <Text style={{ color: '#3282B8', }}> Sign up.</Text>
                         </TouchableOpacity>
                     </View> 

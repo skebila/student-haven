@@ -2,7 +2,7 @@ import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 import LoginForm from '../components/loginScreen/LoginForm'
 
-const Login = () => (
+const Login = ({navigation}) => (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
       <Text
@@ -12,7 +12,7 @@ const Login = () => (
           fontSize: 25
       }}>Student Haven</Text>
       </View>
-      <LoginForm/>
+    <LoginForm navigation={navigation}/>
   </View>
   
 )
