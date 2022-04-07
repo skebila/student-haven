@@ -1,12 +1,26 @@
 import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
 import React from 'react'
-import Header from '../components/home/Header'
 
 const Profile = (props) => {
   return (
     <SafeAreaView style={styles.container}>
-      <Header title="Profile"/>
+      <Header/>
         </SafeAreaView>
+  )
+}
+
+const Header = () => {
+  return (
+      <View style={styles.container}>
+      <Text
+        style={{
+          fontSize: 16,
+          color: 'white',
+          fontWeight: "900",
+        }}>
+        Profile
+      </Text>
+      </View>
   )
 }
 

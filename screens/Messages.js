@@ -1,12 +1,24 @@
 import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
 import React from 'react'
-import Header from '../components/home/Header'
 
 const Messages = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Header title="Messages"/>
+      <Header/>
         </SafeAreaView>
+  )
+}
+
+const Header = () => {
+  return (
+      <View style={styles.container}>
+      <Text
+        style={{
+          fontSize: 16,
+          color: 'white',
+          fontWeight: "900",
+        }}>Messages</Text>
+      </View>
   )
 }
 

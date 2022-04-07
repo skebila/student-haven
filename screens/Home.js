@@ -5,10 +5,10 @@ import Post from '../components/home/Post'
 import { ScrollView } from 'react-native-gesture-handler'
 import { POSTS } from '../data/posts'
 
-const Home = () => {
+const Home = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
-      <Header LeftIconName= "menu" RightIconName="ios-person-sharp" title="Haven Hub" PostIcon='squared-plus'/>
+      <Header navigation={navigation}/>
       <ScrollView>
         {POSTS.map((post, index) => (
           <Post post={post} key={index} /> 

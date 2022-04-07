@@ -3,16 +3,16 @@ import 'react-native-gesture-handler'; //Please make sure no import comes before
 import { View } from 'react-native-web';
 import Home from './screens/Home';
 
-import Navigation from './components/Navigation';
 import UserContext from './UserContext';
-import NewPostScreen from './screens/NewPostScreen';
+import NewPost from './screens/NewPost';
+import SignedInStack from './components/navigation';
 
 
 export default function App() {
   return (
     <>
-      {/*<NewPostScreen/>*/}
-      <Navigation />
+      {/*<Navigation />*/}
+      <SignedInStack/>
     </>
 
     /* Burger Menu */
@@ -22,3 +22,4 @@ export default function App() {
     /* Widgets */
   );
 }
+

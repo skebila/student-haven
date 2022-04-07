@@ -1,12 +1,54 @@
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
-import Header from '../home/Header'
+import FormikPostUploader from './FormikPostUploader'
+import { Ionicons, FontAwesome, Entypo } from 'react-native-vector-icons';
 
-const AddNewPost = () => {
-    return (
-      <Header title='Post to' LeftIconName='close'/>
+
+const AddNewPost = ({navigation}) => {
+  return (
+      <View style={styles.container}>
+      <Header navigation={navigation}/>
+      <FormikPostUploader navigation={navigation}/>
+      </View>
     
   )
 }
 
+const Header = ({navigation}) => {
+  return (
+      <View style={styles.headerContainer}>
+        <TouchableOpacity onPress={()=> navigation.goBack()}>
+          <Ionicons name='chevron-back-outline' style={styles.icon} />
+        </TouchableOpacity>
+      <Text style={styles.headerText}>New post</Text>
+      <Text></Text>
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    marginHorizontal: 10,
+  },
+    headerContainer: {
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      flexDirection: 'row',
+      marginHorizontal: 0,
+      color: 'white',
+      marginTop: 10,
+      padding: 10,
+    },
+    icon: {
+      color: 'white',
+      fontSize: 30
+    },
+    headerText: {
+      fontSize: 16,
+      color: 'white',
+      fontWeight: "900",
+      marginRight: 23
+      
+    }
+})
 export default AddNewPost

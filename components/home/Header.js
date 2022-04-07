@@ -2,22 +2,26 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { Ionicons, FontAwesome, Entypo } from 'react-native-vector-icons';
 
-
-const Header = (props) => {
+// LeftIconName= "menu" RightIconName="ios-person-sharp" title="Haven Hub" PostIcon='squared-plus'
+const Header = ({navigation}) => {
   return (
       <View style={styles.container}>
           <TouchableOpacity>
-            <Ionicons name={props.LeftIconName} style={styles.icon} />
+            <Ionicons name='menu' style={styles.icon} />
           </TouchableOpacity>
         
-          <Text style={styles.logo}>{props.title}</Text>
+          <Text style={styles.logo}>Haven Hub</Text>
       <View style={{flexDirection:'row',}}>
-          <TouchableOpacity style={{marginRight:20}}>
-            <Entypo name={props.PostIcon} style={styles.icon} />
+        
+        <TouchableOpacity
+          style={{ marginRight: 20 }}
+          onPress={()=> navigation.push('NewPostScreen')}
+        >
+            <Entypo name='squared-plus' style={styles.icon} />
           </TouchableOpacity>
 
           <TouchableOpacity>
-            <Ionicons name={props.RightIconName} style={styles.icon} />
+            <Ionicons name='ios-person-sharp' style={styles.icon} />
           </TouchableOpacity>
       </View>
           
@@ -30,7 +34,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: 'row',
-        marginHorizontal: 20,
+        marginHorizontal: 0,
         color: 'white',
     marginTop: 10,
         padding: 10,
