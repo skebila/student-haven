@@ -11,8 +11,9 @@ import SelectPost from './screens/SelectPost';
 export default function App() {
   return (
     <>
-      {/*<SignedInStack />*/}
-      <SelectPost/>
+      {/*<SelectPost/>*/}
+      <SignedInStack />
+      
     </>
   );
 }
