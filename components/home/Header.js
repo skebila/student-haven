@@ -2,7 +2,18 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { Ionicons, FontAwesome, Entypo } from 'react-native-vector-icons';
 
-// LeftIconName= "menu" RightIconName="ios-person-sharp" title="Haven Hub" PostIcon='squared-plus'
+import {firebase} from '../../firebase'
+
+const handleSignout = async () =>
+{
+  try {
+    await firebase.auth().signOut()
+    console.log('Signed out successfully!')
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 const Header = ({navigation}) => {
   return (
       <View style={styles.container}>
@@ -10,7 +21,7 @@ const Header = ({navigation}) => {
             <Ionicons name='menu' style={styles.icon} />
           </TouchableOpacity>
         
-          <Text style={styles.logo}>Haven Hub</Text>
+          <Text style={styles.logo} onPress={handleSignout}>Haven Hub</Text>
       <View style={{flexDirection:'row',}}>
         
         <TouchableOpacity

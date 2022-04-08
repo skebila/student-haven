@@ -21,76 +21,34 @@ const screenOptions = {
     headerShown: false,
 }
 
-const SignedInStack = () => (
+export const SignedInStack = () => (
     <NavigationContainer>
         <Stack.Navigator
-            initialRouteName='LoginScreen'
+            initialRouteName='HomeScreen'
             screenOptions={screenOptions}>
             
             <Stack.Screen name="HomeScreen" component={Home} />
-            <Stack.Screen name="LoginScreen" component={Login} />
-            <Stack.Screen name="SignupScreen" component={Signup} />
             <Stack.Screen name="TopicsScreen" component={Topics} />
             <Stack.Screen name="NotificationsScreen" component={Notifications} />
             <Stack.Screen name="MessagesScreen" component={Messages} />
             <Stack.Screen name="NewPostScreen" component={NewPost} />
         </Stack.Navigator>
-
-        {/*
-        <Tab.Navigator
-            screenOptions={
-                
-                ({ route }) => ({
-                //headerTitle: () => <Text>Header</Text>,
-                tabBarIcon: ({ focused, color, size, padding }) => {
-                    let iconName;
-                    if (route.name === 'Home') {
-                        iconName = focused ? 'home' : 'home-outline'
-                    }else if (route.name === 'Topics') {
-                        iconName = focused ? 'newspaper' : 'newspaper-outline'
-                    }else if (route.name === 'Notifications') {
-                        iconName = focused ? 'notifications' : 'md-notifications-outline'
-                    }else if (route.name === 'Messages') {
-                        iconName = focused ? 'chatbubbles' : 'chatbubbles-outline'
-                    }
-
-                    return (
-                        <Ionicons
-                            name={iconName}
-                            size={size}
-                            color={color}
-                            style={{paddingBottom: padding}}
-                        />
-                    )
-                }
-            
-            })}
-            >
-            
-            <Tab.Screen name="Home" component={Home} options={{ headerShown: false }}/>
-            <Tab.Screen name="Topics" component={Topics} options={{ headerShown: false }}/>
-            <Tab.Screen name="Notifications" component={Notifications} options={{ headerShown: false }}/>
-            <Tab.Screen name="Messages" component={Messages} options={{ headerShown: false }}/>
-        </Tab.Navigator>
-        */}
     </NavigationContainer>
 )
 
+export const SignedOutStack = () => (
+    <NavigationContainer>
+        <Stack.Navigator
+            initialRouteName='LoginScreen'
+            screenOptions={screenOptions}>
+            
+            <Stack.Screen name="LoginScreen" component={Login} />
+            <Stack.Screen name="SignupScreen" component={Signup} />
+            
+        </Stack.Navigator>
+    </NavigationContainer>
+)
 const Tab = createBottomTabNavigator();
-
-export default SignedInStack
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

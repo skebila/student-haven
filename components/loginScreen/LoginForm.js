@@ -5,7 +5,7 @@ import { Divider } from 'react-native-elements/dist/divider/Divider'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import Validator from 'email-validator'
-import firebase from '../../firebase'
+import {firebase, db} from '../../firebase'
 
 
 const LoginForm = ({navigation}) => {
@@ -22,15 +22,19 @@ const LoginForm = ({navigation}) => {
             console.log('firebase login successful', email, password)
         } catch (error) {
             Alert.alert(
-                'Wrong password...',
+                'Ooops',
                 error.message + '\n\n Please try again'
                 [
                     {
-                        text: 'OKAY',
+                        text: 'OK',
                         onPress: () => console.log('OK'),
                         style:'cancel',
+                    },
+                    {
+                        text: 'Reset',
+                        onPress: () => navigation.push('SignupScreen'),
+                        
                     }
-                    //{ text: 'Reset password', onPress: ()=> console.log('Reset password requested')}
                 ]
             )
         }
