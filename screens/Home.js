@@ -1,11 +1,19 @@
 import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Header from '../components/home/Header'
 import Post from '../components/home/Post'
 import { ScrollView } from 'react-native-gesture-handler'
 import { POSTS } from '../data/posts'
+import { db } from '../firebase'
 
-const Home = ({navigation}) => {
+const Home = ({ navigation }) => {
+  
+  useEffect(() => {
+    db.collectionGroup('posts').onSnapshot(snapshot => {
+      console.log(snapshot.docs.map(doc => doc.data()))
+    })
+  }, [])
+
   return (
     <SafeAreaView style={styles.container}>
       <Header navigation={navigation}/>

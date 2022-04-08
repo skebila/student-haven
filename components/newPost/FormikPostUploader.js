@@ -1,29 +1,71 @@
 import { View, Text, Image } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import * as Yup from 'yup'
 import { Formik } from 'formik'
 import { TextInput } from 'react-native-gesture-handler'
 import { Button, Divider } from 'react-native-elements'
 import validUrl from 'valid-url'
-
+import { db, firebase } from '../../firebase'
 
 const PLACEHOLDER_IMG = 'https://user-images.githubusercontent.com/101482/29592647-40da86ca-875a-11e7-8bc3-941700b0a323.png'
 const uploadPostSchema = Yup.object().shape({
-    imageUrl: Yup.string().url().required('A URL is Required'),
-    caption: Yup.string().max(2200, 'Caption has reached the character limit')
+  imageUrl: Yup.string().url().required('A URL is Required'),
+  caption: Yup.string().max(2200, 'Caption has reached the character limit')
 })
 
 const FormikPostUploader = ({navigation}) => {
-    const [thumbnailUrl, setThumbnailUrl] = useState(PLACEHOLDER_IMG)
+  const [thumbnailUrl, setThumbnailUrl] = useState(PLACEHOLDER_IMG)
+  const [currentLoggedInUser, setCurrentLoggedInUser] = useState(null)
+  
+  //gets the image url and the username/email of the user that is currently logged in
+  const getUsername = () => {
+    const user = firebase.auth().currentUser 
+    const unsubscribe = db
+      .collection('users')
+      .where('owner_uid', '==', user.uid)
+      .limit(1)
+      .onSnapshot(snapshot =>
+        snapshot.docs.map(doc => {
+          setCurrentLoggedInUser({
+            username: doc.data().username,
+            profilePicture: doc.data().profile_picture,
+          })
+        }))
+    return unsubscribe
+  }
 
+  useEffect(() => {
+    getUsername()
+  }, [])
+
+  //function uploads the user's post to firebase with image url, caption and all other fields mentioned below
+  const uploadPostToFirebase = (imageUrl, caption)=>{
+    const unsubscribe = db
+      .collection('users')
+      .doc(firebase.auth().currentUser.email)
+      .collection('posts')
+      .add({
+        imageUrl: imageUrl,
+        user: currentLoggedInUser.username,
+        profile_picture: currentLoggedInUser.profilePicture,
+        owner_uid: firebase.auth().currentUser.uid,
+        caption: caption,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        likes: 0,
+        likes_by_users: [],
+        comments: [],
+        //topic: topic,
+      })
+      .then(() => navigation.goBack())
+    
+    return unsubscribe
+}
 
   return (
       <Formik
           initialValues={{ caption: '', imageUrl: '' }}
           onSubmit={values => {
-              console.log(values)
-              console.log('Your post was submitted successfully')
-              navigation.goBack()
+              uploadPostToFirebase(values.imageUrl, values.caption)
           }}
           validationSchema={uploadPostSchema}
           validateOnMount={true}
@@ -35,7 +77,7 @@ const FormikPostUploader = ({navigation}) => {
                         marginHorizontal: 30,
                         marginVertical: 20,
                         justifyContent: 'space-between',
-                        flexDirection:'column',
+                        flexDirection:'column', 
                       }}>
                       
                       <View style={{flexDirection: 'row'}}>
