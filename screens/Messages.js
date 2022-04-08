@@ -1,10 +1,12 @@
 import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
 import React from 'react'
+import BottomTabs from '../components/home/BottomTabs'
 
-const Messages = () => {
+const Messages = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
-      <Header/>
+      <Header />
+      <BottomTabs navigation={navigation}/>
         </SafeAreaView>
   )
 }

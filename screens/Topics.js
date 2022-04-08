@@ -2,13 +2,15 @@ import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
 import React from 'react'
 import SearchTopic from '../components/topics/SearchTopic'
 import { Divider } from 'react-native-elements'
+import BottomTabs from '../components/home/BottomTabs'
 
-const Topics = () => {
+const Topics = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <Header />
       {/*<Divider width={0.2} orientation='vertical' style={{ marginBottom: 20 }} />*/}
-      <SearchTopic/>
+      <SearchTopic />
+      <BottomTabs navigation={navigation} />
         </SafeAreaView>
   )
 }
