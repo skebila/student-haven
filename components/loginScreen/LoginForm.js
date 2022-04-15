@@ -69,7 +69,7 @@ const LoginForm = ({navigation}) => {
                           <TextInput
                               style={styles.textInput}
                               placeholderTextColor='#CDD0CB'
-                              placeholder='Email or username'
+                              placeholder='Email'
                               autoCapitalize='none'
                               keyboardType='email-address'
                               keyboardAppearance='dark'

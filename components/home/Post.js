@@ -141,10 +141,10 @@ const Comments = ({ post }) => (
 
 const Topics = ({ post }) => (
     
-    <View style={{opacity: .7, marginBottom: 10, flexDirection:'row' }}>
-            <Text style={{ color: 'white', fontWeight: '900' }}>Topic: </Text>
+    <View style={{ marginBottom: 10, flexDirection:'row' }}>
+            <Text style={{ opacity: .7, color: 'white', fontWeight: '900' }}>Topic: </Text>
         <TouchableOpacity>
-            <Text style={{ color: 'white'}}>{post.topic}</Text>
+            <Text style={{ color: '#F24A72', fontWeight: '700', textDecorationLine:'underline'}}>{post.topic}</Text>
         </TouchableOpacity>
     </View>
     

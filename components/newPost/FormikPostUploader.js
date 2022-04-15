@@ -10,7 +10,8 @@ import { db, firebase } from '../../firebase'
 const PLACEHOLDER_IMG = 'https://user-images.githubusercontent.com/101482/29592647-40da86ca-875a-11e7-8bc3-941700b0a323.png'
 const uploadPostSchema = Yup.object().shape({
   imageUrl: Yup.string().url().required('A URL is Required'),
-  caption: Yup.string().max(2200, 'Caption has reached the character limit')
+  caption: Yup.string().max(2200, 'Caption has reached the character limit'),
+  topic: Yup.string().max(20, 'Topic has reached the character limit').required('A topic is required')
 })
 
 const FormikPostUploader = ({navigation}) => {
@@ -39,12 +40,13 @@ const FormikPostUploader = ({navigation}) => {
   }, [])
 
   //function uploads the user's post to firebase with image url, caption and all other fields mentioned below
-  const uploadPostToFirebase = (imageUrl, caption)=>{
+  const uploadPostToFirebase = (imageUrl, caption, topic)=>{
     const unsubscribe = db
       .collection('users')
       .doc(firebase.auth().currentUser.email)
       .collection('posts')
       .add({
+        topic: topic,
         imageUrl: imageUrl,
         user: currentLoggedInUser.username,
         profile_picture: currentLoggedInUser.profilePicture,
@@ -54,18 +56,30 @@ const FormikPostUploader = ({navigation}) => {
         likes: 0,
         likes_by_users: [],
         comments: [],
-        //topic: topic,
       })
       .then(() => navigation.goBack())
     
     return unsubscribe
-}
+  }
+  
+  
+  /*const addTopicToFirebase = (topic) => {
+    const unsubscribe = db
+      .collection('topics')
+      .add({
+        topic: topic,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      })
+    
+    return unsubscribe
+  }*/
 
   return (
       <Formik
-          initialValues={{ caption: '', imageUrl: '' }}
+          initialValues={{ caption: '', imageUrl: '', topic: ''}}
           onSubmit={values => {
-              uploadPostToFirebase(values.imageUrl, values.caption)
+            uploadPostToFirebase(values.imageUrl, values.caption, values.topic)
+            //addTopicToFirebase(values.topic)
           }}
           validationSchema={uploadPostSchema}
           validateOnMount={true}
@@ -80,15 +94,23 @@ const FormikPostUploader = ({navigation}) => {
                         flexDirection:'column', 
                       }}>
                       
-                      <View style={{flexDirection: 'row'}}>
-                          <Text style={{ color: 'white', fontWeight: '500', marginBottom: 25, opacity: .5 }}>Posting to </Text>
-                          <Text //displays selected topic to post to
-                              style={{ color: '#F24A72', fontWeight: '700', marginBottom: 25, }}>Events </Text>
+                      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <Text style={{ color: 'white', fontWeight: '700', marginBottom: 25, opacity: .8 }}>Topic:  </Text>
+                          
+                      <TextInput //topic to post to
+                        style={{ color: '#F24A72',opacity: 0.8, fontWeight: '500', marginBottom: 25, textAlign: 'center' }}
+                        placeholder='add a topic'
+                        placeholderTextColor='#F24A72'
+                        multiline={false}
+                        onChangeText={handleChange('topic')}
+                        onBlur={handleBlur('topic')}
+                        value={values.topic}
+                      />
                       </View>
 
                       <TextInput //Caption to post
                         style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
-                        placeholder='Add a caption ...'
+                        placeholder='Add a caption'
                         placeholderTextColor='gray'
                         multiline={true}
                         onChangeText={handleChange('caption')}
