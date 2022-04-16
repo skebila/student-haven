@@ -43,7 +43,7 @@ const FormikPostUploader = ({navigation}) => {
   const uploadPostToFirebase = (imageUrl, caption, topic)=>{
     const unsubscribe = db
       .collection('users')
-      .doc(firebase.auth().currentUser.email) //where('email', '==', firebase.auth().currentUser.email)
+      .doc(firebase.auth().currentUser.email) 
       .collection('posts')
       .add({
         topic: topic,

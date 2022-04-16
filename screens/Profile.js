@@ -5,13 +5,15 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { db, firebase } from '../firebase'
 import BottomTabs from '../components/home/BottomTabs'
 
-const Profile = ({ navigation }) => {
+const Profile = ({ navigation, post }) => {
   const [posts, setPosts] = useState([])
   const user = firebase.auth().currentUser
   //sets the post that has been created by the user
   useEffect(() => {
     db
-      .collectionGroup('posts')
+      .collection('users')
+      .doc(firebase.auth().currentUser.email) 
+      .collection('posts')
       .where('owner_uid', '==', user.uid)
       .onSnapshot(snapshot => {
       setPosts(snapshot.docs.map(doc => doc.data())) 
