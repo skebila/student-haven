@@ -1,19 +1,21 @@
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
-import React, {useState} from 'react'
-import { Divider } from 'react-native-elements'
-import { Ionicons, FontAwesome } from 'react-native-vector-icons';
-
+import { View, TextInput, StyleSheet, TouchableOpacity,  } from 'react-native'
+import React from 'react'
+import { Ionicons } from 'react-native-vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SearchTopic = () => {
-    const [searchInput, setSearchInput] = useState('')
     return (
-        <View style={styles.searchBarContainer}>
-            <TouchableOpacity>
-                <Ionicons name='search' style={styles.searchIcon} />
-            </TouchableOpacity>
-            <TextInput value={searchInput} onChangeText={(val)=> setSearchInput(val)} placeholder={'Search for a topic'} placeholderTextColor={'#CDD0CB'} style={styles.TextInput}/>
+        <SafeAreaView>
+        
+            <View style={styles.searchBarContainer}>
+                <TouchableOpacity>
+                    <Ionicons name='search' style={styles.searchIcon} />
+                </TouchableOpacity>
+                <TextInput placeholder={'Search for a topic'}
+                    placeholderTextColor={'#CDD0CB'} style={styles.TextInput} />
+            </View>            
             
-        </View>
+        </SafeAreaView>
     )
 }
 

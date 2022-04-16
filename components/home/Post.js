@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { Divider } from 'react-native-elements/dist/divider/Divider'
 import { Ionicons } from 'react-native-vector-icons';
@@ -139,12 +139,19 @@ const Comments = ({ post }) => (
     </>
 )
 
+
 const Topics = ({ post }) => (
     
     <View style={{ marginBottom: 10, flexDirection:'row' }}>
             <Text style={{ opacity: .7, color: 'white', fontWeight: '900' }}>Topic: </Text>
         <TouchableOpacity>
-            <Text style={{ color: '#F24A72', fontWeight: '700', textDecorationLine:'underline'}}>{post.topic}</Text>
+            <Text
+                style={{
+                    color: '#F24A72',
+                    fontWeight: '700',
+                    textDecorationLine: 'underline'
+                }}
+            >{post.topic}</Text>
         </TouchableOpacity>
     </View>
     

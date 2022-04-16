@@ -31,7 +31,9 @@ const Header = ({navigation}) => {
             <Entypo name='squared-plus' style={styles.icon} />
           </TouchableOpacity>
 
-          <TouchableOpacity>
+        <TouchableOpacity
+          onPress={()=> navigation.push('ProfileScreen')}
+        >
             <Ionicons name='ios-person-sharp' style={styles.icon} />
           </TouchableOpacity>
       </View>

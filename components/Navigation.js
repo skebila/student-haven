@@ -9,7 +9,7 @@ import { Ionicons, FontAwesome, Entypo } from 'react-native-vector-icons';
 import Home from '../screens/Home'
 import Messages from '../screens/Messages'
 import Notifications from '../screens/Notifications'
-//import Profile from '../screens/Profile'
+import Profile from '../screens/Profile'
 import Topics from '../screens/Topics'
 import NewPost from '../screens/NewPost'
 import Login from '../screens/Login';
@@ -28,6 +28,7 @@ export const SignedInStack = () => (
             screenOptions={screenOptions}>
             
             <Stack.Screen name="HomeScreen" component={Home} />
+            <Stack.Screen name="ProfileScreen" component={Profile} />
             <Stack.Screen name="TopicsScreen" component={Topics} />
             <Stack.Screen name="NotificationsScreen" component={Notifications} />
             <Stack.Screen name="MessagesScreen" component={Messages} />

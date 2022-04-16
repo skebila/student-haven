@@ -23,7 +23,7 @@ const FormikPostUploader = ({navigation}) => {
     const user = firebase.auth().currentUser 
     const unsubscribe = db
       .collection('users')
-      .where('owner_uid', '==', user.uid)
+      .where('owner_uid', '==', user.uid)  //how to use where statement
       .limit(1)
       .onSnapshot(snapshot =>
         snapshot.docs.map(doc => {
@@ -43,7 +43,7 @@ const FormikPostUploader = ({navigation}) => {
   const uploadPostToFirebase = (imageUrl, caption, topic)=>{
     const unsubscribe = db
       .collection('users')
-      .doc(firebase.auth().currentUser.email)
+      .doc(firebase.auth().currentUser.email) //where('email', '==', firebase.auth().currentUser.email)
       .collection('posts')
       .add({
         topic: topic,

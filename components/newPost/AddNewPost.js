@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 import FormikPostUploader from './FormikPostUploader'
-import { Ionicons, FontAwesome, Entypo } from 'react-native-vector-icons';
+import { Ionicons } from 'react-native-vector-icons';
 
 
 const AddNewPost = ({navigation}) => {
