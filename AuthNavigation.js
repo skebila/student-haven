@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { SignedInStack, SignedOutStack } from './components/navigation'
+import { SignedInStack, SignedOutStack } from './components/Navigation'
 import {firebase} from './firebase'
 
 const AuthNavigation = () => {
