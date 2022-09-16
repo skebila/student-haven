@@ -113,18 +113,24 @@ const PostFooter = ({ post }) => (
 
 const Likes = ({ post }) => ( //likes per post
     <Text style={{ color: 'white', fontSize: 11 }}>
-        {post.likes.toLocaleString('en')}
+        {post.likes.toLocaleString('en') != 1 ? post.likes.toLocaleString('en') + ' Likes' : post.likes.toLocaleString('en') + ' Like'}
     </Text>
 )
 
-const CommentsCount = ({ post }) => (
-    <View>
+const CommentsCount = ({ post }) => ( //post count per post
+    
+    <Text style={{ color: 'white', fontSize: 11 }}>
+        
+        {post.comments.length.toLocaleString('en') != 1 ? post.comments.length.toLocaleString('en') + ' Comments' : post.comments.length.toLocaleString('en') + ' Comment'}
+    </Text>
+    
+    /*<View>
     {!!post.comments.length && ( //!!(double negation) represents true or false. i.e., if there are comments on this post, display comment count, else display nothing
         <Text style={{ color: 'white', fontSize: 11 }}>
         {post.comments.length > 1 ? post.comments.length + ' comments' : post.comments.length + ' comment'}
     </Text>
         )}
-    </View>
+    </View>*/
 )
 
 const Comments = ({ post }) => (
