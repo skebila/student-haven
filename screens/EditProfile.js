@@ -155,7 +155,7 @@ const ProfileBody = ({user}) => {
                             autoCapitalize='none'
                             keyboardType='default'
                             keyboardAppearance='dark'
-                            textContentType='bio'
+                            textContentType='none'
                             onChangeText={text => {bio = text}}
                         />
                     </View>

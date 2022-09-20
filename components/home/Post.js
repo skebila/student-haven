@@ -152,7 +152,7 @@ const Topics = ({ post, navigation }) => {
     <View style={{ marginBottom: 10, flexDirection:'row' }}>
             <Text style={{ opacity: .7, color: 'white', fontWeight: '900' }}>Topic: </Text>
             <TouchableOpacity
-                //onPress={() => navigation.push('EditProfileScreen')}
+                onPress={() => navigation.push(post.topic + 'PostScreen')}
             >
             <Text
                 style={{
