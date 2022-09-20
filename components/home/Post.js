@@ -153,7 +153,7 @@ const Topics = ({ post }) => (
         <TouchableOpacity>
             <Text
                 style={{
-                    color: '#F24A72',
+                    color: '#6BB0F5',
                     fontWeight: '700',
                     textDecorationLine: 'underline'
                 }}

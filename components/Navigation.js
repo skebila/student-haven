@@ -14,6 +14,9 @@ import Topics from '../screens/Topics'
 import NewPost from '../screens/NewPost'
 import Login from '../screens/Login';
 import Signup from '../screens/Signup';
+import AccommodationPost from '../screens/AccommodationPost';
+import EventPost from '../screens/EventPost';
+
 
 const Stack = createStackNavigator()
 
@@ -33,6 +36,8 @@ export const SignedInStack = () => (
             <Stack.Screen name="NotificationsScreen" component={Notifications} />
             <Stack.Screen name="MessagesScreen" component={Messages} />
             <Stack.Screen name="NewPostScreen" component={NewPost} />
+            <Stack.Screen name="AccommodationPostScreen" component={AccommodationPost} />
+            <Stack.Screen name="EventsPostScreen" component={EventPost} />
         </Stack.Navigator>
     </NavigationContainer>
 )
