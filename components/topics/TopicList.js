@@ -10,7 +10,7 @@ const TopicList = ({navigation}) => {
           {key: 'Events'},
         ]}
                 renderItem={({ item }) => <TouchableOpacity onPress={() =>
-                    alert(item.key + ' Pressed')
+                    alert(item.key + '  Clicked')
                     //navigation.push(item.key + 'PostScreen')
                 }>
                     <Text style={styles.item}>{item.key}</Text>
