@@ -10,7 +10,7 @@ const Topics = ({navigation}) => {
     <SafeAreaView style={styles.container}>
       <Header />
       <SearchTopic />
-      <TopicList />
+      <TopicList navigation={navigation}/>
       <BottomTabs navigation={navigation} />
         </SafeAreaView>
   )

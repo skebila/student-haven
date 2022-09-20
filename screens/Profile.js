@@ -36,7 +36,7 @@ const Profile = ({ navigation }) => {
           posts={post}
         />
         <View style={{marginHorizontal: '10%'}}>
-            <Button title="Edit Profile" onPress={()=> navigation.push('EditProfileScreen')}/>
+            <Button title="Edit Profile" onPress={() => navigation.push('EditProfileScreen')} />
         </View>
       </ScrollView>
       <BottomTabs navigation={navigation}/>

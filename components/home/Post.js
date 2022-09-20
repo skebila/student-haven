@@ -4,18 +4,18 @@ import { Divider } from 'react-native-elements/dist/divider/Divider'
 import { Ionicons } from 'react-native-vector-icons';
 
 
-const Post = ({post}) => {
+const Post = ({post, navigation}) => {
   return (
       <View>
           <Divider style={{ marginBottom: 5, opacity: .3 }} />
           <View>
-              <PostBody post={post} />
+              <PostBody post={post} navigation={navigation} />
           </View>
     </View>
   )
 }
 
-const PostBody = ({post}) => (
+const PostBody = ({post, navigation}) => (
     <View
         style={{
             flexDirection: 'row',
@@ -45,7 +45,7 @@ const PostBody = ({post}) => (
                     style={{ color: 'white', fontWeight: '900', margin: 10, marginBottom: 0, }}>...</Text>
             </View>
             <Topics //Topics (Clickable)
-                post={post} />
+                post={post} navigation={navigation} />
             <PostImage //post image
                 post={post}
             />
@@ -146,11 +146,14 @@ const Comments = ({ post }) => (
 )
 
 
-const Topics = ({ post }) => (
+const Topics = ({ post, navigation }) => {
+    return (
     
     <View style={{ marginBottom: 10, flexDirection:'row' }}>
             <Text style={{ opacity: .7, color: 'white', fontWeight: '900' }}>Topic: </Text>
-        <TouchableOpacity>
+            <TouchableOpacity
+                //onPress={() => navigation.push('EditProfileScreen')}
+            >
             <Text
                 style={{
                     color: '#6BB0F5',
@@ -161,7 +164,7 @@ const Topics = ({ post }) => (
         </TouchableOpacity>
     </View>
     
-)
+)}
 
 const styles = StyleSheet.create({ //styles
     postHeaderImage: {
