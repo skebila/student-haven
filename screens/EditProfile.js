@@ -120,13 +120,12 @@ const ProfileBody = ({user}) => {
                         <TextInput
                             style={styles.textInput}
                             placeholderTextColor='#CDD0CB'
-                            placeholder='Name'
+                            placeholder={name}
                             autoCapitalize='none'
                             keyboardType='default'
                             keyboardAppearance='dark'
                             textContentType='name'
                             onChangeText={text => {name = text}}
-                            value={name}
                         />
                     </View>
                 </View>
@@ -138,17 +137,7 @@ const ProfileBody = ({user}) => {
                             borderColor: '#444444'
                         },
                     ]}>
-                        <TextInput
-                            style={styles.textInput}
-                            placeholderTextColor='#CDD0CB'
-                            placeholder='Username'
-                            autoCapitalize='none'
-                            keyboardType='default'
-                            keyboardAppearance='dark'
-                            textContentType='username'
-                            onChangeText={text => {username = text}}
-                            value={username}
-                        />
+                        <Text>{ username}</Text>
                     </View>
                 </View>
                 <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
@@ -162,13 +151,12 @@ const ProfileBody = ({user}) => {
                         <TextInput
                             style={styles.textInput}
                             placeholderTextColor='#CDD0CB'
-                            placeholder='Bio'
+                            placeholder={bio}
                             autoCapitalize='none'
                             keyboardType='default'
                             keyboardAppearance='dark'
                             textContentType='bio'
                             onChangeText={text => {bio = text}}
-                            value={bio}
                         />
                     </View>
                 </View>
