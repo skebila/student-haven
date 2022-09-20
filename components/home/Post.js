@@ -4,18 +4,18 @@ import { Divider } from 'react-native-elements/dist/divider/Divider'
 import { Ionicons } from 'react-native-vector-icons';
 
 
-const Post = ({post}) => {
+const Post = ({post, navigation}) => {
   return (
       <View>
           <Divider style={{ marginBottom: 5, opacity: .3 }} />
           <View>
-              <PostBody post={post} />
+              <PostBody post={post} navigation={navigation} />
           </View>
     </View>
   )
 }
 
-const PostBody = ({post}) => (
+const PostBody = ({post, navigation}) => (
     <View
         style={{
             flexDirection: 'row',
@@ -45,7 +45,7 @@ const PostBody = ({post}) => (
                     style={{ color: 'white', fontWeight: '900', margin: 10, marginBottom: 0, }}>...</Text>
             </View>
             <Topics //Topics (Clickable)
-                post={post} />
+                post={post} navigation={navigation} />
             <PostImage //post image
                 post={post}
             />
@@ -113,18 +113,24 @@ const PostFooter = ({ post }) => (
 
 const Likes = ({ post }) => ( //likes per post
     <Text style={{ color: 'white', fontSize: 11 }}>
-        {post.likes.toLocaleString('en')}
+        {post.likes.toLocaleString('en') != 1 ? post.likes.toLocaleString('en') + ' Likes' : post.likes.toLocaleString('en') + ' Like'}
     </Text>
 )
 
-const CommentsCount = ({ post }) => (
-    <View>
+const CommentsCount = ({ post }) => ( //post count per post
+    
+    <Text style={{ color: 'white', fontSize: 11 }}>
+        
+        {post.comments.length.toLocaleString('en') != 1 ? post.comments.length.toLocaleString('en') + ' Comments' : post.comments.length.toLocaleString('en') + ' Comment'}
+    </Text>
+    
+    /*<View>
     {!!post.comments.length && ( //!!(double negation) represents true or false. i.e., if there are comments on this post, display comment count, else display nothing
         <Text style={{ color: 'white', fontSize: 11 }}>
         {post.comments.length > 1 ? post.comments.length + ' comments' : post.comments.length + ' comment'}
     </Text>
         )}
-    </View>
+    </View>*/
 )
 
 const Comments = ({ post }) => (
@@ -140,14 +146,17 @@ const Comments = ({ post }) => (
 )
 
 
-const Topics = ({ post }) => (
+const Topics = ({ post, navigation }) => {
+    return (
     
     <View style={{ marginBottom: 10, flexDirection:'row' }}>
             <Text style={{ opacity: .7, color: 'white', fontWeight: '900' }}>Topic: </Text>
-        <TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => navigation.push(post.topic + 'PostScreen')}
+            >
             <Text
                 style={{
-                    color: '#F24A72',
+                    color: '#6BB0F5',
                     fontWeight: '700',
                     textDecorationLine: 'underline'
                 }}
@@ -155,7 +164,7 @@ const Topics = ({ post }) => (
         </TouchableOpacity>
     </View>
     
-)
+)}
 
 const styles = StyleSheet.create({ //styles
     postHeaderImage: {
