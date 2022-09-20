@@ -12,9 +12,8 @@
 
 <h6 align="left">Connect with us:</h6>
 <p align="left">
-<a href="https://linkedin.com/in/steven-kebila" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="steven-kebila" height="30" width="40" /></a>
-<a href="https://instagram.com/stevenkebila_" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="stevenkebila_" height="30" width="40" /></a>
-<a href="https://dribbble.com/stevenkebila" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/dribbble.svg" alt="stevenkebila" height="30" width="40" /></a>
+
+<a href="https://instagram.com/studenthavenapp" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="student-haven-app" height="30" width="40" /></a>
 </p>
 
 
@@ -34,7 +33,7 @@
 <p align="left">
 
 
-- <a href="https://github/skebila" target="_blank" rel="noreferrer">Steven Kebila </a>
+- <a href="https://github.com/skebila" target="_blank" rel="noreferrer">Steven Kebila </a>
 - <a href="https://github.com/MonaG17" target="_blank" rel="noreferrer">Mamona Ghaffar</a>
 - <a href="https://github.com/shethja" target="_blank" rel="noreferrer">Jainam Sheth</a>
 - <a href="https://github.com/usmanAfzalKhan" target="_blank" rel="noreferrer">Usman Khan </a>
