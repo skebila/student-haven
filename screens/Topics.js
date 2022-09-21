@@ -3,12 +3,14 @@ import React from 'react'
 import SearchTopic from '../components/topics/SearchTopic'
 import { Divider } from 'react-native-elements'
 import BottomTabs from '../components/home/BottomTabs'
+import TopicList from '../components/topics/TopicList'
 
 const Topics = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <Header />
       <SearchTopic />
+      <TopicList navigation={navigation}/>
       <BottomTabs navigation={navigation} />
         </SafeAreaView>
   )
@@ -27,7 +29,8 @@ const Header = () => {
 const styles = StyleSheet.create({
     container: {
       backgroundColor: 'black',
-      flex: 1,
+      height:'100%',
+      //flex: 1,
   },
   headerContainer: {
       marginHorizontal: 0,

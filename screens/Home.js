@@ -20,9 +20,9 @@ const Home = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Header navigation={navigation}/>
-      <ScrollView>
+      <ScrollView style={{marginBottom: 100}}>
         {posts.map((post, index) => ( //gets the post, maps it and displays it on the app UI
-          <Post post={post} key={index} /> 
+          <Post post={post} key={index} navigation={navigation}/> 
         ))}
       </ScrollView>
       <BottomTabs navigation={navigation}/>

@@ -1,4 +1,4 @@
-import { View, TextInput, StyleSheet, TouchableOpacity,  } from 'react-native'
+import { View, TextInput, StyleSheet, TouchableOpacity  } from 'react-native'
 import React from 'react'
 import { Ionicons } from 'react-native-vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -6,15 +6,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const SearchTopic = () => {
     return (
         <SafeAreaView>
-        
             <View style={styles.searchBarContainer}>
                 <TouchableOpacity>
                     <Ionicons name='search' style={styles.searchIcon} />
                 </TouchableOpacity>
                 <TextInput placeholder={'Search for a topic'}
                     placeholderTextColor={'#CDD0CB'} style={styles.TextInput} />
-            </View>            
-            
+            </View>       
+                    
         </SafeAreaView>
     )
 }
@@ -28,7 +27,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         paddingLeft: 10,
         marginHorizontal: 20,
-        marginTop: 20,
+        marginTop: 0,
     },
     TextInput: {
         height: 40,

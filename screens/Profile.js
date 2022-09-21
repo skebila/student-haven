@@ -1,38 +1,49 @@
-import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
+import {Button, View, Text, SafeAreaView, StyleSheet, Image} from 'react-native'
 import React, { useEffect, useState } from 'react'
-import Post from '../components/home/Post'
-import { ScrollView } from 'react-native-gesture-handler'
+import {ScrollView} from 'react-native-gesture-handler'
 import { db, firebase } from '../firebase'
 import BottomTabs from '../components/home/BottomTabs'
 
-const Profile = ({ navigation, post }) => {
-  const [posts, setPosts] = useState([])
-  const user = firebase.auth().currentUser
-  //sets the post that has been created by the user
+
+// Mona G
+const Profile = ({ navigation }) => {
+    //sets the user profile
+    const [user, setUser] = useState([])
+    //sets the number of post that has been created by the user
+    const [post, setPosts] = useState([])
   useEffect(() => {
+      // fetching user data from firebase
     db
       .collection('users')
-      .doc(firebase.auth().currentUser.email) 
-      .collection('posts')
-      .where('owner_uid', '==', user.uid)
+      .doc(firebase.auth().currentUser.email)
       .onSnapshot(snapshot => {
-      setPosts(snapshot.docs.map(doc => doc.data())) 
-    })
+          setUser(snapshot.data())
+     })
+      db.collectionGroup('posts')
+          .where('owner_uid', '==', firebase.auth().currentUser.uid)
+          .orderBy("createdAt")
+          .onSnapshot(snapshot => {
+              setPosts(snapshot.docs.map(doc => doc.data()))
+          })
   }, [])
 
   return (
     <SafeAreaView style={styles.container}>
       <Header />
       <ScrollView>
-        {posts.map((post, index) => ( //gets the post, maps it and displays it on the app UI
-          <Post post={post} key={index} /> 
-        ))}
+        <ProfileBody
+          user={user}
+          posts={post}
+        />
+        <View style={{marginHorizontal: '10%'}}>
+            <Button title="Edit Profile" onPress={() => navigation.push('EditProfileScreen')} />
+        </View>
       </ScrollView>
       <BottomTabs navigation={navigation}/>
         </SafeAreaView>
   )
 }
-
+// Header
 const Header = () => {
   return (
       <View style={styles.headerContainer}>
@@ -47,16 +58,91 @@ const Header = () => {
   )
 }
 
+// profile body
+const ProfileBody = ({user, posts}) => (
+    <View
+        style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            margin: 5,
+            paddingBottom: 10,
+            alignItems: 'flex-start',
+        }}>
+        <View
+            style={{
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                margin: 5,
+                paddingBottom: 10,
+                alignItems: 'flex-start',
+            }}>
+
+            <Image // profile image
+                source={{ uri: user.profile_picture }} style={styles.postHeaderImage} />
+            <View style={{ flexDirection: 'column', width: '100%', alignItems: 'center', marginLeft:'15%'}}>
+                <Text style={styles.heading}>
+                    {user.username}
+                </Text>
+            </View>
+        </View>
+        <View
+            style={{
+                    flexDirection: 'row',
+                    width: '60%',
+                    justifyContent:'space-evenly',
+                    marginRight: '25%',
+                    marginTop: '15%'}}>
+            <View style={{ flexDirection: 'column'}}>
+                <Text style={styles.number}>{posts.length}</Text>
+                <Text style={styles.heading}>Posts</Text>
+            </View>
+            <View style={{ flexDirection: 'column'}}>
+                <Text style={styles.number}>0</Text>
+                <Text style={styles.heading}>Follower</Text>
+            </View>
+            <View style={{ flexDirection: 'column'}}>
+                <Text style={styles.number}>0</Text>
+                <Text style={styles.heading}>Following</Text>
+            </View>
+        </View>
+    </View>
+)
+// styles for components
 const styles = StyleSheet.create({
     container: {
-      backgroundColor: 'black',
-    flex: 1,
-  },
-  headerContainer: {
-      marginHorizontal: 0,
-      color: 'white',
-      marginTop: 10,
-      padding: 10,
+        backgroundColor: 'black',
+        flex: 1,
+    },
+    headerContainer: {
+        marginHorizontal: 0,
+        color: 'white',
+        marginTop: 30,
+        padding: 10,
+    },
+    heading:{
+        color: 'white',
+        margin: 10,
+        marginBottom: 0,
+        marginLeft: 0,
+        fontWeight: 'bold'
+    },
+    number:{
+        color: 'white',
+        margin: 10,
+        marginBottom: 0,
+        marginLeft: 0,
+        textAlign:'center',
+        fontSize: 25,
+        fontWeight: 'bold'
+    },
+    postHeaderImage: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        marginTop: 10,
+        marginLeft: 30,
+        borderWidth: 1.6,
+        borderColor: '#E5E5E5',
     },
 })
 
