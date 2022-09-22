@@ -131,13 +131,9 @@ const ProfileBody = ({user}) => {
                 </View>
                 <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
                     <Text style={styles.title}>Username:</Text>
-                    <View style={[
-                        styles.inputField,
-                        {
-                            borderColor: '#444444'
-                        },
-                    ]}>
-                        <Text>{ username}</Text>
+                    <View style={styles.inputField}>
+                        <Text style={[styles.textInput, {
+        paddingTop: 10}]}>{username}</Text>
                     </View>
                 </View>
                 <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
