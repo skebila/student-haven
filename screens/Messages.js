@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native'
+import { View, Button, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native'
 import React from 'react'
 import BottomTabs from '../components/home/BottomTabs'
 import { Ionicons } from 'react-native-vector-icons';
@@ -12,7 +12,7 @@ const Messages = ({navigation}) => {
     <SafeAreaView style={styles.container}>
       <Header />
       <SearchContact />
-      <NoMessage />
+      <NoMessage navigation={navigation}/>
       <BottomTabs navigation={navigation}/>
         </SafeAreaView>
   )
@@ -44,13 +44,13 @@ const SearchContact = () => {
                 </TouchableOpacity>
                 <TextInput placeholder={'Search from Contacts'}
                     placeholderTextColor={'#CDD0CB'} style={styles.TextInput} />
-            </View>       
-                    
+            </View>
+
         </SafeAreaView>
     )
 }
 
-const NoMessage = () => {
+const NoMessage = ({navigation}) => {
   return (
       <View style={styles.headerContainer}>
       <Text
@@ -60,7 +60,7 @@ const NoMessage = () => {
           fontWeight: "bold",
           textAlign: 'center',
         }}>No Messages Found</Text>
-
+      <Button title="Send Message to Someone" onPress={() => navigation.push("MessengerScreen")} />
       </View>
   )
 }
