@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
@@ -62,5 +60,3 @@ export const SignedOutStack = () => (
     </NavigationContainer>
 )
 const Tab = createBottomTabNavigator();
-
->>>>>>> 9e313def3b6cf07850299d559782169845f9be63
