@@ -11,7 +11,6 @@ const PLACEHOLDER_IMG = 'https://user-images.githubusercontent.com/101482/295926
 const uploadPostSchema = Yup.object().shape({
   imageUrl: Yup.string().url().required('A URL is Required'),
   caption: Yup.string().max(2200, 'Caption has reached the character limit'),
-  topic: Yup.string().max(20, 'Topic has reached the character limit').required('A topic is required')
 })
 
 const FormikPostUploader = ({navigation}) => {
@@ -40,7 +39,7 @@ const FormikPostUploader = ({navigation}) => {
   }, [])
 
   //function uploads the user's post to firebase with image url, caption and all other fields mentioned below
-  const uploadPostToFirebase = (imageUrl, caption, topic)=>{
+  const uploadPostToFirebase = (imageUrl, caption,address)=>{
     const unsubscribe = db
       .collection('users')
       .doc(firebase.auth().currentUser.email) 
@@ -56,6 +55,7 @@ const FormikPostUploader = ({navigation}) => {
         likes: 0,
         likes_by_users: [],
         comments: [],
+        address: address
       })
       .then(() => navigation.goBack())
     
@@ -64,9 +64,9 @@ const FormikPostUploader = ({navigation}) => {
 
   return (
       <Formik
-          initialValues={{ caption: '', imageUrl: '', topic: ''}}
+          initialValues={{ caption: '', imageUrl: '', address: ''}}
           onSubmit={values => {
-            uploadPostToFirebase(values.imageUrl, values.caption, values.topic)
+            uploadPostToFirebase(values.imageUrl, values.caption, values.address)
             //addTopicToFirebase(values.topic)
           }}
           validationSchema={uploadPostSchema}
@@ -85,16 +85,20 @@ const FormikPostUploader = ({navigation}) => {
                       <View style={{flexDirection: 'row', alignItems: 'center'}}>
                       <Text style={{ color: 'white', fontWeight: '700', marginBottom: 25, opacity: .8 }}>Topic:  </Text>
                           
-                      <TextInput //topic to post to
+                      <Text //topic to post to
                         style={{ color: '#F24A72',opacity: 0.8, fontWeight: '500', marginBottom: 25, textAlign: 'center' }}
-                        placeholder='add a topic'
-                        placeholderTextColor='#F24A72'
-                        multiline={false}
-                        onChangeText={handleChange('topic')}
-                        onBlur={handleBlur('topic')}
-                        value={values.topic}
-                      />
+                      >Events</Text>
                       </View>
+
+                      <TextInput //Address Input
+                        style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
+                        placeholder='Enter address'
+                        placeholderTextColor='gray'
+                        multiline={true}
+                        onChangeText={handleChange('address')}
+                        onBlur={handleBlur('address')}
+                        value={values.address}
+                        />
 
                       <TextInput //Caption to post
                         style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
