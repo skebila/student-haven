@@ -18,6 +18,8 @@ import Signup from '../screens/Signup';
 import AccommodationPost from '../screens/AccommodationPost';
 import EventPost from '../screens/EventPost';
 import EditProfile from '../screens/EditProfile';
+import AccommodationAddPost from '../screens/AccommodationAddPost';
+import EventAddPost from '../screens/EventAddPost';
 
 const Stack = createStackNavigator()
 
@@ -41,6 +43,8 @@ export const SignedInStack = () => (
             <Stack.Screen name="AccommodationPostScreen" component={AccommodationPost} />
             <Stack.Screen name="EventsPostScreen" component={EventPost} />
             <Stack.Screen name="EditProfileScreen" component={EditProfile} />
+            <Stack.Screen name="AccommodationAddPostScreen" component={AccommodationAddPost} />
+            <Stack.Screen name="EventAddPostScreen" component={EventAddPost} />
         </Stack.Navigator>
     </NavigationContainer>
 )
