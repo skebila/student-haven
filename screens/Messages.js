@@ -60,7 +60,7 @@ const NoMessage = ({navigation}) => {
           fontWeight: "bold",
           textAlign: 'center',
         }}>No Messages Found</Text>
-      <Button title="Send Message to Someone" onPress={() => navigation.push("MessengerScreen")} />
+      <Button title="Send Message to Someone Interface" onPress={() => navigation.push("MessengerScreen")} />
       </View>
   )
 }
