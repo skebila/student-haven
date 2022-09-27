@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, Image, StyleSheet, TouchableOpacity, Alert } from 'react-native'
 import { Divider } from 'react-native-elements/dist/divider/Divider'
 import { Ionicons } from 'react-native-vector-icons';
 
@@ -24,22 +24,26 @@ const PostBody = ({post, navigation}) => (
             paddingBottom: 10,
             alignItems: 'flex-start',
     }}>
-        
+
         <Image //post profile image
             source={{ uri: post.profile_picture }} style={styles.postHeaderImage} />
-           
+
         <View style={{ flexDirection: 'column', width: '80%', marginRight: 10}}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2}}>
-                <Text //user name
-                    style={{
-                    color: 'white',
-                    margin: 10,
-                    marginBottom: 0,
-                    marginLeft: 0,
-                    fontWeight: '900',
-                    }}>
-                    {post.user}
-                </Text>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("UserProfileScreen", {username: post.user})}
+                >
+                    <Text //user name
+                        style={{
+                            color: 'white',
+                            margin: 10,
+                            marginBottom: 0,
+                            marginLeft: 0,
+                            fontWeight: '900',
+                        }}>
+                        {post.user}
+                    </Text>
+                </TouchableOpacity>
 
                 <Text //post menu button
                     style={{ color: 'white', fontWeight: '900', margin: 10, marginBottom: 0, }}>...</Text>
@@ -55,7 +59,7 @@ const PostBody = ({post, navigation}) => (
         </View>
     </View>
 )
-  
+
 const PostImage = ({ post }) => (
     <View
     style={{
@@ -89,13 +93,13 @@ const PostFooter = ({ post }) => (
             style={{ flexDirection: 'row', justifyContent:'space-between' }}>
                 <View //Icons (Like, Comment, Share)
                     style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity style={styles.footerIconContainer}> 
+                    <TouchableOpacity style={styles.footerIconContainer}>
                         <Ionicons name='heart-outline' style={styles.footerIcon} />
                         <Likes //likes count
                             post={post} />
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.footerIconContainer}> 
+                    <TouchableOpacity style={styles.footerIconContainer}>
                         <Ionicons name='chatbox-outline' style={styles.footerIcon} />
                         <CommentsCount
                             post={post} />
@@ -103,7 +107,7 @@ const PostFooter = ({ post }) => (
                 </View>
                     <View //Icons (Like, Comment, Share)
                     style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity> 
+                    <TouchableOpacity>
                         <Ionicons name='share-outline' style={styles.shareIcon} />
                     </TouchableOpacity>
                 </View>
@@ -118,12 +122,12 @@ const Likes = ({ post }) => ( //likes per post
 )
 
 const CommentsCount = ({ post }) => ( //post count per post
-    
+
     <Text style={{ color: 'white', fontSize: 11 }}>
-        
+
         {post.comments.length.toLocaleString('en') != 1 ? post.comments.length.toLocaleString('en') + ' Comments' : post.comments.length.toLocaleString('en') + ' Comment'}
     </Text>
-    
+
     /*<View>
     {!!post.comments.length && ( //!!(double negation) represents true or false. i.e., if there are comments on this post, display comment count, else display nothing
         <Text style={{ color: 'white', fontSize: 11 }}>
@@ -148,7 +152,7 @@ const Comments = ({ post }) => (
 
 const Topics = ({ post, navigation }) => {
     return (
-    
+
     <View style={{ marginBottom: 10, flexDirection:'row' }}>
             <Text style={{ opacity: .7, color: 'white', fontWeight: '900' }}>Topic: </Text>
             <TouchableOpacity
@@ -163,7 +167,7 @@ const Topics = ({ post, navigation }) => {
             >{post.topic}</Text>
         </TouchableOpacity>
     </View>
-    
+
 )}
 
 const styles = StyleSheet.create({ //styles

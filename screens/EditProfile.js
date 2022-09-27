@@ -1,8 +1,9 @@
-import {TextInput, View, Text, SafeAreaView, StyleSheet, Image, TouchableOpacity, Alert} from 'react-native'
+import {Modal, TextInput, View, Text, SafeAreaView, StyleSheet, Image, TouchableOpacity, Alert} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import {ScrollView} from 'react-native-gesture-handler'
 import { db, firebase } from '../firebase'
 
+// Done by Mona G
 let name, username, bio
 const updateUser = async (navigation, name, username, bio) => {
     try {
@@ -16,6 +17,19 @@ const updateUser = async (navigation, name, username, bio) => {
                 console.log('User updated!');
                 navigation.pop();
             })
+    } catch (error) {
+        Alert.alert('Oops' + error.message)
+    }
+}
+const deleteProfilePic = async () => {
+    try {
+        db.collection('users')
+            .doc(firebase.auth().currentUser.email)
+            .update({
+                profile_picture: "",
+            }).then(() => {
+            console.log('Image Deleted!');
+        })
     } catch (error) {
         Alert.alert('Oops' + error.message)
     }
@@ -77,6 +91,7 @@ const Header = ({navigation}) => {
 
 // profile body
 const ProfileBody = ({user}) => {
+    const [modalVisible, setModalVisible] = useState(false);
     return (
         <View
             style={{
@@ -95,12 +110,49 @@ const ProfileBody = ({user}) => {
                 }}>
                 <Image // profile image
                     source={{uri: user.profile_picture}} style={styles.postHeaderImage}/>
-                <TouchableOpacity
-                    style={{marginTop: '5%'}}>
-                    <Text style={{color: 'dodgerblue', fontSize: 15, fontWeight: "bold"}}>
-                        Change Profile Photo
-                    </Text>
-                </TouchableOpacity>
+                <View>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={modalVisible}
+                        onRequestClose={() => {
+                            setModalVisible(!modalVisible);
+                        }}
+                    >
+                        <View style={styles.centeredView}>
+                            <View style={styles.modalView}>
+                                <TouchableOpacity
+                                    style={styles.button}
+                                    onPress={() => setModalVisible(!modalVisible)}
+                                >
+                                    <Text style={[{color: "dodgerblue"},styles.textStyle]}>Change Profile Photo</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={styles.button}
+                                    onPress={() => {
+                                        deleteProfilePic()
+                                        setModalVisible(!modalVisible)
+                                    }}
+                                >
+                                    <Text style={[{color: "red"},styles.textStyle]}>Delete Profile Photo</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={styles.button}
+                                    onPress={() => setModalVisible(!modalVisible)}
+                                >
+                                    <Text style={[{color: "grey"},styles.textStyle]}>Cancel</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </Modal>
+                    <TouchableOpacity
+                        onPress={() => setModalVisible(true)}
+                        style={{marginTop: '5%'}}>
+                        <Text style={{color: 'dodgerblue', fontSize: 15, fontWeight: "bold"}}>
+                            Change Profile Photo
+                        </Text>
+                    </TouchableOpacity>
+                </View>
             </View>
             <View
                 style={{
@@ -218,6 +270,41 @@ const styles = StyleSheet.create({
         borderWidth: 1.6,
         borderColor: '#E5E5E5',
     },
+    centeredView: {
+        flex: 1,
+        justifyContent: "flex-end",
+        marginTop: 22
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
+    button: {
+        width: "100%",
+        height: 40,
+        margin: 10,
+        backgroundColor: "#E8E8E8"
+    },
+    textStyle: {
+        fontSize: 20,
+        fontWeight: "bold",
+        textAlign: "center"
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: "center"
+    }
 })
 
 export default EditProfile

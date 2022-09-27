@@ -3,6 +3,7 @@ import React from 'react'
 import { Ionicons, FontAwesome, Entypo } from 'react-native-vector-icons';
 
 import {firebase} from '../../firebase'
+import Menu from "./Menu";
 
 const handleSignout = async () =>
 {
@@ -17,13 +18,10 @@ const handleSignout = async () =>
 const Header = ({navigation}) => {
   return (
       <View style={styles.container}>
-          <TouchableOpacity>
-            <Ionicons name='menu' style={styles.icon} />
-          </TouchableOpacity>
-        
+          <Menu navigation={navigation}/>
           <Text style={styles.logo} onPress={handleSignout}>Haven Hub</Text>
       <View style={{flexDirection:'row',}}>
-        
+
         <TouchableOpacity
           style={{ marginRight: 20 }}
           onPress={()=> navigation.push('NewPostScreen')}
@@ -37,7 +35,7 @@ const Header = ({navigation}) => {
             <Ionicons name='ios-person-sharp' style={styles.icon} />
           </TouchableOpacity>
       </View>
-          
+
     </View>
   )
 }
