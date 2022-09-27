@@ -61,18 +61,6 @@ const FormikPostUploader = ({navigation}) => {
     
     return unsubscribe
   }
-  
-  
-  /*const addTopicToFirebase = (topic) => {
-    const unsubscribe = db
-      .collection('topics')
-      .add({
-        topic: topic,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      })
-    
-    return unsubscribe
-  }*/
 
   return (
       <Formik
