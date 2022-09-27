@@ -18,7 +18,6 @@ import Signup from '../screens/Signup';
 import AccommodationPost from '../screens/AccommodationPost';
 import EventPost from '../screens/EventPost';
 import EditProfile from '../screens/EditProfile';
-
 import UserProfile from "../screens/UserProfile";
 import Setting from "../screens/Settings";
 import AccommodationAddPost from '../screens/AccommodationAddPost';
