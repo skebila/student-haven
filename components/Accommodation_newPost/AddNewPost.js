@@ -20,7 +20,7 @@ const Header = ({navigation}) => {
         <TouchableOpacity onPress={()=> navigation.goBack()}>
           <Ionicons name='chevron-back-outline' style={styles.icon} />
         </TouchableOpacity>
-      <Text style={styles.headerText}>New post</Text>
+      <Text style={styles.headerText}>Accommodation New Post</Text>
       <Text></Text>
     </View>
   )

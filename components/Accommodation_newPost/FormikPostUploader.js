@@ -40,13 +40,13 @@ const FormikPostUploader = ({navigation}) => {
   }, [])
 
   //function uploads the user's post to firebase with image url, caption and all other fields mentioned below
-  const uploadPostToFirebase = (imageUrl, caption, topic)=>{
+  const uploadPostToFirebase = (imageUrl, caption)=>{
     const unsubscribe = db
       .collection('users')
       .doc(firebase.auth().currentUser.email) 
       .collection('posts')
       .add({
-        topic: topic,
+        topic: 'Accommodation',
         imageUrl: imageUrl,
         user: currentLoggedInUser.username,
         profile_picture: currentLoggedInUser.profilePicture,
@@ -85,15 +85,15 @@ const FormikPostUploader = ({navigation}) => {
                       <View style={{flexDirection: 'row', alignItems: 'center'}}>
                       <Text style={{ color: 'white', fontWeight: '700', marginBottom: 25, opacity: .8 }}>Topic:  </Text>
                           
-                      <TextInput //topic to post to
+                      <Text //topic to post to
                         style={{ color: '#F24A72',opacity: 0.8, fontWeight: '500', marginBottom: 25, textAlign: 'center' }}
-                        placeholder='add a topic'
-                        placeholderTextColor='#F24A72'
-                        multiline={false}
-                        onChangeText={handleChange('topic')}
-                        onBlur={handleBlur('topic')}
-                        value={values.topic}
-                      />
+                        //placeholder='add a topic'
+                        //placeholderTextColor='#F24A72'
+                        //multiline={false}
+                        //onChangeText={handleChange('topic')}
+                        //onBlur={handleBlur('topic')}
+                        //value={values.topic}
+                      >Accommodation</Text>
                       </View>
 
                       <TextInput //Caption to post
