@@ -19,7 +19,7 @@ const BottomTabs = ({navigation}) => {
       </TouchableOpacity>
 
       <TouchableOpacity
-          // onPress={()=> navigation.push('MessagesScreen')}
+          onPress={()=> navigation.push('MessagesScreen')}
       >
         <Ionicons name='chatbubbles' style={styles.icon} />
       </TouchableOpacity>
