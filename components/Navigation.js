@@ -18,8 +18,13 @@ import Signup from '../screens/Signup';
 import AccommodationPost from '../screens/AccommodationPost';
 import EventPost from '../screens/EventPost';
 import EditProfile from '../screens/EditProfile';
+<<<<<<< HEAD
 import UserProfile from "../screens/UserProfile";
 import Setting from "../screens/Settings";
+=======
+import AccommodationAddPost from '../screens/AccommodationAddPost';
+import EventAddPost from '../screens/EventAddPost';
+>>>>>>> 7002d8a7c3d905862bfaacbf9a062eafee65b74e
 
 const Stack = createStackNavigator()
 
@@ -45,6 +50,8 @@ export const SignedInStack = () => (
             <Stack.Screen name="AccommodationPostScreen" component={AccommodationPost} />
             <Stack.Screen name="EventsPostScreen" component={EventPost} />
             <Stack.Screen name="EditProfileScreen" component={EditProfile} />
+            <Stack.Screen name="AccommodationAddPostScreen" component={AccommodationAddPost} />
+            <Stack.Screen name="EventAddPostScreen" component={EventAddPost} />
         </Stack.Navigator>
     </NavigationContainer>
 )

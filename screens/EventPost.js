@@ -1,6 +1,6 @@
 import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native'
 import BottomTabs from '../components/home/BottomTabs'
-import { Ionicons } from 'react-native-vector-icons';
+import { Ionicons, Entypo } from 'react-native-vector-icons';
 import Post from '../components/home/Post';
 import React, { useEffect, useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -36,7 +36,12 @@ const Header = ({navigation}) => {
           <Ionicons name='chevron-back-outline' style={styles.icon} />
         </TouchableOpacity>
       <Text style={styles.headerText}>Events</Text>
-      <Text></Text>
+      <TouchableOpacity
+          style={{ marginRight: 20 }}
+          onPress={()=> navigation.push('EventAddPostScreen')}
+        >
+            <Entypo name='squared-plus' style={styles.icon} />
+          </TouchableOpacity>
     </View>
   )
 }
