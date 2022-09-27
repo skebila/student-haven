@@ -7,8 +7,8 @@ import { Ionicons, FontAwesome, Entypo } from 'react-native-vector-icons';
 
 //import Screens
 import Home from '../screens/Home'
-// import Messages from '../screens/Messages'
-// import Messenger from '../screens/Messenger'
+import Messages from '../screens/Messages'
+import Messenger from '../screens/Messenger'
 import Notifications from '../screens/Notifications'
 import Profile from '../screens/Profile'
 import Topics from '../screens/Topics'
@@ -39,8 +39,8 @@ export const SignedInStack = () => (
             <Stack.Screen name="ProfileScreen" component={Profile} />
             <Stack.Screen name="TopicsScreen" component={Topics} />
             <Stack.Screen name="NotificationsScreen" component={Notifications} />
-            {/*<Stack.Screen name="MessagesScreen" component={Messages} />*/}
-            {/*<Stack.Screen name="MessengerScreen" component={Messenger} />*/}
+            <Stack.Screen name="MessagesScreen" component={Messages} />
+            <Stack.Screen name="MessengerScreen" component={Messenger} />
             <Stack.Screen name="NewPostScreen" component={NewPost} />
             <Stack.Screen name="AccommodationPostScreen" component={AccommodationPost} />
             <Stack.Screen name="EventsPostScreen" component={EventPost} />
