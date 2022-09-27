@@ -18,7 +18,9 @@ const BottomTabs = ({navigation}) => {
         <Ionicons name='notifications' style={styles.icon} />
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={()=> navigation.push('MessagesScreen')}>
+      <TouchableOpacity
+          // onPress={()=> navigation.push('MessagesScreen')}
+      >
         <Ionicons name='chatbubbles' style={styles.icon} />
       </TouchableOpacity>
     </View>
@@ -39,14 +41,14 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     width: '100%',
-    
+
   },
   icon: {
-    
+
         color: '#CDD0CB',
         fontSize: 30
   },
-  
+
 })
 
 export default BottomTabs
@@ -140,7 +142,7 @@ export default function Navigation(props) {
         <NavigationContainer >
             <Tab.Navigator
                 screenOptions={
-                    
+
                     ({ route }) => ({
                     //headerTitle: () => <Text>Header</Text>,
                     tabBarIcon: ({ focused, color, size, padding }) => {
@@ -164,16 +166,16 @@ export default function Navigation(props) {
                             />
                         )
                     }
-                
+
                 })}
                 >
-                
+
                 <Tab.Screen name="Home" component={HomeStackScreen} options={{ headerShown: false }}/>
                 <Tab.Screen name="Topics" component={TopicsStackScreen} options={{ headerShown: false }}/>
                 <Tab.Screen name="Notifications" component={NotificationsStackScreen} options={{ headerShown: false }}/>
                 <Tab.Screen name="Messages" component={MessagesStackScreen} options={{ headerShown: false }}/>
             </Tab.Navigator>
       </NavigationContainer>
-  )  
+  )
 }
 */

@@ -29,7 +29,11 @@ const Menu = ({navigation}) => {
                     <View style={styles.modalView}>
                         <TouchableOpacity
                             style={styles.button}
-                            onPress={() => navigation.push("SettingScreen")}
+                            onPress={() => {
+                                setModalVisible(!modalVisible)
+                                navigation.push("SettingScreen")
+                            }
+                            }
                         >
                             <Ionicons name='settings-outline' style={styles.buttonIcon} />
                             <Text style={[{color: "black"},styles.textStyle]}>Settings</Text>
@@ -51,6 +55,7 @@ const Menu = ({navigation}) => {
                         <TouchableOpacity
                             style={styles.button}
                             onPress={() => {
+                                setModalVisible(!modalVisible)
                                 handleSignout()
                             }}
                         >

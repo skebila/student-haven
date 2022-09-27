@@ -31,7 +31,9 @@ const UserProfile = ({ navigation, route }) => {
                     user={user}
                 />
                 <View style={{marginHorizontal: '10%'}}>
-                    <Button title="Send a Message" onPress={() => navigation.push('MessengerScreen')} />
+                    <Button title="Send a Message"
+                            // onPress={() => navigation.push('MessengerScreen')}
+                    />
                 </View>
             </ScrollView>
             <BottomTabs navigation={navigation}/>
