@@ -2,10 +2,12 @@ import {Modal, TextInput, View, Text, SafeAreaView, StyleSheet, Image, Touchable
 import React, { useEffect, useState } from 'react'
 import {ScrollView} from 'react-native-gesture-handler'
 import { db, firebase } from '../firebase'
+import DatePicker from 'react-native-datepicker'
+import * as ImagePicker from 'expo-image-picker';
 
 // Done by Mona G
-let name, username, bio
-const updateUser = async (navigation, name, username, bio) => {
+let name, username, bio, phone, gender, birthday
+const updateUser = async (navigation, name, username, bio, phone, gender, birthday) => {
     try {
         db.collection('users')
             .doc(firebase.auth().currentUser.email)
@@ -13,6 +15,9 @@ const updateUser = async (navigation, name, username, bio) => {
                 name: name,
                 username: username,
                 bio: bio,
+                phone: phone,
+                gender: gender,
+                birthday: birthday
             }).then(() => {
                 console.log('User updated!');
                 navigation.pop();
@@ -52,6 +57,9 @@ const EditProfile = ({ navigation }) => {
     name = user.name
     username=user.username
     bio = user.bio
+    phone = user.phone
+    gender = user.gender
+    birthday = user.birthday
     return (
         <SafeAreaView style={styles.container}>
             <Header navigation={navigation}
@@ -81,7 +89,7 @@ const Header = ({navigation}) => {
                     textAlign: 'center',
                 }}>Edit Profile</Text>
             <TouchableOpacity
-                onPress={() => updateUser(navigation, name, username, bio)}
+                onPress={() => updateUser(navigation, name, username, bio, phone, gender, birthday)}
             >
                 <Text style={{color: 'dodgerblue', fontSize: 15, fontWeight: "bold"}}>Done</Text>
             </TouchableOpacity>
@@ -92,6 +100,23 @@ const Header = ({navigation}) => {
 // profile body
 const ProfileBody = ({user}) => {
     const [modalVisible, setModalVisible] = useState(false);
+    const [image, setImage] = useState(null);
+    const [date, setDate] = useState(birthday !== undefined ? new Date(birthday) : new Date())
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        console.log(result);
+
+        if (!result.cancelled) {
+            setImage(result.uri);
+        }
+    };
     return (
         <View
             style={{
@@ -108,8 +133,7 @@ const ProfileBody = ({user}) => {
                     paddingBottom: 10,
                     alignItems: 'center',
                 }}>
-                <Image // profile image
-                    source={{uri: user.profile_picture}} style={styles.postHeaderImage}/>
+                {(image == null ? user.profile_picture : image) && <Image source={{ uri: image == null ? user.profile_picture : image }} style={styles.postHeaderImage} />}
                 <View>
                     <Modal
                         animationType="slide"
@@ -123,7 +147,10 @@ const ProfileBody = ({user}) => {
                             <View style={styles.modalView}>
                                 <TouchableOpacity
                                     style={styles.button}
-                                    onPress={() => setModalVisible(!modalVisible)}
+                                    onPress={() => {
+                                        pickImage()
+                                        setModalVisible(!modalVisible)
+                                    }}
                                 >
                                     <Text style={[{color: "dodgerblue"},styles.textStyle]}>Change Profile Photo</Text>
                                 </TouchableOpacity>
@@ -189,6 +216,82 @@ const ProfileBody = ({user}) => {
                     </View>
                 </View>
                 <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
+                    <Text style={styles.title}>Phone:</Text>
+                    <View style={[
+                        styles.inputField,
+                        {
+                            borderColor: '#444444'
+                        },
+                    ]}>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholderTextColor='#CDD0CB'
+                            placeholder={phone}
+                            autoCapitalize='none'
+                            keyboardType='default'
+                            keyboardAppearance='dark'
+                            textContentType='none'
+                            onChangeText={text => {phone = text}}
+                        />
+                    </View>
+                </View>
+                <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
+                    <Text style={styles.title}>Gender:</Text>
+                    <View style={[
+                        styles.inputField,
+                        {
+                            borderColor: '#444444'
+                        },
+                    ]}>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholderTextColor='#CDD0CB'
+                            placeholder={gender}
+                            autoCapitalize='none'
+                            keyboardType='default'
+                            keyboardAppearance='dark'
+                            textContentType='none'
+                            onChangeText={text => {gender = text}}
+                        />
+                    </View>
+                </View>
+                <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
+                    <Text style={styles.title}>Birthday:</Text>
+                    <View style={[
+                        styles.inputField,
+                        {
+                            borderColor: '#444444'
+                        },
+                    ]}>
+                        <DatePicker
+                            style={{width: '100%'}}
+                            date={date}
+                            mode="date"
+                            placeholder="select date"
+                            format="YYYY-MM-DD"
+                            minDate="1950-01-01"
+                            maxDate="2022-09-01"
+                            confirmBtnText="Confirm"
+                            cancelBtnText="Cancel"
+                            customStyles={{
+                                dateIcon: {
+                                    position: 'absolute',
+                                    left: 0,
+                                    top: 4,
+                                    marginLeft: 0
+                                },
+                                dateInput: {
+                                    marginLeft: 36
+                                }
+                            }}
+                            onDateChange={(d) => {
+                                setDate(d)
+                                birthday = d
+                            }}
+                        />
+                    </View>
+                </View>
+                <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
                     <Text style={styles.title}>Bio:</Text>
                     <View style={[
                         styles.inputField,
@@ -217,6 +320,10 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: 'black',
         flex: 1,
+    },
+    datePickerStyle: {
+        width: 200,
+        marginTop: 20,
     },
     inputField: {
         flexDirection: 'row',

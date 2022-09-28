@@ -44,7 +44,7 @@ const Profile = ({ navigation }) => {
                   width: '60%',
                   alignItems: 'center',
                   marginLeft: '25%',
-                  marginTop: '20%'
+                  marginTop: '10%'
               }}>
               <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
                   <Text style={styles.title}>Name: </Text>
@@ -62,6 +62,27 @@ const Profile = ({ navigation }) => {
                   <View style={styles.inputField}>
                       <Text style={[styles.textInput, {
                           paddingTop: 10}]}>{user.username}</Text>
+                  </View>
+              </View>
+              <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
+                  <Text style={styles.title}>Phone:</Text>
+                  <View style={styles.inputField}>
+                      <Text style={[styles.textInput, {
+                          paddingTop: 10}]}>{user.phone}</Text>
+                  </View>
+              </View>
+              <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
+                  <Text style={styles.title}>Gender:</Text>
+                  <View style={styles.inputField}>
+                      <Text style={[styles.textInput, {
+                          paddingTop: 10}]}>{user.gender}</Text>
+                  </View>
+              </View>
+              <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
+                  <Text style={styles.title}>Birthday:</Text>
+                  <View style={styles.inputField}>
+                      <Text style={[styles.textInput, {
+                          paddingTop: 10}]}>{user.birthday}</Text>
                   </View>
               </View>
               <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
