@@ -1,16 +1,41 @@
 import React, { useState } from "react";
-import {Button, StyleSheet, Text, View, Switch, SafeAreaView} from "react-native";
+import {Button, StyleSheet, Text, View, Switch, SafeAreaView, Alert} from "react-native";
 import {ScrollView} from "react-native-gesture-handler";
 import BottomTabs from "../components/home/BottomTabs";
+import {db, firebase} from "../firebase";
 
 // Done by Mona G
+
+const deleteUser = async (navigation) => {
+    try {
+        db.collection('users')
+            .doc(firebase.auth().currentUser.email)
+            .delete().then(() => {
+            console.log('User Deleted!');
+            firebase.auth().currentUser.delete().then(() => {
+                navigation.pop();
+            });
+        })
+        var colRef = db
+            .collection('users')
+            .doc(firebase.auth().currentUser.email)
+            .collection('posts');
+
+        colRef.get().then((querySnapshot) => {
+            Promise.all(querySnapshot.docs.map((d) => d.ref.delete()));
+        });
+    } catch (error) {
+        Alert.alert('Oops' + error.message)
+    }
+}
+
 const Setting = ({navigation}) => {
 
     return (
         <SafeAreaView style={styles.container}>
             <Header />
             <ScrollView>
-                <SettingBody/>
+                <SettingBody navigation={navigation} />
             </ScrollView>
         </SafeAreaView>
     );
@@ -30,7 +55,7 @@ const Header = () => {
     )
 }
 
-const SettingBody = () => {
+const SettingBody = (navigation) => {
     // const [data, setData] = useState(Settings.get("data"));
     const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
@@ -59,7 +84,7 @@ const SettingBody = () => {
                 </View>
                 <View style={styles.value}>
                     <Button
-                        // onPress={() => storeData({ data: "Native" })}
+                        onPress={() => deleteUser(navigation)}
                         title="Delete Account"
                     />
                 </View>
