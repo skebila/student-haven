@@ -1,25 +1,16 @@
+/**@author Steven Kebila
+*
+*/
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { Ionicons, FontAwesome, Entypo } from 'react-native-vector-icons';
-
-import {firebase} from '../../firebase'
 import Menu from "./Menu";
-
-const handleSignout = async () =>
-{
-  try {
-    await firebase.auth().signOut()
-    console.log('Signed out successfully!')
-  } catch (error) {
-    console.log(error)
-  }
-}
 
 const Header = ({navigation}) => {
   return (
       <View style={styles.container}>
           <Menu navigation={navigation}/>
-          <Text style={styles.logo} onPress={handleSignout}>Haven Hub</Text>
+          <Text style={styles.logo}>Haven Hub</Text>
       <View style={{flexDirection:'row',}}>
 
         <TouchableOpacity

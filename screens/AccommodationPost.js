@@ -1,3 +1,7 @@
+/**@author Steven Kebila
+*
+*/
+
 import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native'
 import BottomTabs from '../components/home/BottomTabs'
 import { Ionicons, Entypo } from 'react-native-vector-icons';

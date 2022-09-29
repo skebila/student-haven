@@ -1,3 +1,6 @@
+/**@author Steven Kebila
+*
+*/
 import { View, Text, TextInput, StyleSheet, Pressable, TouchableOpacity, Alert } from 'react-native'
 import React, {useState} from 'react'
 import { Divider } from 'react-native-elements/dist/divider/Divider'

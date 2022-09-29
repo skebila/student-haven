@@ -1,3 +1,7 @@
+/**@author Steven Kebila
+*
+*/
+
 import { View, Text, SafeAreaView, StyleSheet, FlatList } from 'react-native'
 import React from 'react'
 import SearchTopic from '../components/topics/SearchTopic'
