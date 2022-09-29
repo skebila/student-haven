@@ -31,9 +31,54 @@ const UserProfile = ({ navigation, route }) => {
                     user={user}
                 />
                 <View style={{marginHorizontal: '10%'}}>
-                    <Button title="Send a Message"
+                    {user.email == firebase.auth().currentUser.email ?
+                        <Button title="Edit Profile"
+                            onPress={() => navigation.push('EditProfileScreen')}
+                        />
+                        :
+                        <Button title="Send a Message"
                             // onPress={() => navigation.push('MessengerScreen')}
-                    />
+                        />
+                    }
+
+                </View>
+                <View
+                    style={{
+                        flexDirection: 'column',
+                        width: '60%',
+                        alignItems: 'center',
+                        marginLeft: '25%',
+                        marginTop: '20%'
+                    }}>
+                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
+                        <Text style={styles.title}>Name: </Text>
+                        <View style={[
+                            styles.inputField,
+                            {
+                                borderColor: '#444444'
+                            },
+                        ]}>
+                            <Text style={styles.textInput}>{user.name}</Text>
+                        </View>
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
+                        <Text style={styles.title}>Username:</Text>
+                        <View style={styles.inputField}>
+                            <Text style={[styles.textInput, {
+                                paddingTop: 10}]}>{user.username}</Text>
+                        </View>
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
+                        <Text style={styles.title}>Bio:</Text>
+                        <View style={[
+                            styles.inputField,
+                            {
+                                borderColor: '#444444'
+                            },
+                        ]}>
+                            <Text style={styles.textInput}>{user.bio} </Text>
+                        </View>
+                    </View>
                 </View>
             </ScrollView>
             <BottomTabs navigation={navigation}/>
@@ -135,6 +180,34 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: 'black',
         flex: 1,
+    },
+    inputField: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#444444',
+        borderRadius: 10,
+        borderColor: '#444444',
+        borderWidth: 1,
+        paddingLeft: 10,
+        marginHorizontal: 20,
+        marginTop: 20,
+    },
+    textInput: {
+        height: 40,
+        color: '#EEEEEE',
+        fontWeight: '400',
+        marginLeft: 5,
+        width: '100%',
+        fontSize: 16
+    },
+    title:{
+        color: 'white',
+        margin: 10,
+        marginBottom: 0,
+        marginLeft: 0,
+        textAlign:'center',
+        fontSize: 15,
+        fontWeight: 'bold'
     },
     headerContainer: {
         marginHorizontal: 0,

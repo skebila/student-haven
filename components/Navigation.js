@@ -45,6 +45,8 @@ export const SignedInStack = () => (
             <Stack.Screen name="MessagesScreen" component={Messages} />
             <Stack.Screen name="MessengerScreen" component={Messenger} />
             <Stack.Screen name="NewPostScreen" component={NewPost} />
+            <Stack.Screen name="UserProfileScreen" component={UserProfile} />
+            <Stack.Screen name="SettingScreen" component={Setting} />
             <Stack.Screen name="AccommodationPostScreen" component={AccommodationPost} />
             <Stack.Screen name="EventsPostScreen" component={EventPost} />
             <Stack.Screen name="EditProfileScreen" component={EditProfile} />
