@@ -38,11 +38,11 @@ const SignupForm = ({navigation}) => {
             db.collection('users')
                 .doc(authUser.user.email)
                 .set({
-                owner_uid: authUser.user.uid,
-                username: username,
-                email: authUser.user.email,
-                profile_picture: 'https://cdn.iconfinder.com/stored_data/634088/128/png?token=1664569916-Lv80s4ISxsK%2BUrAXd2WUy091DTpnKPYY74G%2FLLlmIY0%3D'
-            })
+                    owner_uid: authUser.user.uid,
+                    username: username,
+                    email: authUser.user.email,
+                    profile_picture: 'https://cdn.iconfinder.com/stored_data/634088/128/png?token=1664569916-Lv80s4ISxsK%2BUrAXd2WUy091DTpnKPYY74G%2FLLlmIY0%3D'
+                })
         } catch (error) {
             Alert.alert('Oops' + error.message)
         }
