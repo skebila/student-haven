@@ -130,14 +130,6 @@ const CommentsCount = ({ post }) => ( //post count per post
 
         {post.comments.length.toLocaleString('en') != 1 ? post.comments.length.toLocaleString('en') + ' Comments' : post.comments.length.toLocaleString('en') + ' Comment'}
     </Text>
-
-    /*<View>
-    {!!post.comments.length && ( //!!(double negation) represents true or false. i.e., if there are comments on this post, display comment count, else display nothing
-        <Text style={{ color: 'white', fontSize: 11 }}>
-        {post.comments.length > 1 ? post.comments.length + ' comments' : post.comments.length + ' comment'}
-    </Text>
-        )}
-    </View>*/
 )
 
 const Comments = ({ post }) => (
