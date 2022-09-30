@@ -21,7 +21,7 @@ const Profile = ({ navigation }) => {
      })
       db.collectionGroup('posts')
           .where('owner_uid', '==', firebase.auth().currentUser.uid)
-          .orderBy("createdAt")
+          .orderBy('createdAt', 'desc')
           .onSnapshot(snapshot => {
               setPosts(snapshot.docs.map(doc => doc.data()))
           })

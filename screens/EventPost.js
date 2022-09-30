@@ -16,7 +16,10 @@ const EventPost = ({navigation}) => {
 
   //sets the post that has been created by the user
   useEffect(() => {
-    db.collectionGroup('posts').where('topic', '==', 'Events').onSnapshot(snapshot => {
+      db.collectionGroup('posts')
+          .where('topic', '==', 'Events')
+          .orderBy('createdAt', 'desc')
+          .onSnapshot(snapshot => {
       setPosts(snapshot.docs.map(doc => doc.data())) 
     })
   }, [])
@@ -50,8 +53,10 @@ const Header = ({navigation}) => {
   )
 }
 
-const PostBody = ({post, navigation}) => (
-    <View
+const PostBody = ({ post, navigation }) => (
+    <>
+        <Divider style={{ marginBottom: 5, opacity: .3 }} />
+        <View
         style={{
             flexDirection: 'row',
             justifyContent: 'space-evenly',
@@ -59,7 +64,6 @@ const PostBody = ({post, navigation}) => (
             paddingBottom: 10,
             alignItems: 'flex-start',
     }}>
-
         <Image //post profile image
             source={{ uri: post.profile_picture }} style={styles.postHeaderImage} />
 
@@ -93,6 +97,8 @@ const PostBody = ({post, navigation}) => (
             />
         </View>
     </View>
+    </>
+    
 )
 
 const PostImage = ({ post }) => (
