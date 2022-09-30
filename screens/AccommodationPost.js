@@ -56,7 +56,7 @@ const PostBody = ({post, navigation}) => (
     <View
         style={{
             flexDirection: 'row',
-            justifyContent: 'space-between',
+            justifyContent: 'space-evenly',
             margin: 5,
             paddingBottom: 10,
             alignItems: 'flex-start',
@@ -212,8 +212,8 @@ const styles = StyleSheet.create({
       
   },
   postHeaderImage: {
-        width: 60,
-        height: 60,
+        width: 40,
+        height: 40,
         borderRadius: 50,
         marginTop: 6,
         borderWidth: 1.6,
