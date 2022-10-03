@@ -7,18 +7,18 @@ import { Divider } from 'react-native-elements/dist/divider/Divider'
 import { Ionicons } from 'react-native-vector-icons';
 
 
-const Post = ({post, navigation}) => {
+const Post = ({user, post, navigation}) => {
   return (
       <View>
           <Divider style={{ marginBottom: 5, opacity: .3 }} />
           <View>
-              <PostBody post={post} navigation={navigation} />
+              <PostBody user={user}  post={post} navigation={navigation} />
           </View>
     </View>
   )
 }
 
-const PostBody = ({post, navigation}) => (
+const PostBody = ({user, post, navigation}) => (
     <View
         style={{
             flexDirection: 'row',
@@ -29,7 +29,7 @@ const PostBody = ({post, navigation}) => (
     }}>
 
         <Image //post profile image
-            source={{ uri: post.profile_picture }} style={styles.postHeaderImage} />
+            source={{ uri: user.profile_picture }} style={styles.postHeaderImage} />
 
         <View style={{ flexDirection: 'column', width: '80%', marginRight: 10}}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2}}>

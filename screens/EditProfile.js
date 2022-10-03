@@ -31,7 +31,7 @@ const deleteProfilePic = async () => {
         db.collection('users')
             .doc(firebase.auth().currentUser.email)
             .update({
-                profile_picture: 'https://cdn.iconfinder.com/stored_data/634088/128/png?token=1664569916-Lv80s4ISxsK%2BUrAXd2WUy091DTpnKPYY74G%2FLLlmIY0%3D',
+                profile_picture: 'https://cdn0.iconfinder.com/data/icons/ui-essence/32/_68ui-256.png',
             }).then(() => {
             console.log('Image Deleted!');
         })

@@ -13,9 +13,15 @@ import BottomTabs from '../components/home/BottomTabs'
 
 const Home = ({ navigation }) => {
   const [posts, setPosts] = useState([])
-
+  const [user, setUser] = useState([])
   //sets the post that has been created by the user
   useEffect(() => {
+    db
+      .collection('users')
+      .doc(firebase.auth().currentUser.email)
+      .onSnapshot(snapshot => {
+          setUser(snapshot.data())
+     })
     db.collectionGroup('posts')
       .orderBy('createdAt', 'desc')
       .onSnapshot(snapshot => {
@@ -28,7 +34,7 @@ const Home = ({ navigation }) => {
       <Header navigation={navigation}/>
       <ScrollView style={{marginBottom: 70}}>
         {posts.map((post, index) => ( //gets the post, maps it and displays it on the app UI
-          <Post post={post} key={index} navigation={navigation} /> 
+          <Post user={ user}  post={post} key={index} navigation={navigation} /> 
           
         ))}
       </ScrollView>

@@ -8,14 +8,21 @@ import { Ionicons, Entypo } from 'react-native-vector-icons';
 import { Divider } from 'react-native-elements/dist/divider/Divider'
 import React, { useEffect, useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
-import { db } from '../firebase';
+import { db, firebase } from '../firebase';
 
 
 const EventPost = ({navigation}) => {
   const [posts, setPosts] = useState([])
+  const [user, setUser] = useState([])
 
   //sets the post that has been created by the user
-  useEffect(() => {
+    useEffect(() => {
+      db
+      .collection('users')
+      .doc(firebase.auth().currentUser.email)
+      .onSnapshot(snapshot => {
+          setUser(snapshot.data())
+     })
       db.collectionGroup('posts')
           .where('topic', '==', 'Events')
           .orderBy('createdAt', 'desc')
@@ -29,7 +36,7 @@ const EventPost = ({navigation}) => {
       <Header navigation={navigation} />
       <ScrollView style={{marginBottom: 10}}>
         {posts.map((post, index) => ( //gets the post, maps it and displays it on the app UI
-          <PostBody post={post} key={index} navigation={navigation}/> 
+          <PostBody user={user} post={post} key={index} navigation={navigation}/> 
         ))}
       </ScrollView>
         </SafeAreaView>
@@ -53,7 +60,7 @@ const Header = ({navigation}) => {
   )
 }
 
-const PostBody = ({ post, navigation }) => (
+const PostBody = ({ user, post, navigation }) => (
     <>
         <Divider style={{ marginBottom: 5, opacity: .3 }} />
         <View
@@ -65,7 +72,7 @@ const PostBody = ({ post, navigation }) => (
             alignItems: 'flex-start',
     }}>
         <Image //post profile image
-            source={{ uri: post.profile_picture }} style={styles.postHeaderImage} />
+            source={{ uri: user.profile_picture }} style={styles.postHeaderImage} />
 
         <View style={{ flexDirection: 'column', width: '80%', marginRight: 10}}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2}}>
