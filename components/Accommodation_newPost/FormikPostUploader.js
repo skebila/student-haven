@@ -39,7 +39,7 @@ const FormikPostUploader = ({navigation}) => {
   }, [])
 
   //function uploads the user's post to firebase with image url, caption and all other fields mentioned below
-  const uploadPostToFirebase = (imageUrl, caption, address)=>{
+  const uploadPostToFirebase = (imageUrl, caption, address, no_of_people, status_required, gender)=>{
     const unsubscribe = db
       .collection('users')
       .doc(firebase.auth().currentUser.email) 
@@ -55,7 +55,11 @@ const FormikPostUploader = ({navigation}) => {
         likes: 0,
         likes_by_users: [],
         comments: [],
-        address: address
+        address: address,
+        no_of_people: no_of_people,
+        status_required: status_required,
+        gender: gender
+        //Add one field for Date to Move In, no of rooms
       })
       .then(() => navigation.goBack())
     
@@ -64,9 +68,9 @@ const FormikPostUploader = ({navigation}) => {
 
   return (
       <Formik
-          initialValues={{ caption: '', imageUrl: '', address: ''}}
+          initialValues={{ caption: '', imageUrl: '', address: '',no_of_people: '',status_required: '',gender: ''}}
           onSubmit={values => {
-            uploadPostToFirebase(values.imageUrl, values.caption, values.address)
+            uploadPostToFirebase(values.imageUrl, values.caption, values.address, values.no_of_people, values.status_required,values.gender)
           }}
           validationSchema={uploadPostSchema}
           validateOnMount={true}
@@ -107,7 +111,37 @@ const FormikPostUploader = ({navigation}) => {
                         onBlur={handleBlur('address')}
                         value={values.address}
                         />
+
+                        <TextInput //No_of_People Input
+                        style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
+                        placeholder='No of people for Accommodation'
+                        placeholderTextColor='gray'
+                        multiline={true}
+                        onChangeText={handleChange('no_of_people')}
+                        onBlur={handleBlur('no_of_people')}
+                        value={values.no_of_people}
+                        />
                       
+                      <TextInput //Status_of_People Input
+                        style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
+                        placeholder='Status of tenants required for this Accommodation'
+                        placeholderTextColor='gray'
+                        multiline={true}
+                        onChangeText={handleChange('status_required')}
+                        onBlur={handleBlur('status_required')}
+                        value={values.status_required}
+                        />
+
+                      <TextInput //Gender of Tenants allowed to apply Input
+                        style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
+                        placeholder='Gender of Tenants allowed to apply for this Accommodation'
+                        placeholderTextColor='gray'
+                        multiline={true}
+                        onChangeText={handleChange('gender')}
+                        onBlur={handleBlur('gender')}
+                        value={values.gender}
+                        />
+
                       <Image //Image to post
                         source={{ uri: validUrl.isUri(thumbnailUrl) ? thumbnailUrl : PLACEHOLDER_IMG }}
                         style={{width:300, height:300, marginBottom: 10, borderRadius: 5}}
