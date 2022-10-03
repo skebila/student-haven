@@ -50,6 +50,8 @@ export const SignedInStack = () => (
             <Stack.Screen name="AccommodationPostScreen" component={AccommodationPost} />
             <Stack.Screen name="EventsPostScreen" component={EventPost} />
             <Stack.Screen name="EditProfileScreen" component={EditProfile} />
+            <Stack.Screen name="AccommodationAddPostScreen" component={AccommodationAddPost} />
+            <Stack.Screen name="EventAddPostScreen" component={EventAddPost} />
         </Stack.Navigator>
     </NavigationContainer>
 )
