@@ -77,7 +77,7 @@ const PostBody = ({ user, post, navigation }) => (
         <View style={{ flexDirection: 'column', width: '80%', marginRight: 10}}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2}}>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate("UserProfileScreen", {username: post.user})}
+                    onPress={() => navigation.navigate("UserProfileScreen", {username: user.username})}
                 >
                     <Text //user name
                         style={{
@@ -87,7 +87,7 @@ const PostBody = ({ user, post, navigation }) => (
                             marginLeft: 0,
                             fontWeight: '900',
                         }}>
-                        {post.user}
+                        {user.username}
                     </Text>
                 </TouchableOpacity>
 
