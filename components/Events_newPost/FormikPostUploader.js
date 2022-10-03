@@ -39,7 +39,7 @@ const FormikPostUploader = ({navigation}) => {
   }, [])
 
   //function uploads the user's post to firebase with image url, caption and all other fields mentioned below
-  const uploadPostToFirebase = (imageUrl, caption,address)=>{
+  const uploadPostToFirebase = (imageUrl, caption, address, event_name, event_date, age_restriction, ticket_price)=>{
     const unsubscribe = db
       .collection('users')
       .doc(firebase.auth().currentUser.email) 
@@ -55,7 +55,11 @@ const FormikPostUploader = ({navigation}) => {
         likes: 0,
         likes_by_users: [],
         comments: [],
-        address: address
+        address: address,
+        event_name: event_name,
+        event_date: event_date,
+        age_restriction: age_restriction,
+        ticket_price: ticket_price
       })
       .then(() => navigation.goBack())
     
@@ -64,9 +68,9 @@ const FormikPostUploader = ({navigation}) => {
 
   return (
       <Formik
-          initialValues={{ caption: '', imageUrl: '', address: ''}}
+          initialValues={{ caption: '', imageUrl: '', address: '',event_name: '', event_date: '', age_restriction: '', ticket_price: ''}}
           onSubmit={values => {
-            uploadPostToFirebase(values.imageUrl, values.caption, values.address)
+            uploadPostToFirebase(values.imageUrl, values.caption, values.address, values.event_name, values.event_date, values.age_restriction, values.ticket_price)
             //addTopicToFirebase(values.topic)
           }}
           validationSchema={uploadPostSchema}
@@ -98,6 +102,46 @@ const FormikPostUploader = ({navigation}) => {
                         onChangeText={handleChange('address')}
                         onBlur={handleBlur('address')}
                         value={values.address}
+                        />
+
+                      <TextInput //Event Name Input
+                        style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
+                        placeholder='Enter Event Name'
+                        placeholderTextColor='gray'
+                        multiline={true}
+                        onChangeText={handleChange('event_name')}
+                        onBlur={handleBlur('event_name')}
+                        value={values.event_name}
+                        />
+
+                      <TextInput //Event Date Input
+                        style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
+                        placeholder='Enter Event Date'
+                        placeholderTextColor='gray'
+                        multiline={true}
+                        onChangeText={handleChange('event_date')}
+                        onBlur={handleBlur('event_date')}
+                        value={values.event_date}
+                        />
+
+                      <TextInput //Age Restriction Input
+                        style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
+                        placeholder='Enter Age Restriction'
+                        placeholderTextColor='gray'
+                        multiline={true}
+                        onChangeText={handleChange('age_restriction')}
+                        onBlur={handleBlur('age_restriction')}
+                        value={values.age_restriction}
+                        />
+
+                      <TextInput //Ticket Price Input
+                        style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
+                        placeholder='Enter Ticket Price'
+                        placeholderTextColor='gray'
+                        multiline={true}
+                        onChangeText={handleChange('ticket_price')}
+                        onBlur={handleBlur('ticket_price')}
+                        value={values.ticket_price}
                         />
 
                       <TextInput //Caption to post
