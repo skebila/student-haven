@@ -44,7 +44,7 @@ const PostBody = ({user, post, navigation}) => (
                             marginLeft: 0,
                             fontWeight: '900',
                         }}>
-                        {post.user}
+                        {user.username} 
                     </Text>
                 </TouchableOpacity>
 
