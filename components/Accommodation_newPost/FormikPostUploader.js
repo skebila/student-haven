@@ -39,7 +39,7 @@ const FormikPostUploader = ({navigation}) => {
   }, [])
 
   //function uploads the user's post to firebase with image url, caption and all other fields mentioned below
-  const uploadPostToFirebase = (imageUrl, caption, address, no_of_people, status_required, gender)=>{
+  const uploadPostToFirebase = (imageUrl, caption, address, no_of_people, status_required, gender, date_move_in, no_of_rooms)=>{
     const unsubscribe = db
       .collection('users')
       .doc(firebase.auth().currentUser.email) 
@@ -58,7 +58,9 @@ const FormikPostUploader = ({navigation}) => {
         address: address,
         no_of_people: no_of_people,
         status_required: status_required,
-        gender: gender
+        gender: gender,
+        date_move_in: date_move_in,
+        no_of_rooms: no_of_rooms
         //Add one field for Date to Move In, no of rooms
       })
       .then(() => navigation.goBack())
@@ -68,9 +70,9 @@ const FormikPostUploader = ({navigation}) => {
 
   return (
       <Formik
-          initialValues={{ caption: '', imageUrl: '', address: '',no_of_people: '',status_required: '',gender: ''}}
+          initialValues={{ caption: '', imageUrl: '', address: '',no_of_people: '',status_required: '',gender: '', date_move_in: '', no_of_rooms: ''}}
           onSubmit={values => {
-            uploadPostToFirebase(values.imageUrl, values.caption, values.address, values.no_of_people, values.status_required,values.gender)
+            uploadPostToFirebase(values.imageUrl, values.caption, values.address, values.no_of_people, values.status_required,values.gender, values.date_move_in, values.no_of_rooms)
           }}
           validationSchema={uploadPostSchema}
           validateOnMount={true}
@@ -101,7 +103,7 @@ const FormikPostUploader = ({navigation}) => {
                         onChangeText={handleChange('caption')}
                         onBlur={handleBlur('caption')}
                         value={values.caption}
-            />
+                      />
                       <TextInput //Address Input
                         style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
                         placeholder='Enter address'
@@ -140,6 +142,26 @@ const FormikPostUploader = ({navigation}) => {
                         onChangeText={handleChange('gender')}
                         onBlur={handleBlur('gender')}
                         value={values.gender}
+                        />
+
+                      <TextInput //Date to Move In Input
+                        style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
+                        placeholder='Date to Move In This Accommodation'
+                        placeholderTextColor='gray'
+                        multiline={true}
+                        onChangeText={handleChange('date_move_in')}
+                        onBlur={handleBlur('date_move_in')}
+                        value={values.date_move_in}
+                        />
+
+                      <TextInput //No Of Rooms Input
+                        style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
+                        placeholder='No of Rooms in this Accommodation'
+                        placeholderTextColor='gray'
+                        multiline={true}
+                        onChangeText={handleChange('no_of_rooms')}
+                        onBlur={handleBlur('no_of_rooms')}
+                        value={values.no_of_rooms}
                         />
 
                       <Image //Image to post

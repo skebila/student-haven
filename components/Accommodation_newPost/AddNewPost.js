@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, ScrollView, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 import FormikPostUploader from './FormikPostUploader'
 import { Ionicons } from 'react-native-vector-icons';
@@ -6,10 +6,10 @@ import { Ionicons } from 'react-native-vector-icons';
 
 const AddNewPost = ({navigation}) => {
   return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
       <Header navigation={navigation}/>
       <FormikPostUploader navigation={navigation}/>
-      </View>
+      </ScrollView>
     
   )
 }
