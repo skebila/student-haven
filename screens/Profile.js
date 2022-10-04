@@ -1,8 +1,9 @@
-import {Button, View, Text, SafeAreaView, StyleSheet, Image, TextInput} from 'react-native'
+import {Button, View, Text, SafeAreaView, StyleSheet, Image, TextInput, Switch, Alert} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import {ScrollView} from 'react-native-gesture-handler'
 import { db, firebase } from '../firebase'
 import BottomTabs from '../components/home/BottomTabs'
+import {Divider} from "react-native-elements/dist/divider/Divider";
 
 
 // Mona G
@@ -11,13 +12,14 @@ const Profile = ({ navigation }) => {
     const [user, setUser] = useState([])
     //sets the number of post that has been created by the user
     const [post, setPosts] = useState([])
-  useEffect(() => {
+    useEffect(() => {
       // fetching user data from firebase
     db
       .collection('users')
       .doc(firebase.auth().currentUser.email)
       .onSnapshot(snapshot => {
-          setUser(snapshot.data())
+          setUser(snapshot.data());
+          console.log(user.follow)
      })
       db.collectionGroup('posts')
           .where('owner_uid', '==', firebase.auth().currentUser.uid)
@@ -25,8 +27,30 @@ const Profile = ({ navigation }) => {
           .onSnapshot(snapshot => {
               setPosts(snapshot.docs.map(doc => doc.data()))
           })
-  }, [])
-
+    }, [])
+    const updateUser = async (val) => {
+        let f = user.follow;
+        if(f.includes(val)){
+            const index = f.indexOf(val);
+            if (index > -1) {
+                f.splice(index, 1);
+            }
+        }else{
+            f.push(val);
+        }
+        try {
+            db.collection('users')
+                .doc(firebase.auth().currentUser.email)
+                .update({
+                    follow: f,
+                }).then(() => {
+                console.log('User updated!');
+                navigation.pop();
+            })
+        } catch (error) {
+            Alert.alert('Oops' + error.message)
+        }
+    }
   return (
     <SafeAreaView style={styles.container}>
       <Header />
@@ -34,6 +58,7 @@ const Profile = ({ navigation }) => {
         <ProfileBody
           user={user}
           posts={post}
+          follow={user.follow !== undefined ? user.follow.length : 0}
         />
         <View style={{marginHorizontal: '10%'}}>
             <Button title="Edit Profile" onPress={() => navigation.push('EditProfileScreen')} />
@@ -64,27 +89,27 @@ const Profile = ({ navigation }) => {
                           paddingTop: 10}]}>{user.username}</Text>
                   </View>
               </View>
-              <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
-                  <Text style={styles.title}>Phone:</Text>
-                  <View style={styles.inputField}>
-                      <Text style={[styles.textInput, {
-                          paddingTop: 10}]}>{user.phone}</Text>
-                  </View>
-              </View>
-              <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
-                  <Text style={styles.title}>Gender:</Text>
-                  <View style={styles.inputField}>
-                      <Text style={[styles.textInput, {
-                          paddingTop: 10}]}>{user.gender}</Text>
-                  </View>
-              </View>
-              <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
-                  <Text style={styles.title}>Birthday:</Text>
-                  <View style={styles.inputField}>
-                      <Text style={[styles.textInput, {
-                          paddingTop: 10}]}>{user.birthday}</Text>
-                  </View>
-              </View>
+              {/*<View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>*/}
+              {/*    <Text style={styles.title}>Phone:</Text>*/}
+              {/*    <View style={styles.inputField}>*/}
+              {/*        <Text style={[styles.textInput, {*/}
+              {/*            paddingTop: 10}]}>{user.phone}</Text>*/}
+              {/*    </View>*/}
+              {/*</View>*/}
+              {/*<View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>*/}
+              {/*    <Text style={styles.title}>Gender:</Text>*/}
+              {/*    <View style={styles.inputField}>*/}
+              {/*        <Text style={[styles.textInput, {*/}
+              {/*            paddingTop: 10}]}>{user.gender}</Text>*/}
+              {/*    </View>*/}
+              {/*</View>*/}
+              {/*<View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>*/}
+              {/*    <Text style={styles.title}>Birthday:</Text>*/}
+              {/*    <View style={styles.inputField}>*/}
+              {/*        <Text style={[styles.textInput, {*/}
+              {/*            paddingTop: 10}]}>{user.birthday}</Text>*/}
+              {/*    </View>*/}
+              {/*</View>*/}
               <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
                   <Text style={styles.title}>Bio:</Text>
                   <View style={[
@@ -97,11 +122,25 @@ const Profile = ({ navigation }) => {
                   </View>
               </View>
           </View>
+          <Divider style={{ marginTop: 20, opacity: .3 }} />
+          <View style={{marginHorizontal: '10%', flexDirection: "row", justifyContent: "space-between"}}>
+              <View style={{flexDirection: "column", marginTop: 20, justifyContent: "space-between"}}>
+                  <Text style={{color: 'white',marginTop: 15, marginRight: "50%", fontSize: 18}}>Accommodation</Text>
+                  <Text style={{color: 'white',marginTop: 15, marginRight: "50%", fontSize: 18}}>Event</Text>
+              </View>
+              {
+                     <View style={{flexDirection: "column",marginTop: 20, justifyContent: "space-between"}}>
+                          <Button title={user.follow === undefined ? "Follow" : user.follow.includes("Accommodation") ? "UnFollow" : "Follow"} onPress={() => updateUser('Accommodation')} />
+                          <Button title={user.follow === undefined ? "Follow" : user.follow.includes("Event") ? "UnFollow" : "Follow"} onPress={() => updateUser('Event')} />
+                     </View>
+              }
+          </View>
       </ScrollView>
       <BottomTabs navigation={navigation}/>
         </SafeAreaView>
   )
 }
+
 // Header
 const Header = () => {
   return (
@@ -118,7 +157,7 @@ const Header = () => {
 }
 
 // profile body
-const ProfileBody = ({user, posts}) => (
+const ProfileBody = ({user, posts, follow}) => (
     <View
         style={{
             flexDirection: 'row',
@@ -156,13 +195,13 @@ const ProfileBody = ({user, posts}) => (
                 <Text style={styles.heading}>Posts</Text>
             </View>
             <View style={{ flexDirection: 'column'}}>
-                <Text style={styles.number}>0</Text>
-                <Text style={styles.heading}>Follower</Text>
+                <Text style={styles.number}>{follow}</Text>
+                <Text style={styles.heading}>Categories</Text>
             </View>
-            <View style={{ flexDirection: 'column'}}>
-                <Text style={styles.number}>0</Text>
-                <Text style={styles.heading}>Following</Text>
-            </View>
+            {/*<View style={{ flexDirection: 'column'}}>*/}
+            {/*    <Text style={styles.number}>0</Text>*/}
+            {/*    <Text style={styles.heading}>Following</Text>*/}
+            {/*</View>*/}
         </View>
     </View>
 )
