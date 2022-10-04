@@ -16,7 +16,7 @@ const LoginForm = ({navigation}) => {
         email: Yup.string().email().required('An email is required'),
         password: Yup.string()
             .required()
-        .min(6, 'Your password must contain atleast 8 characters')
+        .min(6, 'Your password must contain at least 8 characters')
     })
 
     const onLogin = async (email, password) => {
@@ -36,7 +36,7 @@ const LoginForm = ({navigation}) => {
                     {
                         text: 'Reset',
                         onPress: () => navigation.push('SignupScreen'),
-                        
+
                     }
                 ]
             )
@@ -54,11 +54,11 @@ const LoginForm = ({navigation}) => {
               validateOnMount={true}
           >
 
-              
+
               {({ handleBlur, handleChange, handleSubmit, values, errors, isValid, }) => (
                   <>
-                      
-                    
+
+
                       <View style={[
                           styles.inputField,
                           {
@@ -68,7 +68,7 @@ const LoginForm = ({navigation}) => {
                                   : '#F24A72',
                           },
                       ]}>
-                        
+
                           <TextInput
                               style={styles.textInput}
                               placeholderTextColor='#CDD0CB'
@@ -82,9 +82,9 @@ const LoginForm = ({navigation}) => {
                               onBlur={handleBlur('email')}
                               value={values.email}
                         />
-                    
+
                       </View>
-                    
+
                     <View style={[
                           styles.inputField,
                           {
@@ -94,7 +94,7 @@ const LoginForm = ({navigation}) => {
                                   : '#F24A72',
                           },
                       ]}>
-                        
+
                         <TextInput
                             style={styles.textInput}
                             placeholderTextColor='#CDD0CB'
@@ -109,18 +109,18 @@ const LoginForm = ({navigation}) => {
                               value={values.password}
                         />
                     </View>
-                    
+
                     <TouchableOpacity
                         style={{
                             alignItems: 'flex-end',
                             paddingRight: 20,
                             marginTop: 10,
                             marginBottom: 30
-                            }}> 
+                            }}>
                         <Text style={{color: '#3282B8', }}
                         >Forgot password?</Text>
                     </TouchableOpacity>
-                        
+
                     <Pressable
                         titleSize={20} style={styles.button(isValid)}
                         onPress={handleSubmit}>
@@ -136,11 +136,11 @@ const LoginForm = ({navigation}) => {
                                 alignItems: 'center',
                                 marginBottom: 30
                             }}>Don't have an account yet?</Text>
-                        
-                        <TouchableOpacity onPress={()=> navigation.push('SignupScreen')}> 
+
+                        <TouchableOpacity onPress={()=> navigation.push('SignupScreen')}>
                             <Text style={{ color: '#3282B8', }}> Sign up.</Text>
                         </TouchableOpacity>
-                    </View> 
+                    </View>
                   </>
               )}
         </Formik>

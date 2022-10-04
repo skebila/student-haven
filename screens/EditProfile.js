@@ -1,9 +1,11 @@
 import {Modal, TextInput, View, Text, SafeAreaView, StyleSheet, Image, TouchableOpacity, Alert} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import {ScrollView} from 'react-native-gesture-handler'
-import { db, firebase } from '../firebase'
+import { db, firebase, storage } from '../firebase'
 import DatePicker from 'react-native-datepicker'
 import * as ImagePicker from 'expo-image-picker';
+// import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import {firestore} from "firebase/compat";
 
 // Done by Mona G
 let name, username, bio, phone, gender, birthday
@@ -17,7 +19,7 @@ const updateUser = async (navigation, name, username, bio, phone, gender, birthd
                 bio: bio,
                 phone: phone,
                 gender: gender,
-                birthday: birthday
+                birthday: birthday,
             }).then(() => {
                 console.log('User updated!');
                 navigation.pop();
@@ -31,7 +33,7 @@ const deleteProfilePic = async () => {
         db.collection('users')
             .doc(firebase.auth().currentUser.email)
             .update({
-                profile_picture: 'https://cdn0.iconfinder.com/data/icons/ui-essence/32/_68ui-256.png',
+                profile_picture: firestore.FieldValue.delete(),
             }).then(() => {
             console.log('Image Deleted!');
         })
@@ -39,7 +41,78 @@ const deleteProfilePic = async () => {
         Alert.alert('Oops' + error.message)
     }
 }
+const uploadToFirebase =  (blob) => {
+    var storageRef = storage.ref();
+    var date = new Date();
+    const metadata = {
+        contentType: 'image/jpeg'
+    };
+    var d = date.getFullYear() + date.getMonth() + date.getDay() + date.getHours() + date.getMinutes() + date.getSeconds();
+    const uploadTask = storageRef.child('profile_images/photo_'+d+'.jpeg').put(blob, metadata);
+    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+        (snapshot) => {
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+            switch (snapshot.state) {
+                case firebase.storage.TaskState.PAUSED: // or 'paused'
+                    console.log('Upload is paused');
+                    break;
+                case firebase.storage.TaskState.RUNNING: // or 'running'
+                    console.log('Upload is running');
+                    break;
+            }
+        },
+        (error) => {
+            // A full list of error codes is available at
+            // https://firebase.google.com/docs/storage/web/handle-errors
+            switch (error.code) {
+                case 'storage/unauthorized':
+                    console.log('User doesn\'t have permission to access the object');
+                    break;
+                case 'storage/canceled':
+                    console.log('User canceled the upload');
+                    break;
 
+                case 'storage/unknown':
+                    console.log('Unknown error occurred, inspect error.serverResponse');
+                    break;
+            }
+        },
+        () => {
+            // Upload completed successfully, now we can get the download URL
+            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                console.log('File available at', downloadURL);
+                db.collection('users')
+                    .doc(firebase.auth().currentUser.email)
+                    .update({
+                        profile_picture: downloadURL,
+                    }).then(() => {
+                    console.log('User updated!');
+                })
+            });
+        }
+    );
+}
+const uriToBlob = (uri) => {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = function() {
+            // return the blob
+            resolve(xhr.response);
+        };
+
+        xhr.onerror = function() {
+            // something went wrong
+            reject(new Error('uriToBlob failed'));
+        };
+        // this helps us get a blob
+        xhr.responseType = 'blob';
+        xhr.open('GET', uri, true);
+
+        xhr.send(null);
+    });
+}
 // Mona G
 const EditProfile = ({ navigation }) => {
     //sets the user profile
@@ -102,20 +175,34 @@ const ProfileBody = ({user}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [image, setImage] = useState(null);
     const [date, setDate] = useState(birthday !== undefined ? new Date(birthday) : new Date())
+
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
+        }).then((result)=>{
+
+            if (!result.cancelled) {
+                // User picked an image
+                const {height, width, type, uri} = result;
+                setImage(uri);
+                return uriToBlob(uri);
+
+            }
+
+        }).then((blob)=>{
+
+            return uploadToFirebase(blob);
+
+        }).then((snapshot)=>{
+
+            console.log("File uploaded");
+
+        }).catch((error)=>{
+
+            throw error;
+
         });
-
-        console.log(result);
-
-        if (!result.cancelled) {
-            setImage(result.uri);
-        }
     };
     return (
         <View
