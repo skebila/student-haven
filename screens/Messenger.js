@@ -12,14 +12,6 @@ const Messenger = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Header />
-      <Text
-        style={{
-          fontSize: 13,
-          color: 'white',
-          fontWeight: "bold",
-          textAlign: 'center',
-          marginTop: 200,
-        }}>No Messages Found</Text>
       <TextMessage />
       <BottomTabs navigation={navigation} />
     </SafeAreaView>
@@ -27,6 +19,7 @@ const Messenger = ({ navigation }) => {
 }
 
 const TextMessage = () => {
+  const [name, setName ] = useState(' ');
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior='padding'>
       <View style={styles.headerContainer}>
@@ -34,12 +27,21 @@ const TextMessage = () => {
           style={styles.input}
           multiline={true}
           placeholder='Type Message...'
+          onChangeText={(val)=> setName(val)}
         />
         <View style={styles.button}>
         <Button 
           title="Send Message" 
           onPress={() => navigation.push("MessengerScreen")} />
+
       </View>
+      <Text style={{
+          fontSize: 16,
+          padding: 8,
+          color: 'white',
+          fontWeight: "900",
+          textAlign: 'right',
+        }}>Your message: {name}</Text>
       </View>
     </KeyboardAvoidingView>
   )
@@ -65,6 +67,9 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'black',
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: 'white',
   },
   headerContainer: {
     marginHorizontal: 0,
@@ -73,23 +78,24 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   input: {
-    width: 400,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: 'grey',
-    borderRadius: 5,
-    color: 'grey',
-    backgroundColor: 'white',
-    height: 65,
-    fontSize: 15,
-    marginTop: 315,
+    padding: 8,
+    top: 0, 
+    margin: 5,
+    width: 400,
+    height: 100,
+    color:'white',
+    backgroundColor: 'grey',
+
   },
 
   button: {
     width: 119,
     height: 50,
     borderRadius: 2,
-    marginLeft: 275,
-
+    marginLeft: 285,
+    top: 0, 
   },
 })
 
