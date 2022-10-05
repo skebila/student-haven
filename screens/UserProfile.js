@@ -37,7 +37,7 @@ const UserProfile = ({ navigation, route }) => {
                         />
                         :
                         <Button title="Send a Message"
-                            // onPress={() => navigation.push('MessengerScreen')}
+                            onPress={() => navigation.push('MessengerScreen')}
                         />
                     }
 

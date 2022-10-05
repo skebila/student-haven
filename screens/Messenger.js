@@ -19,7 +19,7 @@ const Messenger = ({ navigation }) => {
 }
 
 const TextMessage = () => {
-  const [message, setMessage ] = useState(' ');
+  const [name, setName ] = useState(' ');
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior='padding'>
       <View style={styles.headerContainer}>
@@ -27,7 +27,7 @@ const TextMessage = () => {
           style={styles.input}
           multiline={true}
           placeholder='Type Message...'
-          onChangeText={(val)=> setMessage(val)}
+          onChangeText={(val)=> setName(val)}
         />
         <View style={styles.button}>
         <Button 
@@ -57,7 +57,7 @@ const Header = () => {
           color: 'white',
           fontWeight: "900",
           textAlign: 'center',
-        }}>Message to Dev</Text>
+        }}>Messenger</Text>
 
     </View>
   )
