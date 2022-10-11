@@ -66,4 +66,4 @@ export const SignedOutStack = () => (
         </Stack.Navigator>
     </NavigationContainer>
 )
-const Tab = createBottomTabNavigator();
+//const Tab = createBottomTabNavigator();

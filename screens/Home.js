@@ -14,7 +14,7 @@ import BottomTabs from '../components/home/BottomTabs'
 const Home = ({ navigation }) => {
   const [posts, setPosts] = useState([])
   const [user, setUser] = useState([])
-  //sets the post that has been created by the user
+  //sets the post that has been created by the user, orders them by time created in descending order
   useEffect(() => {
     db
       .collection('users')
