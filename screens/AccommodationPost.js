@@ -184,7 +184,9 @@ const Topics = ({ post, navigation }) => {
                     color: '#6BB0F5',
                     fontWeight: '700',
                     textDecorationLine: 'underline'
-                }}
+                    }}
+                onPress={() => navigation.push('ExpandedPostScreen')}
+
             >View more</Text>
         </TouchableOpacity>
     </View>
