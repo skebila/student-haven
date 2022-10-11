@@ -61,6 +61,7 @@ const FormikPostUploader = ({navigation}) => {
         event_date: event_date,
         age_restriction: age_restriction,
         ticket_price: ticket_price
+        //Add some restrictions
       })
       .then(() => navigation.goBack())
     

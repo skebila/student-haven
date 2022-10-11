@@ -55,7 +55,7 @@ const Header = () => {
           color: 'white',
           fontWeight: "900",
           textAlign: 'center',
-        }}>Message to Dev</Text>
+        }}>Messenger</Text>
 
     </View>
   )
