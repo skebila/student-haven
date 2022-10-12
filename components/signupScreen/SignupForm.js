@@ -22,12 +22,6 @@ const SignupForm = ({navigation}) => {
             .min(6, 'Your password must contain atleast 6 characters')
     })
 
-    /*const getRandomProfilePicture = async () => {
-        const response = await fetch('https://randomuser.me/api')
-        const data = await response.json()
-        return data.results[0].picture.large
-    }*/
-
     const onSignup = async (email, password, username) => {
         try {
             const authUser = await firebase

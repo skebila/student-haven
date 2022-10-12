@@ -1,8 +1,6 @@
 /**@author Steven Kebila
 *
 */
-
-
 import { View, Text, Image, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native'
 import { Ionicons, Entypo } from 'react-native-vector-icons';
 import { Divider } from 'react-native-elements/dist/divider/Divider'
@@ -12,8 +10,8 @@ import { db, firebase } from '../firebase';
 
 
 const EventPost = ({navigation}) => {
-  const [posts, setPosts] = useState([])
-
+    const [posts, setPosts] = useState([])
+    
   //sets the post that has been created by the user
     useEffect(() => {
       db.collectionGroup('posts')
@@ -36,7 +34,7 @@ const EventPost = ({navigation}) => {
   )
 }
 
-const Header = ({navigation}) => {
+const Header = ({post, navigation}) => {
   return (
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={()=> navigation.goBack()}>
@@ -184,6 +182,9 @@ const Topics = ({ post, navigation }) => {
                     fontWeight: '700',
                     textDecorationLine: 'underline'
                 }}
+                onPress={() => navigation.navigate('ExpandedPostScreen', {
+              paramKey: post,
+            })}
             >View more</Text>
         </TouchableOpacity>
     </View>

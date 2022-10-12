@@ -1,3 +1,7 @@
+/**@author Steven Kebila
+* Import the functions you need from the SDKs you need
+*/
+
 import React, { useEffect, useState } from 'react'
 import { SignedInStack, SignedOutStack } from './components/Navigation'
 import {firebase} from './firebase'

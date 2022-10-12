@@ -1,3 +1,7 @@
+/**@author Steven Kebila
+* Import the functions you need from the SDKs you need
+*/
+
 import { View, Text, Image } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import * as Yup from 'yup'

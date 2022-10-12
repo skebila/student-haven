@@ -10,7 +10,6 @@
   "dependencies": {
     "@react-native-community/datetimepicker": "^6.5.0",
     "@react-native-community/masked-view": "^0.1.11",
-    "@react-native-firebase/storage": "^15.7.0",
     "@react-navigation/bottom-tabs": "^6.3.1",
     "@react-navigation/drawer": "^6.5.0",
     "@react-navigation/native": "^6.0.10",
@@ -23,6 +22,8 @@
     "expo-status-bar": "~1.2.0",
     "firebase": "^9.6.10",
     "formik": "^2.2.9",
+    "ios": "^0.0.1",
+    "pod-install": "^0.1.38",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-icons": "^4.3.1",

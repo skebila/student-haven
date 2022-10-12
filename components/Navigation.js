@@ -25,7 +25,9 @@ import UserProfile from "../screens/UserProfile";
 import Setting from "../screens/Settings";
 import AccommodationAddPost from '../screens/AccommodationAddPost';
 import EventAddPost from '../screens/EventAddPost';
-import ChangePassword from '../screens/ChangePassword';
+import ExpandedPost from '../screens/ExpandedPost';
+import About from "../screens/About";
+import Help from "../screens/Help";
 
 const Stack = createStackNavigator()
 
@@ -49,11 +51,13 @@ export const SignedInStack = () => (
             <Stack.Screen name="UserProfileScreen" component={UserProfile} />
             <Stack.Screen name="SettingScreen" component={Setting} />
             <Stack.Screen name="AccommodationPostScreen" component={AccommodationPost} />
+            <Stack.Screen name="AboutScreen" component={About} />
+            <Stack.Screen name="HelpScreen" component={Help} />
             <Stack.Screen name="EventsPostScreen" component={EventPost} />
             <Stack.Screen name="EditProfileScreen" component={EditProfile} />
             <Stack.Screen name="AccommodationAddPostScreen" component={AccommodationAddPost} />
             <Stack.Screen name="EventAddPostScreen" component={EventAddPost} />
-            <Stack.Screen name="ChangePasswordScreen" component={ChangePassword} />
+            <Stack.Screen name="ExpandedPostScreen" component={ExpandedPost} />
         </Stack.Navigator>
     </NavigationContainer>
 )
@@ -68,4 +72,4 @@ export const SignedOutStack = () => (
         </Stack.Navigator>
     </NavigationContainer>
 )
-const Tab = createBottomTabNavigator();
+//const Tab = createBottomTabNavigator();

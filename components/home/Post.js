@@ -7,22 +7,18 @@ import { Divider } from 'react-native-elements/dist/divider/Divider'
 import { Ionicons } from 'react-native-vector-icons';
 
 
-const Post = ({user, post, navigation}) => {
+const Post = ({post, navigation}) => {
   return (
       <View>
           <Divider style={{ marginBottom: 5, opacity: .3 }} />
           <View>
-              <PostBody user={user}  post={post} navigation={navigation} />
+              <PostBody  post={post} navigation={navigation} />
           </View>
     </View>
   )
 }
 
-/**
- * Updated by Mona G. Logic was wrong
- *
- */
-const PostBody = ({user, post, navigation}) => (
+const PostBody = ({post, navigation}) => (
     <View
         style={{
             flexDirection: 'row',
@@ -48,7 +44,7 @@ const PostBody = ({user, post, navigation}) => (
                             marginLeft: 0,
                             fontWeight: '900',
                         }}>
-                        {post.user}
+                        {post.user} 
                     </Text>
                 </TouchableOpacity>
 

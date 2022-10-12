@@ -12,11 +12,9 @@ const deleteUser = async (navigation) => {
             .doc(firebase.auth().currentUser.email)
             .delete().then(() => {
             console.log('User Deleted!');
-            firebase.auth().signOut().then(() => {
-                firebase.auth().currentUser.delete().then(() => {
-                    console.log('User Deleted!');
-                });
-            })
+            firebase.auth().currentUser.delete().then(() => {
+                navigation.pop();
+            });
         })
         var colRef = db
             .collection('users')
@@ -49,7 +47,7 @@ const Header = () => {
             <Text
                 style={{
                     fontSize: 16,
-                    color: 'white',
+                    color: 'black',
                     fontWeight: "bold",
                     textAlign: 'center',
                 }}>Settings</Text>
@@ -57,7 +55,7 @@ const Header = () => {
     )
 }
 
-const SettingBody = ({navigation}) => {
+const SettingBody = (navigation) => {
     // const [data, setData] = useState(Settings.get("data"));
     const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
@@ -68,7 +66,7 @@ const SettingBody = ({navigation}) => {
     return (
         <View style={styles.container}>
             <View style={{flexDirection: "row", justifyContent: "space-between"}}>
-                <Text style={{color: 'white',marginTop: 15, marginRight: "50%", fontSize: 18}}>Notifications</Text>
+                <Text style={{marginTop: 15, marginRight: "50%", fontSize: 18}}>Notifications</Text>
                 <Switch
                     trackColor={{ false: "#767577", true: "#81b0ff" }}
                     thumbColor={isEnabled ? "#767577" : "#f4f3f4"}
@@ -80,7 +78,7 @@ const SettingBody = ({navigation}) => {
             <View style={styles.value}>
                 <View style={styles.value}>
                     <Button
-                        onPress={() => navigation.push('ChangePasswordScreen')}
+                        // onPress={() => storeData({ data: "Native" })}
                         title="Change Password"
                     />
                 </View>
@@ -102,10 +100,10 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     container: {
-        flex: 1,
-        backgroundColor: 'black',
-        paddingTop: 20,
-        paddingHorizontal: 12,
+        // marginTop: 30,
+        marginHorizontal: 10,
+        flexDirection: "column",
+        // justifyContent: "center",
     },
     view: {
        marginBottom: 40
