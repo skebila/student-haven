@@ -47,7 +47,7 @@ const Header = () => {
             <Text
                 style={{
                     fontSize: 16,
-                    color: 'black',
+                    color: 'white',
                     fontWeight: "bold",
                     textAlign: 'center',
                 }}>Settings</Text>
@@ -55,18 +55,13 @@ const Header = () => {
     )
 }
 
-const SettingBody = (navigation) => {
-    // const [data, setData] = useState(Settings.get("data"));
+const SettingBody = ({navigation}) => {
     const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-    // const storeData = data => {
-    //     Settings.set(data);
-    //     setData(Settings.get("data"));
-    // };
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {paddingHorizontal: 20, marginTop: 20}]}>
             <View style={{flexDirection: "row", justifyContent: "space-between"}}>
-                <Text style={{marginTop: 15, marginRight: "50%", fontSize: 18}}>Notifications</Text>
+                <Text style={{marginTop: 15, marginRight: "50%", color: 'white', fontSize: 18}}>Notifications</Text>
                 <Switch
                     trackColor={{ false: "#767577", true: "#81b0ff" }}
                     thumbColor={isEnabled ? "#767577" : "#f4f3f4"}
@@ -78,7 +73,7 @@ const SettingBody = (navigation) => {
             <View style={styles.value}>
                 <View style={styles.value}>
                     <Button
-                        // onPress={() => storeData({ data: "Native" })}
+                        onPress={() => navigation.push("ChangePasswordScreen")}
                         title="Change Password"
                     />
                 </View>
@@ -101,7 +96,8 @@ const styles = StyleSheet.create({
     },
     container: {
         // marginTop: 30,
-        marginHorizontal: 10,
+        backgroundColor: 'black',
+        flex: 1,
         flexDirection: "column",
         // justifyContent: "center",
     },

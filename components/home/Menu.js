@@ -40,14 +40,20 @@ const Menu = ({navigation}) => {
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button}
-                            onPress={() => setModalVisible(!modalVisible)}
+                            onPress={() => {
+                                setModalVisible(!modalVisible)
+                                navigation.push("AboutScreen")
+                            }}
                         >
                             <Ionicons name='information-circle-outline' style={styles.buttonIcon} />
                             <Text style={[{color: "black"},styles.textStyle]}>About</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button}
-                            onPress={() => setModalVisible(!modalVisible)}
+                            onPress={() => {
+                                setModalVisible(!modalVisible)
+                                navigation.push("HelpScreen")
+                            }}
                         >
                             <Ionicons name='help-circle-outline' style={styles.buttonIcon} />
                             <Text style={[{color: "black"},styles.textStyle]}>Help</Text>
