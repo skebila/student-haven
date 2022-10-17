@@ -61,7 +61,6 @@ const FormikPostUploader = ({navigation}) => {
         gender: gender,
         date_move_in: date_move_in,
         no_of_rooms: no_of_rooms
-        //Add one field for Date to Move In, no of rooms
       })
       .then(() => navigation.goBack())
     
