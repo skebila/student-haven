@@ -82,7 +82,7 @@ const Messenger = ({ navigation, route }) => {
 
     return (
     <SafeAreaView style={styles.container}>
-        <Header title={user.username}/>
+        <Header title={user == null ? '' : user.username}/>
         <ScrollView style={{marginTop: 20, marginBottom: 70}}
                     refreshControl={
                         <RefreshControl
@@ -97,7 +97,7 @@ const Messenger = ({ navigation, route }) => {
                 </View>
             ))}
         </ScrollView>
-        <TextMessage to={user.email} />
+        <TextMessage to={user == null ? '' : user.email} />
     </SafeAreaView>
   )
 }
