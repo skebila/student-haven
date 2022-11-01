@@ -7,7 +7,6 @@ import * as ImagePicker from 'expo-image-picker';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 
 // Done by Mona G
-let name, username, bio, phone, gender, birthday
 const updateUser = async (navigation, name, username, bio, phone, gender, birthday) => {
     try {
         db.collection('users')
@@ -32,7 +31,7 @@ const deleteProfilePic = async () => {
         db.collection('users')
             .doc(firebase.auth().currentUser.email)
             .update({
-                profile_picture: '',
+                profile_picture: 'https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png',
             }).then(() => {
             console.log('Image Deleted!');
         })
@@ -46,8 +45,16 @@ const wait = (timeout) => {
 // Mona G
 const EditProfile = ({ navigation }) => {
     //sets the user profile
-    const [user, setUser] = useState([])
+    const [user, setUser] = useState(null)
     const [refreshing, setRefreshing] = React.useState(false);
+    const [date, setDate] = useState(new Date())
+    const [radio, setRadio] = useState('');
+    const [modalVisible, setModalVisible] = useState(false);
+    const [image, setImage] = useState(null);
+    const radio_props = [
+        {label: 'Male', value: 0 },
+        {label: 'Female', value: 1 }
+    ];
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         wait(2000).then(() => setRefreshing(false));
@@ -60,18 +67,56 @@ const EditProfile = ({ navigation }) => {
             .doc(firebase.auth().currentUser.email)
             .onSnapshot(snapshot => {
                 setUser(snapshot.data())
+                setRadio(snapshot.data().gender)
+                setDate(snapshot.data().birthday)
+                setImage(snapshot.data().profile_picture);
             })
-    }, [])
-    name = user.name
-    username=user.username
-    bio = user.bio
-    phone = user.phone
-    gender = user.gender
-    birthday = user.birthday
+    }, [refreshing])
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        }).then((result)=>{
+            if (!result.cancelled) {
+                const {height, width, type, uri} = result;
+                if(uri != ''){
+                    setImage(uri);
+                    return uriToBlob(uri);
+                }
+            }
+        }).then((blob)=>{
+            return uploadToFirebase(blob);
+        }).then((snapshot)=>{
+            console.log("File uploaded");
+        }).catch((error)=>{
+            throw error;
+        });
+        console.log(result);
+        if (!result.cancelled) {
+            setImage(result.uri);
+        }
+    };
+
     return (
         <SafeAreaView style={styles.container}>
-            <Header navigation={navigation}
-            />
+            <View style={styles.headerContainer}>
+                <TouchableOpacity
+                    onPress={()=> navigation.pop()}
+                >
+                    <Text style={{color: 'white', fontSize: 15, fontWeight: "bold"}}>Cancel</Text>
+                </TouchableOpacity>
+                <Text
+                    style={{
+                        fontSize: 20,
+                        color: 'white',
+                        fontWeight: "bold",
+                        textAlign: 'center',
+                    }}>Edit Profile</Text>
+                <TouchableOpacity
+                    onPress={() => updateUser(navigation, user.name, user.username, user.bio, user.phone, radio, date)}
+                >
+                    <Text style={{color: 'dodgerblue', fontSize: 15, fontWeight: "bold"}}>Done</Text>
+                </TouchableOpacity>
+            </View>
             <ScrollView
                 refreshControl={
                     <RefreshControl
@@ -79,9 +124,246 @@ const EditProfile = ({ navigation }) => {
                         onRefresh={onRefresh}
                     />
                 }>
-                <ProfileBody
-                    user={user}
-                />
+                <View
+                    style={{
+                        flexDirection: 'column',
+                        margin: 5,
+                        paddingTop: 10,
+                        alignItems: 'center',
+                    }}>
+                    <View
+                        style={{
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            margin: 5,
+                            paddingBottom: 10,
+                            alignItems: 'center',
+                        }}>
+                        {<Image source={{ uri: user == null ? '' : image }} style={styles.postHeaderImage} />}
+                        <View>
+                            <Modal
+                                animationType="slide"
+                                transparent={true}
+                                visible={modalVisible}
+                                onRequestClose={() => {
+                                    setModalVisible(!modalVisible);
+                                }}
+                            >
+                                <View style={styles.centeredView}>
+                                    <View style={styles.modalView}>
+                                        <TouchableOpacity
+                                            style={styles.button}
+                                            onPress={() => {
+                                                pickImage()
+                                                setModalVisible(!modalVisible)
+                                            }}
+                                        >
+                                            <Text style={[{color: "dodgerblue"},styles.textStyle]}>Change Profile Photo</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={styles.button}
+                                            onPress={() => {
+                                                deleteProfilePic()
+                                                setModalVisible(!modalVisible)
+                                            }}
+                                        >
+                                            <Text style={[{color: "red"},styles.textStyle]}>Delete Profile Photo</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={styles.button}
+                                            onPress={() => setModalVisible(!modalVisible)}
+                                        >
+                                            <Text style={[{color: "grey"},styles.textStyle]}>Cancel</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                            </Modal>
+                            <TouchableOpacity
+                                onPress={() => setModalVisible(true)}
+                                style={{marginTop: '5%'}}>
+                                <Text style={{color: 'dodgerblue', fontSize: 15, fontWeight: "bold"}}>
+                                    Change Profile Photo
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    <View
+                        style={{
+                            flexDirection: 'column',
+                            width: '60%',
+                            marginRight: '25%',
+                            marginTop: 5
+                        }}>
+                        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
+                            <Text style={styles.title}>Name: </Text>
+                            <View style={[
+                                styles.inputField,
+                                {
+                                    borderColor: '#444444'
+                                },
+                            ]}>
+                                <TextInput
+                                    style={styles.textInput}
+                                    placeholderTextColor='#CDD0CB'
+                                    placeholder={user == null ? "" : user.name}
+                                    autoCapitalize='none'
+                                    keyboardType='default'
+                                    keyboardAppearance='dark'
+                                    textContentType='name'
+                                    onChangeText={text => {user.name = text}}
+                                />
+                            </View>
+                        </View>
+                        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
+                            <Text style={styles.title}>Username:</Text>
+                            <View style={styles.inputField}>
+                                <Text style={[styles.textInput, {
+                                    paddingTop: 10}]}>{user == null ? "" : user.username}</Text>
+                            </View>
+                        </View>
+                        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
+                            <Text style={styles.title}>Phone:</Text>
+                            <View style={[
+                                styles.inputField,
+                                {
+                                    borderColor: '#444444'
+                                },
+                            ]}>
+                                <TextInput
+                                    style={styles.textInput}
+                                    placeholderTextColor='#CDD0CB'
+                                    placeholder={user == null ? "" : user.phone}
+                                    autoCapitalize='none'
+                                    keyboardType='default'
+                                    keyboardAppearance='dark'
+                                    textContentType='none'
+                                    onChangeText={text => {user.phone = text}}
+                                />
+                            </View>
+                        </View>
+                        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
+                            <Text style={styles.title}>Gender:</Text>
+                            <View style={[
+                                styles.inputField,
+                                {
+                                    borderColor: '#444444'
+                                },
+                            ]}>
+                                <RadioForm
+                                    formHorizontal={true}
+                                    animation={true}
+                                >
+                                    {/* To create radio buttons, loop through your array of options */}
+                                    {
+                                        radio_props.map((obj, i) => (
+                                            <RadioButton labelHorizontal={true} key={i} >
+                                                {/*  You can set RadioButtonLabel before RadioButtonInput */}
+                                                <RadioButtonInput
+                                                    obj={obj}
+                                                    index={i}
+                                                    isSelected={obj.label === radio}
+                                                    onPress={(value) => {
+                                                        setRadio(value);
+                                                    }}
+                                                    borderWidth={1}
+                                                    // buttonInnerColor={'#e74c3c'}
+                                                    buttonOuterColor={obj.label === radio ? '#2196f3' : '#000'}
+                                                    // buttonSize={40}
+                                                    // buttonOuterSize={80}
+                                                    buttonStyle={{}}
+                                                    buttonWrapStyle={{marginLeft: 10}}
+                                                />
+                                                <RadioButtonLabel
+                                                    obj={obj}
+                                                    index={i}
+                                                    labelHorizontal={true}
+                                                    onPress={(value) => {
+                                                        setRadio(value);
+                                                    }}
+                                                    labelStyle={{fontSize: 20, color: 'white'}}
+                                                    labelWrapStyle={{}}
+                                                />
+                                            </RadioButton>
+                                        ))
+                                    }
+                                </RadioForm>
+                                {/*<RadioForm*/}
+                                {/*    style={{width: '100%', justifyContent: 'space-between'}}*/}
+                                {/*    labelColor={'white'}*/}
+                                {/*    formHorizontal={false}*/}
+                                {/*    radio_props={radio_props}*/}
+                                {/*    initial={user.gender == 'Male' ? 0 : user.gender == 'Female' ? 1 : -1}*/}
+                                {/*    onPress={(value) => {gender = value == 0 ? 'Male' : 'Female'}}*/}
+                                {/*/>*/}
+                                {/*<TextInput*/}
+                                {/*    style={styles.textInput}*/}
+                                {/*    placeholderTextColor='#CDD0CB'*/}
+                                {/*    placeholder={gender}*/}
+                                {/*    autoCapitalize='none'*/}
+                                {/*    keyboardType='default'*/}
+                                {/*    keyboardAppearance='dark'*/}
+                                {/*    textContentType='none'*/}
+                                {/*    onChangeText={text => {gender = text}}*/}
+                                {/*/>*/}
+                            </View>
+                        </View>
+                        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
+                            <Text style={styles.title}>Birthday:</Text>
+                            <View style={[
+                                styles.inputField,
+                                {
+                                    borderColor: '#444444'
+                                },
+                            ]}>
+                                <DatePicker
+                                    style={{width: '100%'}}
+                                    date={date}
+                                    mode="date"
+                                    placeholder="select date"
+                                    format="YYYY-MM-DD"
+                                    minDate="1950-01-01"
+                                    maxDate="2022-09-01"
+                                    confirmBtnText="Confirm"
+                                    cancelBtnText="Cancel"
+                                    customStyles={{
+                                        dateIcon: {
+                                            position: 'absolute',
+                                            left: 0,
+                                            top: 4,
+                                            marginLeft: 0
+                                        },
+                                        dateInput: {
+                                            marginLeft: 36
+                                        }
+                                    }}
+                                    onDateChange={(d) => {
+                                        setDate(d)
+                                    }}
+                                />
+                            </View>
+                        </View>
+                        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
+                            <Text style={styles.title}>Bio:</Text>
+                            <View style={[
+                                styles.inputField,
+                                {
+                                    borderColor: '#444444'
+                                },
+                            ]}>
+                                <TextInput
+                                    style={styles.textInput}
+                                    placeholderTextColor='#CDD0CB'
+                                    placeholder={user == null ? '' : user.bio}
+                                    autoCapitalize='none'
+                                    keyboardType='default'
+                                    keyboardAppearance='dark'
+                                    textContentType='none'
+                                    onChangeText={text => {user.bio = text}}
+                                />
+                            </View>
+                        </View>
+                    </View>
+                </View>
             </ScrollView>
         </SafeAreaView>
     )
@@ -154,308 +436,7 @@ const uriToBlob = (uri) => {
         xhr.send(null);
     });
 }
-// Header
-const Header = ({navigation}) => {
-    return (
-        <View style={styles.headerContainer}>
-            <TouchableOpacity
-                onPress={()=> navigation.pop()}
-            >
-                <Text style={{color: 'white', fontSize: 15, fontWeight: "bold"}}>Cancel</Text>
-            </TouchableOpacity>
-            <Text
-                style={{
-                    fontSize: 20,
-                    color: 'white',
-                    fontWeight: "bold",
-                    textAlign: 'center',
-                }}>Edit Profile</Text>
-            <TouchableOpacity
-                onPress={() => updateUser(navigation, name, username, bio, phone, gender, birthday)}
-            >
-                <Text style={{color: 'dodgerblue', fontSize: 15, fontWeight: "bold"}}>Done</Text>
-            </TouchableOpacity>
-        </View>
-    )
-}
 
-// profile body
-const ProfileBody = ({user}) => {
-    const [modalVisible, setModalVisible] = useState(false);
-    const [image, setImage] = useState(null);
-    const [date, setDate] = useState(birthday !== undefined ? new Date(birthday) : new Date())
-    const [radio, setRadio] = useState(gender);
-    const radio_props = [
-        {label: 'Male', value: 0 },
-        {label: 'Female', value: 1 }
-    ];
-    const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        }).then((result)=>{
-            if (!result.cancelled) {
-                const {height, width, type, uri} = result;
-                setImage(uri);
-                return uriToBlob(uri);
-            }
-        }).then((blob)=>{
-            return uploadToFirebase(blob);
-        }).then((snapshot)=>{
-           console.log("File uploaded");
-        }).catch((error)=>{
-            throw error;
-        });
-        console.log(result);
-        if (!result.cancelled) {
-            setImage(result.uri);
-        }
-    };
-    return (
-        <View
-            style={{
-                flexDirection: 'column',
-                margin: 5,
-                paddingTop: 10,
-                alignItems: 'center',
-            }}>
-            <View
-                style={{
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    margin: 5,
-                    paddingBottom: 10,
-                    alignItems: 'center',
-                }}>
-                {(image == null ? user.profile_picture : image) && <Image source={{ uri: image == null ? user.profile_picture : image }} style={styles.postHeaderImage} />}
-                <View>
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={modalVisible}
-                        onRequestClose={() => {
-                            setModalVisible(!modalVisible);
-                        }}
-                    >
-                        <View style={styles.centeredView}>
-                            <View style={styles.modalView}>
-                                <TouchableOpacity
-                                    style={styles.button}
-                                    onPress={() => {
-                                        pickImage()
-                                        setModalVisible(!modalVisible)
-                                    }}
-                                >
-                                    <Text style={[{color: "dodgerblue"},styles.textStyle]}>Change Profile Photo</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={styles.button}
-                                    onPress={() => {
-                                        deleteProfilePic()
-                                        setModalVisible(!modalVisible)
-                                    }}
-                                >
-                                    <Text style={[{color: "red"},styles.textStyle]}>Delete Profile Photo</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={styles.button}
-                                    onPress={() => setModalVisible(!modalVisible)}
-                                >
-                                    <Text style={[{color: "grey"},styles.textStyle]}>Cancel</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </Modal>
-                    <TouchableOpacity
-                        onPress={() => setModalVisible(true)}
-                        style={{marginTop: '5%'}}>
-                        <Text style={{color: 'dodgerblue', fontSize: 15, fontWeight: "bold"}}>
-                            Change Profile Photo
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-            <View
-                style={{
-                    flexDirection: 'column',
-                    width: '60%',
-                    marginRight: '25%',
-                    marginTop: 5
-                }}>
-                <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
-                    <Text style={styles.title}>Name: </Text>
-                    <View style={[
-                        styles.inputField,
-                        {
-                            borderColor: '#444444'
-                        },
-                    ]}>
-                        <TextInput
-                            style={styles.textInput}
-                            placeholderTextColor='#CDD0CB'
-                            placeholder={name}
-                            autoCapitalize='none'
-                            keyboardType='default'
-                            keyboardAppearance='dark'
-                            textContentType='name'
-                            onChangeText={text => {name = text}}
-                        />
-                    </View>
-                </View>
-                <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
-                    <Text style={styles.title}>Username:</Text>
-                    <View style={styles.inputField}>
-                        <Text style={[styles.textInput, {
-        paddingTop: 10}]}>{username}</Text>
-                    </View>
-                </View>
-                <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
-                    <Text style={styles.title}>Phone:</Text>
-                    <View style={[
-                        styles.inputField,
-                        {
-                            borderColor: '#444444'
-                        },
-                    ]}>
-                        <TextInput
-                            style={styles.textInput}
-                            placeholderTextColor='#CDD0CB'
-                            placeholder={phone}
-                            autoCapitalize='none'
-                            keyboardType='default'
-                            keyboardAppearance='dark'
-                            textContentType='none'
-                            onChangeText={text => {phone = text}}
-                        />
-                    </View>
-                </View>
-                <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
-                    <Text style={styles.title}>Gender:</Text>
-                    <View style={[
-                        styles.inputField,
-                        {
-                            borderColor: '#444444'
-                        },
-                    ]}>
-                        <RadioForm
-                            formHorizontal={true}
-                            animation={true}
-                        >
-                            {/* To create radio buttons, loop through your array of options */}
-                            {
-                                radio_props.map((obj, i) => (
-                                    <RadioButton labelHorizontal={true} key={i} >
-                                        {/*  You can set RadioButtonLabel before RadioButtonInput */}
-                                        <RadioButtonInput
-                                            obj={obj}
-                                            index={i}
-                                            isSelected={obj.label === radio}
-                                            onPress={(value) => {
-                                                // gender = value === 0 ? 'Male' : 'Female';
-                                                setRadio(value);
-                                            }}
-                                            borderWidth={1}
-                                            // buttonInnerColor={'#e74c3c'}
-                                            buttonOuterColor={obj.label === radio ? '#2196f3' : '#000'}
-                                            // buttonSize={40}
-                                            // buttonOuterSize={80}
-                                            buttonStyle={{}}
-                                            buttonWrapStyle={{marginLeft: 10}}
-                                        />
-                                        <RadioButtonLabel
-                                            obj={obj}
-                                            index={i}
-                                            labelHorizontal={true}
-                                            onPress={(value) => {
-                                                // gender = value === 0 ? 'Male' : 'Female'
-                                                setRadio(value);
-                                            }}
-                                            labelStyle={{fontSize: 20, color: 'white'}}
-                                            labelWrapStyle={{}}
-                                        />
-                                    </RadioButton>
-                                ))
-                            }
-                        </RadioForm>
-                        {/*<RadioForm*/}
-                        {/*    style={{width: '100%', justifyContent: 'space-between'}}*/}
-                        {/*    labelColor={'white'}*/}
-                        {/*    formHorizontal={false}*/}
-                        {/*    radio_props={radio_props}*/}
-                        {/*    initial={user.gender == 'Male' ? 0 : user.gender == 'Female' ? 1 : -1}*/}
-                        {/*    onPress={(value) => {gender = value == 0 ? 'Male' : 'Female'}}*/}
-                        {/*/>*/}
-                        {/*<TextInput*/}
-                        {/*    style={styles.textInput}*/}
-                        {/*    placeholderTextColor='#CDD0CB'*/}
-                        {/*    placeholder={gender}*/}
-                        {/*    autoCapitalize='none'*/}
-                        {/*    keyboardType='default'*/}
-                        {/*    keyboardAppearance='dark'*/}
-                        {/*    textContentType='none'*/}
-                        {/*    onChangeText={text => {gender = text}}*/}
-                        {/*/>*/}
-                    </View>
-                </View>
-                <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
-                    <Text style={styles.title}>Birthday:</Text>
-                    <View style={[
-                        styles.inputField,
-                        {
-                            borderColor: '#444444'
-                        },
-                    ]}>
-                        <DatePicker
-                            style={{width: '100%'}}
-                            date={date}
-                            mode="date"
-                            placeholder="select date"
-                            format="YYYY-MM-DD"
-                            minDate="1950-01-01"
-                            maxDate="2022-09-01"
-                            confirmBtnText="Confirm"
-                            cancelBtnText="Cancel"
-                            customStyles={{
-                                dateIcon: {
-                                    position: 'absolute',
-                                    left: 0,
-                                    top: 4,
-                                    marginLeft: 0
-                                },
-                                dateInput: {
-                                    marginLeft: 36
-                                }
-                            }}
-                            onDateChange={(d) => {
-                                setDate(d)
-                                birthday = d
-                            }}
-                        />
-                    </View>
-                </View>
-                <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
-                    <Text style={styles.title}>Bio:</Text>
-                    <View style={[
-                        styles.inputField,
-                        {
-                            borderColor: '#444444'
-                        },
-                    ]}>
-                        <TextInput
-                            style={styles.textInput}
-                            placeholderTextColor='#CDD0CB'
-                            placeholder={bio}
-                            autoCapitalize='none'
-                            keyboardType='default'
-                            keyboardAppearance='dark'
-                            textContentType='none'
-                            onChangeText={text => {bio = text}}
-                        />
-                    </View>
-                </View>
-            </View>
-        </View>
-    )
-}
 // styles for components
 const styles = StyleSheet.create({
     container: {
