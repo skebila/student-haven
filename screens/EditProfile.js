@@ -78,13 +78,14 @@ const EditProfile = ({ navigation }) => {
         }).then((result)=>{
             if (!result.cancelled) {
                 const {height, width, type, uri} = result;
-                if(uri != ''){
-                    setImage(uri);
-                    return uriToBlob(uri);
-                }
+                setImage(uri);
+                return uriToBlob(uri);
+            }else{
+                return null
             }
         }).then((blob)=>{
-            return uploadToFirebase(blob);
+            if(blob)
+                return uploadToFirebase(blob);
         }).then((snapshot)=>{
             console.log("File uploaded");
         }).catch((error)=>{
@@ -261,7 +262,7 @@ const EditProfile = ({ navigation }) => {
                                                 <RadioButtonInput
                                                     obj={obj}
                                                     index={i}
-                                                    isSelected={obj.label === radio}
+                                                    isSelected={obj.value === radio}
                                                     onPress={(value) => {
                                                         setRadio(value);
                                                     }}
