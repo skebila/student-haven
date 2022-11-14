@@ -12,10 +12,11 @@ import { db, firebase } from '../firebase';
 
 const AccommodationPost = ({ navigation }) => {
   const [posts, setPosts] = useState([])
-
+    
+    
   //sets the post that has been created by the user
     useEffect(() => {
-      db.collectionGroup('posts')
+        db.collectionGroup('posts')
           .where('topic', '==', 'Accommodation')
           .orderBy('createdAt', 'desc')
           .onSnapshot(snapshot => {
@@ -42,12 +43,12 @@ const Header = ({navigation}) => {
           <Ionicons name='chevron-back-outline' style={styles.icon} />
         </TouchableOpacity>
         
-      <Text style={styles.headerText}>Accommodation</Text>
+          <Text style={styles.headerText}>Accommodation</Text>
       
 
       <TouchableOpacity
-          style={{ marginRight: 20 }}
-          onPress={()=> navigation.push('AccommodationAddPostScreen')}
+              style={{ marginRight: 20 }}
+            onPress={()=> navigation.push('AccommodationAddPostScreen', {username: post.user})}
         >
             <Entypo name='squared-plus' style={styles.icon} />
           </TouchableOpacity>
@@ -172,6 +173,16 @@ const CommentsCount = ({ post }) => ( //post count per post
 )
 
 const Topics = ({ post, navigation }) => {
+    const postCollection = db.collection('posts').get()
+      .then(snapshot => {
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          console.log(doc.id, data);
+        });
+      })
+      .catch(err => {
+        console.log('Error getting documents', err);
+      });
     return (
 
     <View style={{ marginBottom: 10, flexDirection:'row' }}>

@@ -1,4 +1,3 @@
-
 /**@author Steven Kebila
 *
 */
@@ -9,20 +8,16 @@ import React, { useEffect, useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
 import { db, firebase } from '../firebase';
 
-
-const ExpandedPost = ({navigation}) => {
-    const [posts, setPosts] = useState([])
-    
-  //sets the post that has been created by the user
-    useEffect(() => {
-      db.collectionGroup('posts')
-          .where('topic', '==', 'Events')
-          .orderBy('createdAt', 'desc')
-          .onSnapshot(snapshot => {
-      setPosts(snapshot.docs.map(doc => doc.data())) 
-    })
-  }, [])
-
+const ExpandedPost = ({navigation, route}) => {
+  db.collection('post')
+  .get()
+  .then(snap => {
+      snap.forEach(doc => {
+          console.log(doc.data());
+          console.log(doc.id);
+      });
+  });
+  
   return (
     <SafeAreaView style={styles.container}>
       <Header navigation={navigation} />
@@ -33,8 +28,7 @@ const ExpandedPost = ({navigation}) => {
   )
 }
 
-const Header = ({ navigation, route }) => {
-      //const currentPost = post.route.params.uid
+const Header = ({navigation}) => {
 
   return (
       <View style={styles.headerContainer}>
@@ -51,8 +45,6 @@ const Header = ({ navigation, route }) => {
     </View>
   )
 }
-
-
 
 const styles = StyleSheet.create({
   container: {
