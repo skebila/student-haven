@@ -121,14 +121,14 @@ const Person = ({navigation, to}) => {
             >
                 <View style={{flexDirection:'row', justifyContent: 'flex-start', alignItems: 'center'}}>
                     <Image // profile image
-                        source={{uri: person.profile_picture}} style={styles.postHeaderImage}/>
+                        source={{uri: person == null ? '' : person.profile_picture}} style={styles.postHeaderImage}/>
                     <Text
                         style={{
                             fontSize: 20,
                             color: 'white',
                             fontWeight: "bold",
                             textAlign: 'center',
-                        }}>{person.username}</Text>
+                        }}>{person == null ? '' : person.username}</Text>
                 </View>
             </TouchableOpacity>
             <Divider style={{ marginTop: 20, opacity: .3 }} />
