@@ -8,41 +8,14 @@ import React, { useEffect, useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
 import { db, firebase } from '../firebase';
 
-const ExpandedPost = ({navigation, route}) => {
-  db.collection('post')
-  .get()
-  .then(snap => {
-      snap.forEach(doc => {
-          console.log(doc.data());
-          console.log(doc.id);
-      });
-  });
-  
+const ExpandedPost = ({ navigation }) => {
+
   return (
     <SafeAreaView style={styles.container}>
-      <Header navigation={navigation} />
-      <ScrollView style={{marginBottom: 10}}>
-        
+      <ScrollView style={{ marginBottom: 10 }}>
+        <Text style={styles.headerText}>Expanded post page</Text>
       </ScrollView>
         </SafeAreaView>
-  )
-}
-
-const Header = ({navigation}) => {
-
-  return (
-      <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={()=> navigation.goBack()}>
-          <Ionicons name='chevron-back-outline' style={styles.icon} />
-        </TouchableOpacity>
-      <Text style={styles.headerText}>Events</Text>
-      <TouchableOpacity
-          style={{ marginRight: 20 }}
-          onPress={()=> navigation.push('EventAddPostScreen')}
-        >
-            <Entypo name='squared-plus' style={styles.icon} />
-          </TouchableOpacity>
-    </View>
   )
 }
 
@@ -80,9 +53,9 @@ const styles = StyleSheet.create({
         borderColor: '#E5E5E5',
     },
     footerIcon: {
-        fontSize: 25,
-        color: 'white',
         marginRight: 5,
+        width: 25,
+        height: 25,
     },
     footerIconContainer: {
         flexDirection: 'row',
@@ -97,6 +70,5 @@ const styles = StyleSheet.create({
         transform: [{rotate: '90deg'}]
     }
 })
-
 
 export default ExpandedPost

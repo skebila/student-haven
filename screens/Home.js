@@ -34,7 +34,7 @@ const Home = ({ navigation }) => {
       <Header navigation={navigation}/>
       <ScrollView style={{marginBottom: 70}}>
         {posts.map((post, index) => ( //gets the post, maps it and displays it on the app UI
-          <Post user={ user}  post={post} key={index} navigation={navigation} /> 
+          <Post user={user} post={post} key={index} navigation={navigation} /> 
           
         ))}
       </ScrollView>

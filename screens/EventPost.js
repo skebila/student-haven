@@ -107,8 +107,11 @@ const PostBody = ({ post, navigation }) => {
                             </Text>
                         </TouchableOpacity>
 
-                        <Text //post menu button
-                            style={{ color: 'white', fontWeight: '900', margin: 10, marginBottom: 0, }}>...</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate("ExpandedPostScreen", { id: post.id })}>
+                            <Text //post menu button
+                                style={{ color: 'white', fontWeight: '900', margin: 10, marginBottom: 0, }}>...
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                     <Topics //Topics (Clickable)
                         post={post} navigation={navigation} />
@@ -116,7 +119,7 @@ const PostBody = ({ post, navigation }) => {
                         post={post}
                     />
                     <PostFooter //post footer
-                        post={post} handleLike={handleLike}
+                        post={post} handleLike={handleLike} navigation={navigation}
                     />
                 </View>
             </View>
@@ -159,33 +162,49 @@ const PostImage = ({ post }) => (
     </View>
 )
 
-const PostFooter = ({ handleLike, post }) => (
-    <View>
-        <Text //caption
-            style={{
-            color: 'white',
-            marginBottom: 5,
-            fontWeight: '500',
-            marginTop: 4,
-            }}>
-            {post.caption}
-        </Text>
-        <View //Icons (Like, Comment, Share)
-            style={{ flexDirection: 'row', justifyContent:'space-between' }}>
+const PostFooter = ({ handleLike, post, navigation }) => {
+    //sets the user profile
+    const [user, setUser] = useState([])
+    //sets the number of post that has been created by the user
+    useEffect(() => {
+        // fetching user data from firebase
+        db.collection('users')
+            .where('email', '==', post.owner_email)
+            .get()
+            .then(snapshot => {
+                snapshot.forEach(doc => {
+                    setUser(doc.data())
+                })
+            })
+    }, [])
+
+    return (
+        <View>
+            <Text //caption
+                style={{
+                    color: 'white',
+                    marginBottom: 5,
+                    fontWeight: '500',
+                    marginTop: 4,
+                }}>
+                {post.caption}
+            </Text>
+            <View //Icons (Like, Comment, Share)
+                style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <View //Icons (Like, Comment, Share)
                     style={{ flexDirection: 'row' }}>
-                <TouchableOpacity
-                    onPress={() => handleLike(post)}
-                    style={styles.footerIconContainer}>
+                    <TouchableOpacity
+                        onPress={() => handleLike(post)}
+                        style={styles.footerIconContainer}>
                         <Image
                             style={styles.footerIcon}
-                        source={{
-                            uri: post.likes_by_users.includes(firebase.auth().currentUser.email
-                            ) ? postFooterIcons[0].likedImageUrl : postFooterIcons[0].imageUrl
-                        }}
+                            source={{
+                                uri: post.likes_by_users.includes(firebase.auth().currentUser.email
+                                ) ? postFooterIcons[0].likedImageUrl : postFooterIcons[0].imageUrl
+                            }}
                         />
-                            <Likes //likes count
-                                post={post} />
+                        <Likes //likes count
+                            post={post} />
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.footerIconContainer}>
@@ -199,9 +218,9 @@ const PostFooter = ({ handleLike, post }) => (
                             post={post} />
                     </TouchableOpacity>
                 </View>
-                    <View //Icons (Like, Comment, Share)
+                <View //Icons (Like, Comment, Share)
                     style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate("MessengerScreen", { email: user.email })}>
                         <Image
                             style={styles.footerIcon}
                             source={{
@@ -211,8 +230,9 @@ const PostFooter = ({ handleLike, post }) => (
                     </TouchableOpacity>
                 </View>
             </View>
-    </View>
-)
+        </View>
+    )
+}
 
 const Likes = ({ post }) => ( //likes per post
     <Text style={{ color: 'white', fontSize: 11 }}>
@@ -228,25 +248,11 @@ const CommentsCount = ({ post }) => ( //post count per post
     </Text>
 )
 
-const Topics = ({ post, navigation }) => {
+const Topics = ({ post }) => {
     return (
 
     <View style={{ marginBottom: 10, flexDirection:'row' }}>
-            <Text style={{ opacity: .7, color: 'white', fontWeight: '900' }}>{post.topic}: </Text>
-            <TouchableOpacity
-                //onPress={() => navigation.push(post.topic + 'PostScreen')}
-            >
-            <Text
-                style={{
-                    color: '#6BB0F5',
-                    fontWeight: '700',
-                    textDecorationLine: 'underline'
-                }}
-                onPress={() => navigation.navigate('ExpandedPostScreen', {
-              paramKey: post,
-            })}
-            >View more</Text>
-        </TouchableOpacity>
+            <Text style={{ opacity: .7, color: 'white', fontWeight: '700', fontSize: 10 }}>{post.topic} </Text>
     </View>
 
 )}
