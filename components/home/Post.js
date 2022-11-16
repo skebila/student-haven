@@ -5,9 +5,10 @@ import React, {useState, useEffect} from 'react'
 import { View, Text, Image, StyleSheet, TouchableOpacity, Alert } from 'react-native'
 import { Divider } from 'react-native-elements/dist/divider/Divider'
 import { Ionicons } from 'react-native-vector-icons';
+import {firebase, db} from '../../firebase';
 
 
-const Post = ({post, navigation}) => {
+const Post = ({ post, navigation }) => {
   return (
       <View>
           <Divider style={{ marginBottom: 5, opacity: .3 }} />
@@ -18,50 +19,76 @@ const Post = ({post, navigation}) => {
   )
 }
 
-const PostBody = ({post, navigation}) => (
-    <View
-        style={{
-            flexDirection: 'row',
-            justifyContent: 'space-evenly',
-            margin: 5,
-            paddingBottom: 10,
-            alignItems: 'flex-start',
-    }}>
+const PostBody = ({ post, navigation }) => {
+    const handleLike = () => {
+        const currentLikeStatus = !post.likes_by_users.includes(
+            firebase.auth().currentUser.email
+        )
 
-        <Image //post profile image
-            source={{ uri: post.profile_picture }} style={styles.postHeaderImage} />
+        db.collection('users')
+            .doc(post.owner_email)
+            .collection('posts')
+            .doc(post.id)
+            .update({
+                likes_by_users: currentLikeStatus
+                    ? firebase.firestore.FieldValue.arrayUnion(
+                        firebase.auth().currentUser.email
+                    )
+                    : firebase.firestore.FieldValue.arrayRemove(
+                        firebase.auth().currentUser.email
+                    ),
+            }).then(() => {
+            console.log('Like works')
+            })
+            .catch(error => {
+            console.error('Error updating likes: ', error)
+        })
+    }
+    return (
+        <View
+            style={{
+                flexDirection: 'row',
+                justifyContent: 'space-evenly',
+                margin: 5,
+                paddingBottom: 10,
+                alignItems: 'flex-start',
+            }}>
 
-        <View style={{ flexDirection: 'column', width: '80%', marginRight: 10}}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2}}>
-                <TouchableOpacity
-                    onPress={() => navigation.navigate("UserProfileScreen", {username: post.user})}
-                >
-                    <Text //user name
-                        style={{
-                            color: 'white',
-                            margin: 10,
-                            marginBottom: 0,
-                            marginLeft: 0,
-                            fontWeight: '900',
-                        }}>
-                        {post.user} 
-                    </Text>
-                </TouchableOpacity>
+            <Image //post profile image
+                source={{ uri: post.profile_picture }} style={styles.postHeaderImage} />
 
-                <Text //post menu button
-                    style={{ color: 'white', fontWeight: '900', margin: 10, marginBottom: 0, }}>...</Text>
+            <View style={{ flexDirection: 'column', width: '80%', marginRight: 10 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2 }}>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("UserProfileScreen", { username: post.user })}
+                    >
+                        <Text //user name
+                            style={{
+                                color: 'white',
+                                margin: 10,
+                                marginBottom: 0,
+                                marginLeft: 0,
+                                fontWeight: '900',
+                            }}>
+                            {post.user}
+                        </Text>
+                    </TouchableOpacity>
+
+                    <Text //post menu button
+                        style={{ color: 'white', fontWeight: '900', margin: 10, marginBottom: 0, }}>...</Text>
+                </View>
+                <Topics //Topics (Clickable)
+                    post={post} navigation={navigation} />
+                <PostImage //post image
+                    post={post}
+                />
+                <PostFooter //post footer
+                    post={post} handleLike={handleLike}
+                />
             </View>
-            <Topics //Topics (Clickable)
-                post={post} navigation={navigation} />
-            <PostImage //post image
-                post={post}
-            />
-            <PostFooter //post footer
-                post={post}
-            />
         </View>
-    </View>
-)
+    )
+}
 
 const PostImage = ({ post }) => (
     <View
@@ -81,7 +108,7 @@ const PostImage = ({ post }) => (
     </View>
 )
 
-const PostFooter = ({ post }) => (
+const PostFooter = ({ handleLike, post }) => (
     <View>
         <Text //caption
             style={{
@@ -96,14 +123,27 @@ const PostFooter = ({ post }) => (
             style={{ flexDirection: 'row', justifyContent:'space-between' }}>
                 <View //Icons (Like, Comment, Share)
                     style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity style={styles.footerIconContainer}>
-                        <Ionicons name='heart-outline' style={styles.footerIcon} />
-                        <Likes //likes count
-                            post={post} />
+                <TouchableOpacity
+                    onPress={() => handleLike(post)}
+                    style={styles.footerIconContainer}>
+                        <Image
+                            style={styles.footerIcon}
+                        source={{
+                            uri: post.likes_by_users.includes(firebase.auth().currentUser.email
+                            ) ? postFooterIcons[0].likedImageUrl : postFooterIcons[0].imageUrl
+                        }}
+                        />
+                            <Likes //likes count
+                                post={post} />
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.footerIconContainer}>
-                        <Ionicons name='chatbox-outline' style={styles.footerIcon} />
+                        <Image
+                            style={styles.footerIcon}
+                            source={{
+                                uri: postFooterIcons[1].imageUrl
+                            }}
+                        />
                         <CommentsCount
                             post={post} />
                     </TouchableOpacity>
@@ -111,7 +151,12 @@ const PostFooter = ({ post }) => (
                     <View //Icons (Like, Comment, Share)
                     style={{ flexDirection: 'row' }}>
                     <TouchableOpacity>
-                        <Ionicons name='share-outline' style={styles.shareIcon} />
+                        <Image
+                            style={styles.footerIcon}
+                            source={{
+                                uri: postFooterIcons[2].imageUrl
+                            }}
+                        />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -120,7 +165,7 @@ const PostFooter = ({ post }) => (
 
 const Likes = ({ post }) => ( //likes per post
     <Text style={{ color: 'white', fontSize: 11 }}>
-        {post.likes.toLocaleString('en') != 1 ? post.likes.toLocaleString('en') + ' Likes' : post.likes.toLocaleString('en') + ' Like'}
+        {post.likes_by_users.length.toLocaleString('en') != 1 ? post.likes_by_users.length.toLocaleString('en') + ' Likes' : post.likes_by_users.length.toLocaleString('en') + ' Like'}
     </Text>
 )
 
@@ -163,7 +208,24 @@ const Topics = ({ post, navigation }) => {
         </TouchableOpacity>
     </View>
 
-)}
+    )
+}
+
+const postFooterIcons = [
+    {
+        name: 'Like',
+        imageUrl: 'https://cdn.iconfinder.com/stored_data/717149/128/png?token=1668574367-pvqHgoXImoZmFskgGrw937Bk7KlP68ncVekPAaAVGEs%3D',
+        likedImageUrl: 'https://cdn0.iconfinder.com/data/icons/twitter-24/512/166_Heart_Love_Like_Twitter-512.png'
+    },
+    {
+        name: 'Comment',
+        imageUrl: 'https://cdn.iconfinder.com/stored_data/717184/128/png?token=1668576825-h7sMvaaKlq4bQU7e6yv%2BeF7bpYi%2BjUEuUe01jfNeSNQ%3D',
+    },
+    {
+        name: 'Message',
+        imageUrl: 'https://cdn.iconfinder.com/stored_data/717173/128/png?token=1668576291-y7YW3%2FGHF4TegZXyDHL0JmC6xxXuf55s5MKdfHS3muw%3D',
+    }
+]
 
 const styles = StyleSheet.create({ //styles
     postHeaderImage: {
@@ -175,9 +237,9 @@ const styles = StyleSheet.create({ //styles
         borderColor: '#E5E5E5',
     },
     footerIcon: {
-        fontSize: 25,
-        color: 'white',
         marginRight: 5,
+        width: 25,
+        height: 25,
     },
     footerIconContainer: {
         flexDirection: 'row',

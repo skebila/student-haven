@@ -25,7 +25,7 @@ const Home = ({ navigation }) => {
     db.collectionGroup('posts')
       .orderBy('createdAt', 'desc')
       .onSnapshot(snapshot => {
-      setPosts(snapshot.docs.map(doc => doc.data())) 
+        setPosts(snapshot.docs.map(post => ({ id: post.id, ...post.data() }))) 
     })
   }, [])
 
