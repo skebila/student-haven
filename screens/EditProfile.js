@@ -1,8 +1,8 @@
 import {RefreshControl, Modal, TextInput, View, Text, SafeAreaView, StyleSheet, Image, TouchableOpacity, Alert} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import {ScrollView} from 'react-native-gesture-handler'
-import { db, firebase, storage } from '../firebase'
-import DatePicker from 'react-native-datepicker'
+import { db, firebase, storage } from '../firebase';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 
@@ -50,6 +50,7 @@ const EditProfile = ({ navigation }) => {
     const [date, setDate] = useState(new Date())
     const [radio, setRadio] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
+    const [datePicker, setDatePicker] = useState(false);
     const [image, setImage] = useState(null);
     const radio_props = [
         {label: 'Male', value: 0 },
@@ -68,7 +69,7 @@ const EditProfile = ({ navigation }) => {
             .onSnapshot(snapshot => {
                 setUser(snapshot.data())
                 setRadio(snapshot.data().gender)
-                setDate(snapshot.data().birthday)
+                setDate(new Date(snapshot.data().birthday))
                 setImage(snapshot.data().profile_picture);
             })
     }, [refreshing])
@@ -76,25 +77,27 @@ const EditProfile = ({ navigation }) => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
         }).then((result)=>{
-            if (!result.cancelled) {
-                const {height, width, type, uri} = result;
-                setImage(uri);
-                return uriToBlob(uri);
-            }else{
-                return null
-            }
+            if(result != undefined)
+                if (!result.canceled) {
+                    const uri = result.assets[0].uri;
+                    setImage(uri);
+                    return uriToBlob(uri);
+                }else{
+                    return null
+                }
         }).then((blob)=>{
             if(blob)
                 return uploadToFirebase(blob);
         }).then((snapshot)=>{
-            console.log("File uploaded");
+            if(snapshot)
+                console.log("File uploaded");
         }).catch((error)=>{
             throw error;
         });
-        console.log(result);
-        if (!result.cancelled) {
-            setImage(result.uri);
-        }
+        if(result !== undefined)
+            if (!result.canceled) {
+                setImage(result.assets[0].uri);
+            }
     };
 
     return (
@@ -113,7 +116,7 @@ const EditProfile = ({ navigation }) => {
                         textAlign: 'center',
                     }}>Edit Profile</Text>
                 <TouchableOpacity
-                    onPress={() => updateUser(navigation, user.name, user.username, user.bio, user.phone, radio, date)}
+                    onPress={() => updateUser(navigation, user.name, user.username, user.bio, user.phone, radio, date.toDateString())}
                 >
                     <Text style={{color: 'dodgerblue', fontSize: 15, fontWeight: "bold"}}>Done</Text>
                 </TouchableOpacity>
@@ -316,31 +319,26 @@ const EditProfile = ({ navigation }) => {
                                     borderColor: '#444444'
                                 },
                             ]}>
-                                <DatePicker
-                                    style={{width: '100%'}}
-                                    date={date}
-                                    mode="date"
-                                    placeholder="select date"
-                                    format="YYYY-MM-DD"
-                                    minDate="1950-01-01"
-                                    maxDate="2022-09-01"
-                                    confirmBtnText="Confirm"
-                                    cancelBtnText="Cancel"
-                                    customStyles={{
-                                        dateIcon: {
-                                            position: 'absolute',
-                                            left: 0,
-                                            top: 4,
-                                            marginLeft: 0
-                                        },
-                                        dateInput: {
-                                            marginLeft: 36
-                                        }
-                                    }}
-                                    onDateChange={(d) => {
+                            <TouchableOpacity
+                                onPress={() => setDatePicker(true)}
+                                style={{width: '100%', marginVertical: '5%'}}>
+                                <Text style={{fontSize: 15, fontWeight: "bold"}}>
+                                    {date.toDateString()}
+                                </Text>
+                            </TouchableOpacity>
+                            {datePicker && (
+                                <DateTimePicker
+                                    value={date}
+                                    mode={'date'}
+                                    display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                                    is24Hour={true}
+                                    onChange={(event, d) => {
                                         setDate(d)
+                                        setDatePicker(false)
                                     }}
+                                    style={{width: '100%'}}
                                 />
+                            )}
                             </View>
                         </View>
                         <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',}}>
