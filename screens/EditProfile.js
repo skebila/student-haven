@@ -8,6 +8,10 @@ import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-
 
 // Done by Mona G
 const updateUser = async (navigation, name, username, bio, phone, gender, birthday) => {
+    if(phone.length !== 10){
+        Alert.alert('Alert', 'Phone number should be of 10 digits.');
+        return;
+    }
     try {
         db.collection('users')
             .doc(firebase.auth().currentUser.email)
@@ -23,7 +27,7 @@ const updateUser = async (navigation, name, username, bio, phone, gender, birthd
                 navigation.pop();
             })
     } catch (error) {
-        Alert.alert('Error in updating profile. Try again later')
+        Alert.alert('Error', 'Error in updating profile. Try again later')
     }
 }
 const deleteProfilePic = async () => {
@@ -51,7 +55,7 @@ const EditProfile = ({ navigation }) => {
     const [radio, setRadio] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
     const [datePicker, setDatePicker] = useState(false);
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState('https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png');
     const radio_props = [
         {label: 'Male', value: 0 },
         {label: 'Female', value: 1 }
@@ -143,7 +147,7 @@ const EditProfile = ({ navigation }) => {
                             paddingBottom: 10,
                             alignItems: 'center',
                         }}>
-                        {<Image source={{ uri: user == null ? '' : image }} style={styles.postHeaderImage} />}
+                        {<Image source={{ uri: image }} style={styles.postHeaderImage} />}
                         <View>
                             <Modal
                                 animationType="slide"
@@ -209,7 +213,7 @@ const EditProfile = ({ navigation }) => {
                                 <TextInput
                                     style={styles.textInput}
                                     placeholderTextColor='#CDD0CB'
-                                    placeholder={user == null ? "" : user.name}
+                                    defaultValue={user == null ? "" : user.name}
                                     autoCapitalize='none'
                                     keyboardType='default'
                                     keyboardAppearance='dark'
@@ -236,7 +240,7 @@ const EditProfile = ({ navigation }) => {
                                 <TextInput
                                     style={styles.textInput}
                                     placeholderTextColor='#CDD0CB'
-                                    placeholder={user == null ? "" : user.phone}
+                                    defaultValue={user == null ? "" : user.phone}
                                     autoCapitalize='none'
                                     keyboardType='default'
                                     keyboardAppearance='dark'
@@ -322,7 +326,7 @@ const EditProfile = ({ navigation }) => {
                             <TouchableOpacity
                                 onPress={() => setDatePicker(true)}
                                 style={{width: '100%', marginVertical: '5%'}}>
-                                <Text style={{fontSize: 15, fontWeight: "bold"}}>
+                                <Text style={{fontSize: 15, color: 'white'}}>
                                     {date.toDateString()}
                                 </Text>
                             </TouchableOpacity>
@@ -352,7 +356,7 @@ const EditProfile = ({ navigation }) => {
                                 <TextInput
                                     style={styles.textInput}
                                     placeholderTextColor='#CDD0CB'
-                                    placeholder={user == null ? '' : user.bio}
+                                    defaultValue={user == null ? '' : user.bio}
                                     autoCapitalize='none'
                                     keyboardType='default'
                                     keyboardAppearance='dark'
@@ -505,7 +509,7 @@ const styles = StyleSheet.create({
     },
     modalView: {
         margin: 20,
-        backgroundColor: "white",
+        backgroundColor: "#1b1c1b",
         borderRadius: 20,
         padding: 35,
         alignItems: "center",
@@ -522,7 +526,7 @@ const styles = StyleSheet.create({
         width: "100%",
         height: 40,
         margin: 10,
-        backgroundColor: "#E8E8E8"
+        backgroundColor: "#232623"
     },
     textStyle: {
         fontSize: 20,
