@@ -1,7 +1,6 @@
 import { View, Text, FlatList, Button, TextInput, StyleSheet, SafeAreaView } from 'react-native'
 import { React, useState, useEffect } from 'react'
 import {firebase, db} from '../firebase'
-import { color } from 'react-native-reanimated'
 
 const Comments = (props, navigation) => {
   const [comments, setComments] = useState([])
@@ -50,6 +49,7 @@ const Comments = (props, navigation) => {
   },[props.route.params.postId])
 
   const onCommentSend = () => {
+
     db.collection('users')
       .doc(props.route.params.uid)
       .collection('posts')
@@ -58,9 +58,8 @@ const Comments = (props, navigation) => {
       .add({
         creator: firebase.auth().currentUser.uid,
         username: currentLoggedInUser.username,
-        text
+        text,
       })
-    
   }
 
   return (
