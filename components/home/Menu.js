@@ -36,7 +36,7 @@ const Menu = ({navigation}) => {
                             }
                         >
                             <Ionicons name='settings-outline' style={styles.buttonIcon} />
-                            <Text style={[{color: "black"},styles.textStyle]}>Settings</Text>
+                            <Text style={[{color: "white"},styles.textStyle]}>Settings</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button}
@@ -46,7 +46,7 @@ const Menu = ({navigation}) => {
                             }}
                         >
                             <Ionicons name='information-circle-outline' style={styles.buttonIcon} />
-                            <Text style={[{color: "black"},styles.textStyle]}>About</Text>
+                            <Text style={[{color: "white"},styles.textStyle]}>About</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button}
@@ -56,7 +56,7 @@ const Menu = ({navigation}) => {
                             }}
                         >
                             <Ionicons name='help-circle-outline' style={styles.buttonIcon} />
-                            <Text style={[{color: "black"},styles.textStyle]}>Help</Text>
+                            <Text style={[{color: "white"},styles.textStyle]}>Help</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button}
@@ -66,14 +66,14 @@ const Menu = ({navigation}) => {
                             }}
                         >
                             <Ionicons name='log-out-outline' style={styles.buttonIcon} />
-                            <Text style={[{color: "black"},styles.textStyle]}>Sign out</Text>
+                            <Text style={[{color: "white"},styles.textStyle]}>Sign out</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button}
                             onPress={() => setModalVisible(!modalVisible)}
                         >
                             <Ionicons name='close' style={styles.buttonIcon} />
-                            <Text style={[{color: "black"},styles.textStyle]}>Cancel</Text>
+                            <Text style={[{color: "white"},styles.textStyle]}>Cancel</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     },
     modalView: {
         margin: 20,
-        backgroundColor: "white",
+        backgroundColor: "#1b1c1b",
         borderRadius: 20,
         padding: 35,
         alignItems: "center",
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
         width: "100%",
         height: 30,
         margin: 10,
-        backgroundColor: "#E8E8E8"
+        backgroundColor: "#232623"
     },
     textStyle: {
         fontSize: 20,
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
         textAlign: "center"
     },
     buttonIcon: {
-        color: 'black',
+        color: 'white',
         fontSize: 20,
         marginRight: 10
     },
