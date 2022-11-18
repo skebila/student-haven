@@ -1,8 +1,6 @@
 /**@author Steven Kebila
 *
 */
-
-
 import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Header from '../components/home/Header'

@@ -59,7 +59,7 @@ const FormikPostUploader = ({navigation}) => {
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         likes: 0,
         likes_by_users: [],
-        comments: [],
+        owner_email: firebase.auth().currentUser.email
       })
       .then(() => navigation.goBack())
     

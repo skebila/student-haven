@@ -1,21 +1,44 @@
 /**@author Steven Kebila
 *
 */
-import { View, Text, Image, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native'
-import { Ionicons, Entypo } from 'react-native-vector-icons';
-import { Divider } from 'react-native-elements/dist/divider/Divider'
-import React, { useEffect, useState } from 'react'
-import { ScrollView } from 'react-native-gesture-handler'
-import { db, firebase } from '../firebase';
 
-const ExpandedPost = ({ navigation }) => {
+
+import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import Header from '../components/home/Header'
+import Post from '../components/home/Post'
+import { ScrollView } from 'react-native-gesture-handler'
+import { db, firebase } from '../firebase'
+import BottomTabs from '../components/home/BottomTabs'
+
+const ExpandedPost = ( props ) => {
+
+  const [postId, setPostId] = useState([])
+  const [post, setPost] = useState([])
+  //sets the post that has been created by the user, orders them by time created in descending order
+  useEffect(() => {
+    if (props.route.params.postId !== postId) {
+      db.collection('users')
+        .doc(props.route.params.uid)
+        .collection('posts')
+        .doc(props.route.params.postId)
+        .onSnapshot(snapshot => {
+          setPost(snapshot.data()) 
+        })
+      
+     
+      setPostId(props.route.params.postId)
+      }
+      
+    }, [props.route.params.postId]
+  )
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={{ marginBottom: 10 }}>
-        <Text style={styles.headerText}>Expanded post page</Text>
-      </ScrollView>
-        </SafeAreaView>
+      <View style={{marginBottom: 70}}>
+        <Text style={{color:'white'}}>{ post.caption }</Text>
+      </View>
+    </SafeAreaView>
   )
 }
 

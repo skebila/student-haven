@@ -29,6 +29,7 @@ import ExpandedPost from '../screens/ExpandedPost';
 import About from "../screens/About";
 import Help from "../screens/Help";
 import ChangePassword from "../screens/ChangePassword";
+import Comments from '../screens/Comments';
 
 const Stack = createStackNavigator()
 
@@ -60,6 +61,7 @@ export const SignedInStack = () => (
             <Stack.Screen name="AccommodationAddPostScreen" component={AccommodationAddPost} />
             <Stack.Screen name="EventAddPostScreen" component={EventAddPost} />
             <Stack.Screen name="ExpandedPostScreen" component={ExpandedPost} />
+            <Stack.Screen name="CommentsScreen" component={Comments} />
         </Stack.Navigator>
     </NavigationContainer>
 )

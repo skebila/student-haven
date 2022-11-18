@@ -27,6 +27,8 @@
     },
     "web": {
       "favicon": ""
-    }
+    },
+    "description": "A social media platform for students",
+    "githubUrl": "https://github.com/skebila/student-haven"
   }
 }
