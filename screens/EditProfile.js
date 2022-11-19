@@ -323,18 +323,18 @@ const EditProfile = ({ navigation }) => {
                                     borderColor: '#444444'
                                 },
                             ]}>
-                            <TouchableOpacity
+                            {!datePicker && (<TouchableOpacity
                                 onPress={() => setDatePicker(true)}
                                 style={{width: '100%', marginVertical: '5%'}}>
                                 <Text style={{fontSize: 15, color: 'white'}}>
                                     {date.toDateString()}
                                 </Text>
-                            </TouchableOpacity>
+                            </TouchableOpacity>)}
                             {datePicker && (
                                 <DateTimePicker
                                     value={date}
                                     mode={'date'}
-                                    display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                                    display={'default'}
                                     is24Hour={true}
                                     onChange={(event, d) => {
                                         setDate(d)
