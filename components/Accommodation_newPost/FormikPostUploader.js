@@ -47,7 +47,6 @@ const FormikPostUploader = ({navigation}) => {
       .doc(firebase.auth().currentUser.email) 
       .collection('posts')
       .add({
-        post_id: id,
         topic: 'Accommodation',
         imageUrl: imageUrl, //image-picker
         user: currentLoggedInUser.username,

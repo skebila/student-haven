@@ -46,7 +46,7 @@ const FormikPostUploader = ({navigation}) => {
       .doc(firebase.auth().currentUser.email) 
       .collection('posts')
       .add({
-        topic: topic,
+        topic: 'Events',
         imageUrl: imageUrl, //image-picker
         user: currentLoggedInUser.username,
         profile_picture: currentLoggedInUser.profilePicture,
@@ -60,7 +60,8 @@ const FormikPostUploader = ({navigation}) => {
         event_name: event_name,
         event_date: event_date, //date-picker
         // age_restriction: age_restriction, //dropdown
-        ticket_price: ticket_price //number-field
+        ticket_price: ticket_price, //number-field
+        owner_email: firebase.auth().currentUser.email
         //Add some restrictions
       })
       .then(() => navigation.goBack())
@@ -97,7 +98,7 @@ const FormikPostUploader = ({navigation}) => {
                       </View>
 
                       <TextInput //Address Input
-                        style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
+                        style={{ color: 'white', fontSize: 14, fontWeight: '600', marginBottom: 25, backgroundColor: '#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5 }}
                         placeholder='Enter address'
                         placeholderTextColor='gray'
                         multiline={true}
@@ -107,7 +108,7 @@ const FormikPostUploader = ({navigation}) => {
                         />
 
                       <TextInput //Event Name Input
-                        style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
+                        style={{ color: 'white', fontSize: 14, fontWeight: '600', marginBottom: 25, backgroundColor: '#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5 }}
                         placeholder='Enter Event Name'
                         placeholderTextColor='gray'
                         multiline={true}
@@ -117,7 +118,7 @@ const FormikPostUploader = ({navigation}) => {
                         />
 
                       <TextInput //Event Date Input
-                        style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
+                        style={{ color: 'white', fontSize: 14, fontWeight: '600', marginBottom: 25, backgroundColor: '#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5 }}
                         placeholder='Enter Event Date'
                         placeholderTextColor='gray'
                         multiline={true}
@@ -127,7 +128,7 @@ const FormikPostUploader = ({navigation}) => {
                         />
 
                       <TextInput //Ticket Price Input
-                        style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
+                        style={{ color: 'white', fontSize: 14, fontWeight: '600', marginBottom: 25, backgroundColor: '#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5 }}
                         placeholder='Enter Ticket Price'
                         placeholderTextColor='gray'
                         multiline={true}
@@ -137,7 +138,7 @@ const FormikPostUploader = ({navigation}) => {
                         />
 
                       <TextInput //Caption to post
-                        style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
+                        style={{ color: 'white', fontSize: 14, fontWeight: '600', marginBottom: 25, backgroundColor: '#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5 }}
                         placeholder='Add a caption'
                         placeholderTextColor='gray'
                         multiline={true}
