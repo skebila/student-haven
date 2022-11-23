@@ -96,7 +96,6 @@ const FormikPostUploader = ({navigation}) => {
       .add({
         topic: 'Events',
         imageUrl: imageURL, //image-picker
-        imageUrl: imageUrl, //image-picker
         user: currentLoggedInUser.username,
         profile_picture: currentLoggedInUser.profilePicture,
         owner_uid: firebase.auth().currentUser.uid,
