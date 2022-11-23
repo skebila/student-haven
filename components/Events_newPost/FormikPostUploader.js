@@ -111,6 +111,7 @@ const FormikPostUploader = ({navigation}) => {
     setShow(true);
   };
 
+
   //function uploads the user's post to firebase with image url, caption and all other fields mentioned below
   const uploadPostToFirebase = (caption, address, event_name, ticket_price)=>{
     const unsubscribe = db
