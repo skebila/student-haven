@@ -53,7 +53,7 @@ const FormikPostUploader = ({navigation}) => {
   
       console.log(result);
   
-      if (!result.canceled) {
+      if (!result.cancelled) {
         setImage(result.assets[0].uri);
         const uploadImage = async() => {
           const response = await fetch(result.assets[0].uri);
