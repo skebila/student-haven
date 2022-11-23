@@ -15,7 +15,7 @@ const Header = ({navigation}) => {
 
         <TouchableOpacity
           style={{ marginRight: 20 }}
-          onPress={()=> navigation.push('NewPostScreen')}
+          onPress={()=> navigation.push('SelectTopicScreen')}
         >
             <Entypo name='squared-plus' style={styles.icon} />
           </TouchableOpacity>

@@ -34,7 +34,7 @@ const EventPost = ({navigation}) => {
   )
 }
 
-const Header = ({post, navigation}) => {
+const Header = ({navigation}) => {
   return (
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={()=> navigation.goBack()}>
@@ -43,7 +43,7 @@ const Header = ({post, navigation}) => {
       <Text style={styles.headerText}>Events</Text>
       <TouchableOpacity
           style={{ marginRight: 20 }}
-          onPress={()=> navigation.push('EventAddPostScreen')}
+          onPress={()=> navigation.push('EventsAddPostScreen')}
         >
             <Entypo name='squared-plus' style={styles.icon} />
           </TouchableOpacity>

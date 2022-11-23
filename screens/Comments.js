@@ -64,13 +64,21 @@ const Comments = (props, navigation) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={{
+        color: 'white',
+        fontSize: 15,
+        fontWeight: '900',
+        textAlign: 'center',
+        marginBottom: 10,
+      }}>Comments</Text>
       <FlatList
+        style={{ marginBottom: 10, margin: 10}}
         numColumns={1}
         horizontal={false}
         data={comments}
         renderItem={({ item }) => (
-          <View style={{ marginBottom: 10 }}>
-            <Text style={{ color: 'white', color: '#F24A72', opacity: 0.8, fontWeight:'900', marginBottom: 5  }}>@{item.username}</Text>
+          <View style={{ marginBottom: 10}}>
+            <Text style={{ fontSize: 12, color: '#F24A72', opacity: 0.8, fontWeight: '800', marginBottom: 5 }}>-- {item.username}</Text>
             <Text style={{ color: 'white' }}>{item.text}</Text>
           </View>
         )}
@@ -78,7 +86,14 @@ const Comments = (props, navigation) => {
 
       <View>
         <TextInput
-          style={{color:'white', fontSize:14, fontWeight: '500',}}
+          style={{
+            color: 'black', 
+            fontSize: 14, 
+            fontWeight: '500', 
+            backgroundColor: 'white', 
+            padding: 15,
+            borderRadius: 5,
+          }}
           placeholder='comment here'
           placeholderTextColor='gray'
           onChangeText={(text) => setText(text)}
@@ -100,7 +115,7 @@ const Comments = (props, navigation) => {
 const styles = StyleSheet.create({
   container: {
       backgroundColor: 'black',
-      flex: 1,
+    flex: 1,
   },
   headerContainer: {
       justifyContent: 'space-between',

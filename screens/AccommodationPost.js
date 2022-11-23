@@ -48,7 +48,7 @@ const Header = ({navigation}) => {
 
       <TouchableOpacity
               style={{ marginRight: 20 }}
-            onPress={()=> navigation.push('AccommodationAddPostScreen', {username: post.user})}
+            onPress={()=> navigation.push('AccommodationAddPostScreen')}
         >
             <Entypo name='squared-plus' style={styles.icon} />
           </TouchableOpacity>
