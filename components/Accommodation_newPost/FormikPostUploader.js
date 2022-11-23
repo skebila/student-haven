@@ -1,4 +1,4 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, Picker } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import * as Yup from 'yup'
 import { Formik } from 'formik'
@@ -47,7 +47,7 @@ const FormikPostUploader = ({navigation}) => {
       .add({
         post_id: id,
         topic: 'Accommodation',
-        imageUrl: imageUrl,
+        imageUrl: imageUrl, //image-picker
         user: currentLoggedInUser.username,
         profile_picture: currentLoggedInUser.profilePicture,
         owner_uid: firebase.auth().currentUser.uid,
@@ -57,11 +57,11 @@ const FormikPostUploader = ({navigation}) => {
         likes_by_users: [],
         comments: [],
         address: address,
-        no_of_people: no_of_people,
-        status_required: status_required,
-        gender: gender,
-        date_move_in: date_move_in,
-        no_of_rooms: no_of_rooms
+        no_of_people: no_of_people, //number field
+        status_required: status_required, //this dropdown
+        gender: gender, //this dropdown
+        date_move_in: date_move_in, //date-picker
+        no_of_rooms: no_of_rooms //number field
       })
       .then(() => navigation.goBack())
     

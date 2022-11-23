@@ -40,14 +40,14 @@ const FormikPostUploader = ({navigation}) => {
   }, [])
 
   //function uploads the user's post to firebase with image url, caption and all other fields mentioned below
-  const uploadPostToFirebase = (imageUrl, caption, address, event_name, event_date, age_restriction, ticket_price)=>{
+  const uploadPostToFirebase = (imageUrl, caption, address, event_name, event_date, ticket_price)=>{
     const unsubscribe = db
       .collection('users')
       .doc(firebase.auth().currentUser.email) 
       .collection('posts')
       .add({
         topic: topic,
-        imageUrl: imageUrl,
+        imageUrl: imageUrl, //image-picker
         user: currentLoggedInUser.username,
         profile_picture: currentLoggedInUser.profilePicture,
         owner_uid: firebase.auth().currentUser.uid,
@@ -58,9 +58,9 @@ const FormikPostUploader = ({navigation}) => {
         comments: [],
         address: address,
         event_name: event_name,
-        event_date: event_date,
-        age_restriction: age_restriction,
-        ticket_price: ticket_price
+        event_date: event_date, //date-picker
+        // age_restriction: age_restriction, //dropdown
+        ticket_price: ticket_price //number-field
         //Add some restrictions
       })
       .then(() => navigation.goBack())
@@ -70,9 +70,9 @@ const FormikPostUploader = ({navigation}) => {
 
   return (
       <Formik
-          initialValues={{ caption: '', imageUrl: '', address: '',event_name: '', event_date: '', age_restriction: '', ticket_price: ''}}
+          initialValues={{ caption: '', imageUrl: '', address: '',event_name: '', event_date: '', ticket_price: ''}}
           onSubmit={values => {
-            uploadPostToFirebase(values.imageUrl, values.caption, values.address, values.event_name, values.event_date, values.age_restriction, values.ticket_price)
+            uploadPostToFirebase(values.imageUrl, values.caption, values.address, values.event_name, values.event_date, values.ticket_price)
             //addTopicToFirebase(values.topic)
           }}
           validationSchema={uploadPostSchema}
@@ -124,16 +124,6 @@ const FormikPostUploader = ({navigation}) => {
                         onChangeText={handleChange('event_date')}
                         onBlur={handleBlur('event_date')}
                         value={values.event_date}
-                        />
-
-                      <TextInput //Age Restriction Input
-                        style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
-                        placeholder='Enter Age Restriction'
-                        placeholderTextColor='gray'
-                        multiline={true}
-                        onChangeText={handleChange('age_restriction')}
-                        onBlur={handleBlur('age_restriction')}
-                        value={values.age_restriction}
                         />
 
                       <TextInput //Ticket Price Input

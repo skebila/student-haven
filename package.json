@@ -14,6 +14,7 @@
     "@react-navigation/drawer": "^6.5.0",
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/stack": "^6.2.1",
+    "axios": "^1.2.0",
     "cli": "^1.0.1",
     "email-validator": "^2.0.4",
     "expo": "^47.0.0",
