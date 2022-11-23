@@ -62,7 +62,8 @@ const FormikPostUploader = ({navigation}) => {
         status_required: status_required, //this dropdown
         gender: gender, //this dropdown
         date_move_in: date_move_in, //date-picker
-        no_of_rooms: no_of_rooms //number field
+        no_of_rooms: no_of_rooms, //number field
+        owner_email: firebase.auth().currentUser.email
       })
       .then(() => navigation.goBack())
     
@@ -73,7 +74,7 @@ const FormikPostUploader = ({navigation}) => {
       <Formik
           initialValues={{ caption: '', imageUrl: '', address: '', no_of_people: '', status_required: '', gender: '', date_move_in: '', no_of_rooms: ''}}
           onSubmit={values => {
-            uploadPostToFirebase(values.caption, values.imageUrl, values.address, values.no_of_people, values.status_required,values.gender, values.date_move_in, values.no_of_rooms)
+            uploadPostToFirebase(values.imageUrl, values.caption, values.address, values.no_of_people, values.status_required,values.gender, values.date_move_in, values.no_of_rooms)
           }}
           validationSchema={uploadPostSchema}
           validateOnMount={true}
@@ -107,7 +108,6 @@ const FormikPostUploader = ({navigation}) => {
                       />
                       <TextInput //Address Input
                         style={{ color: 'white', fontSize: 14, fontWeight: '600', marginBottom: 25, backgroundColor: '#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5 }}
-                        textContentType='streetAddressLine1'
                         placeholder='Enter address'
                         placeholderTextColor='gray'
                         keyboardType='email-address'
@@ -140,7 +140,7 @@ const FormikPostUploader = ({navigation}) => {
                       
                       <Text style={{color:'white', fontWeight:'700'}}>Select Gender:</Text>
                       <Picker //Picker for Gender
-                        style={{color:'white', fontSize: 14}}
+                        style={{color:'white', fontSize: 14, marginBottom: 25}}
                         itemStyle={{ color: 'white', fontWeight: '700', fontSize: 14 }}
                         selectedValue={values.gender}
                         onValueChange={handleChange('gender')}>
@@ -163,7 +163,7 @@ const FormikPostUploader = ({navigation}) => {
                     />*/}
 
                       <TextInput //Date to Move In Input
-                        style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
+                        style={{color:'white', fontSize:14, fontWeight: '600', marginBottom: 25, backgroundColor:'#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5}}
                         placeholder='Date to Move In This Accommodation'
                         placeholderTextColor='gray'
                         multiline={true}
@@ -173,7 +173,7 @@ const FormikPostUploader = ({navigation}) => {
                         />
 
                       <TextInput //No Of Rooms Input
-                        style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
+                        style={{color:'white', fontSize:14, fontWeight: '600', marginBottom: 25, backgroundColor:'#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5}}
                         placeholder='No of Rooms in this Accommodation'
                         placeholderTextColor='gray'
                         multiline={true}
