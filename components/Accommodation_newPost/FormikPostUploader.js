@@ -1,4 +1,4 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, StyleSheet } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import * as Yup from 'yup'
 import { Formik } from 'formik'
@@ -6,6 +6,7 @@ import { TextInput } from 'react-native-gesture-handler'
 import { Button, Divider } from 'react-native-elements'
 import validUrl from 'valid-url'
 import { db, firebase } from '../../firebase'
+import DateTimePicker from '@react-native-community/datetimepicker'
 
 const PLACEHOLDER_IMG = 'https://user-images.githubusercontent.com/101482/29592647-40da86ca-875a-11e7-8bc3-941700b0a323.png'
 const uploadPostSchema = Yup.object().shape({
@@ -16,7 +17,8 @@ const uploadPostSchema = Yup.object().shape({
 const FormikPostUploader = ({navigation}) => {
   const [thumbnailUrl, setThumbnailUrl] = useState(PLACEHOLDER_IMG)
   const [currentLoggedInUser, setCurrentLoggedInUser] = useState(null)
-  
+  const [date, setDate] = useState(new Date())
+
   //gets the image url and the username/email of the user that is currently logged in
   const getUsername = () => {
     const user = firebase.auth().currentUser 
@@ -132,8 +134,8 @@ const FormikPostUploader = ({navigation}) => {
                         onChangeText={handleChange('status_required')}
                         onBlur={handleBlur('status_required')}
                         value={values.status_required}
-                        />
-
+                      />                      
+            
                       <TextInput //Gender of Tenants allowed to apply Input
                         style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
                         placeholder='Gender of Tenants allowed to apply for this Accommodation'
@@ -143,6 +145,12 @@ const FormikPostUploader = ({navigation}) => {
                         onBlur={handleBlur('gender')}
                         value={values.gender}
                         />
+
+                      <DateTimePicker
+                        value={date}
+                        onChange={(value) => setDate(value)}
+                        format="yyyy-mm-dd"
+                      />
 
                       <TextInput //Date to Move In Input
                         style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
@@ -171,7 +179,7 @@ const FormikPostUploader = ({navigation}) => {
                       <Divider width={0.2} orientation='vertical' style={{marginBottom: 20}}/>
                       <TextInput //Image URL
                         onChange={e=> setThumbnailUrl(e.nativeEvent.text)}
-                        style={{color:'white', fontSize:14, fontWeight: '500',}}
+                        style={{color:'black', fontSize:14, fontWeight: '500',}}
                         placeholder='Enter Image Url'
                         placeholderTextColor='gray'
                         onChangeText={handleChange('imageUrl')}
@@ -196,5 +204,15 @@ const FormikPostUploader = ({navigation}) => {
     </Formik>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 40,
+    alignItems: "center",
+    backgroundColor: 'white',
+     color: 'black'
+  }
+});
 
 export default FormikPostUploader
