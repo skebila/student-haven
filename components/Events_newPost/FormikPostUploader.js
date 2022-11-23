@@ -180,6 +180,7 @@ const FormikPostUploader = ({navigation}) => {
                         placeholder='Enter Ticket Price'
                         placeholderTextColor='gray'
                         multiline={true}
+                        keyboardType='numeric'
                         onChangeText={handleChange('ticket_price')}
                         onBlur={handleBlur('ticket_price')}
                         value={values.ticket_price}

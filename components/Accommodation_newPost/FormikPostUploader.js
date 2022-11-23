@@ -1,4 +1,4 @@
-import { View, Text, Image, Picker, Platform } from 'react-native'
+import { View, Text, Image, Platform } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import * as Yup from 'yup'
 import { Formik } from 'formik'
@@ -6,6 +6,7 @@ import { TextInput } from 'react-native-gesture-handler'
 import { Button } from 'react-native-elements'
 import { db, firebase } from '../../firebase'
 import * as ImagePicker from 'expo-image-picker';
+import {Picker} from '@react-native-picker/picker'
 
 const uploadPostSchema = Yup.object().shape({
   //imageUrl: Yup.string().url().required('A URL is Required'),
@@ -109,7 +110,8 @@ const FormikPostUploader = ({navigation}) => {
         status_required: status_required, //this dropdown
         gender: gender, //this dropdown
         date_move_in: date_move_in, //date-picker
-        no_of_rooms: no_of_rooms //number field
+        no_of_rooms: no_of_rooms, //number field
+        owner_email: firebase.auth().currentUser.email
       })
       .then(() => navigation.goBack())
     
@@ -144,7 +146,7 @@ const FormikPostUploader = ({navigation}) => {
                       </View>
 
                       <TextInput //Caption to post
-                        style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
+                        style={{color:'white', fontSize:14, fontWeight: '600', marginBottom: 25, backgroundColor:'#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5}}
                         placeholder='Add a caption'
                         placeholderTextColor='gray'
                         multiline={true}
@@ -153,7 +155,7 @@ const FormikPostUploader = ({navigation}) => {
                         value={values.caption}
                       />
                       <TextInput //Address Input
-                        style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
+                        style={{color:'white', fontSize:14, fontWeight: '600', marginBottom: 25, backgroundColor:'#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5}}
                         placeholder='Enter address'
                         placeholderTextColor='gray'
                         multiline={true}
@@ -163,37 +165,45 @@ const FormikPostUploader = ({navigation}) => {
                         />
 
                         <TextInput //No_of_People Input
-                        style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
+                        style={{color:'white', fontSize:14, fontWeight: '600', marginBottom: 25, backgroundColor:'#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5}}
                         placeholder='No of people for Accommodation'
                         placeholderTextColor='gray'
                         multiline={true}
+                        keyboardType='numeric'
                         onChangeText={handleChange('no_of_people')}
                         onBlur={handleBlur('no_of_people')}
                         value={values.no_of_people}
                         />
                       
-                      <TextInput //Status_of_People Input
-                        style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
-                        placeholder='Status of tenants required for this Accommodation'
-                        placeholderTextColor='gray'
-                        multiline={true}
-                        onChangeText={handleChange('status_required')}
-                        onBlur={handleBlur('status_required')}
-                        value={values.status_required}
-                        />
-
-                      <TextInput //Gender of Tenants allowed to apply Input
-                        style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
-                        placeholder='Gender of Tenants allowed to apply for this Accommodation'
-                        placeholderTextColor='gray'
-                        multiline={true}
-                        onChangeText={handleChange('gender')}
-                        onBlur={handleBlur('gender')}
-                        value={values.gender}
-                        />
+                      <Text style={{color:'white', fontWeight:'700'}}>Select Your Status:</Text>
+                      <Picker //Picker for Gender
+                        style={{color:'white', fontSize: 14, marginBottom: 25}}
+                        itemStyle={{ color: 'white', fontWeight: '700', fontSize: 14 }}
+                        selectedValue={values.status_required}
+                        onValueChange={handleChange('status_required')}>
+                        <Picker.Item label="student" value="student" />
+                        <Picker.Item label="working proffessional" value="working proffessional" />
+                        <Picker.Item label="PR" value="PR" />
+                        <Picker.Item label="citizen" value="citizen" />
+                        <Picker.Item label="refugee" value="refugee" />
+                      </Picker>
+                      
+                      <Text style={{color:'white', fontWeight:'700'}}>Select Gender:</Text>
+                      <Picker //Picker for Gender
+                        style={{color:'white', fontSize: 14, marginBottom: 25}}
+                        itemStyle={{ color: 'white', fontWeight: '700', fontSize: 14 }}
+                        selectedValue={values.gender}
+                        onValueChange={handleChange('gender')}>
+                        <Picker.Item label="male" value="male" />
+                        <Picker.Item label="female" value="female" />
+                        <Picker.Item label="transgender" value="transgender" />
+                        <Picker.Item label="gender neutral" value="gender neutral" />
+                        <Picker.Item label="non-binary" value="non-binary" />
+                        <Picker.Item label="genderqueer" value="genderqueer" />
+                      </Picker>
 
                       <TextInput //Date to Move In Input
-                        style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
+                        style={{color:'white', fontSize:14, fontWeight: '600', marginBottom: 25, backgroundColor:'#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5}}
                         placeholder='Date to Move In This Accommodation'
                         placeholderTextColor='gray'
                         multiline={true}
@@ -203,9 +213,10 @@ const FormikPostUploader = ({navigation}) => {
                         />
 
                       <TextInput //No Of Rooms Input
-                        style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
+                        style={{color:'white', fontSize:14, fontWeight: '600', marginBottom: 25, backgroundColor:'#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5}}
                         placeholder='No of Rooms in this Accommodation'
                         placeholderTextColor='gray'
+                        keyboardType='numeric'
                         multiline={true}
                         onChangeText={handleChange('no_of_rooms')}
                         onBlur={handleBlur('no_of_rooms')}
