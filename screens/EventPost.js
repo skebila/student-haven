@@ -131,16 +131,16 @@ const PostBody = ({ post, navigation }) => {
 const postFooterIcons = [
     {
         name: 'Like',
-        imageUrl: 'https://cdn.iconfinder.com/stored_data/717149/128/png?token=1668748243-tr2R%2FggW2aS7qK%2BhDoVaZXMRGHpks43R0rTB%2BLdW6ZA%3D',
+        imageUrl: 'https://cdn.iconfinder.com/stored_data/729467/128/png?token=1669163120-dqviahPHVFtahhfrMchykkstIFBkupuyX99wnWlD8lw%3D',
         likedImageUrl: 'https://cdn0.iconfinder.com/data/icons/twitter-24/512/166_Heart_Love_Like_Twitter-512.png'
     },
     {
         name: 'Comment',
-        imageUrl: 'https://cdn.iconfinder.com/stored_data/717184/128/png?token=1668751508-oyJUjFWvkyqigohUvIq2JBRAK4Ilaer2i%2B06IRwA5Bw%3D',
+        imageUrl: 'https://cdn.iconfinder.com/stored_data/729461/128/png?token=1669162839-%2FP1yS3gP2AHlnFM87MXEuQJ%2BH1XsPGKWfehs17UoYKc%3D',
     },
     {
         name: 'Message',
-        imageUrl: 'https://cdn.iconfinder.com/stored_data/717173/128/png?token=1668576291-y7YW3%2FGHF4TegZXyDHL0JmC6xxXuf55s5MKdfHS3muw%3D',
+        imageUrl: 'https://cdn.iconfinder.com/stored_data/729462/128/png?token=1669162946-jI588Y1dDWoQkJeC7myHE3uRXkPR4EW63xvmg4CIsHg%3D',
     }
 ]
 
