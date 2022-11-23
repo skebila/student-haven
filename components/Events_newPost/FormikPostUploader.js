@@ -7,6 +7,7 @@ import { TextInput } from 'react-native-gesture-handler'
 import { Button} from 'react-native-elements'
 import { db, firebase } from '../../firebase'
 import * as ImagePicker from 'expo-image-picker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const PLACEHOLDER_IMG = 'https://user-images.githubusercontent.com/101482/29592647-40da86ca-875a-11e7-8bc3-941700b0a323.png'
 const uploadPostSchema = Yup.object().shape({
@@ -87,8 +88,31 @@ const FormikPostUploader = ({navigation}) => {
     }
   };
 
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(true);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(true);
+    setDate(currentDate);
+  };
+
+  const showMode = (currentMode) => {
+    if (Platform.OS === 'android') {
+      setShow(false);
+      // for iOS, add a button that closes the picker
+    }
+    setMode(currentMode);
+  };
+
+  const showDatePicker = () => {
+    showMode('date');
+    setShow(true);
+  };
+
   //function uploads the user's post to firebase with image url, caption and all other fields mentioned below
-  const uploadPostToFirebase = (caption, address, event_name, event_date, ticket_price)=>{
+  const uploadPostToFirebase = (caption, address, event_name, ticket_price)=>{
     const unsubscribe = db
       .collection('users')
       .doc(firebase.auth().currentUser.email) 
@@ -106,7 +130,7 @@ const FormikPostUploader = ({navigation}) => {
         comments: [],
         address: address,
         event_name: event_name,
-        event_date: event_date, //date-picker
+        event_date: date.toLocaleDateString(), //date-picker
         ticket_price: ticket_price, //number-field
         // age_restriction: age_restriction, //dropdown
         owner_email: firebase.auth().currentUser.email
@@ -119,9 +143,9 @@ const FormikPostUploader = ({navigation}) => {
 
   return (
       <Formik
-          initialValues={{ caption: '', address: '',event_name: '', event_date: '', ticket_price: ''}}
+          initialValues={{ caption: '', address: '',event_name: '', ticket_price: ''}}
           onSubmit={values => {
-            uploadPostToFirebase(values.caption, values.address, values.event_name, values.event_date, values.ticket_price)
+            uploadPostToFirebase(values.caption, values.address, values.event_name, values.ticket_price)
             //addTopicToFirebase(values.topic)
           }}
           validationSchema={uploadPostSchema}
@@ -165,6 +189,7 @@ const FormikPostUploader = ({navigation}) => {
                         value={values.event_name}
                         />
 
+                      {/*
                       <TextInput //Event Date Input
                         style={{ color: 'white', fontSize: 14, fontWeight: '600', marginBottom: 25, backgroundColor: '#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5 }}
                         placeholder='Enter Event Date'
@@ -174,6 +199,17 @@ const FormikPostUploader = ({navigation}) => {
                         onBlur={handleBlur('event_date')}
                         value={values.event_date}
                         />
+                    */}
+
+                      {show && (
+                        <DateTimePicker
+                          testID="dateTimePicker"
+                          value={date}
+                          mode={mode}
+                          is24Hour={true}
+                          onChange={onChange}
+                        />
+                      )}
 
                       <TextInput //Ticket Price Input
                         style={{ color: 'white', fontSize: 14, fontWeight: '600', marginBottom: 25, backgroundColor: '#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5 }}

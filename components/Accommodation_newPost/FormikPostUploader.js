@@ -7,6 +7,7 @@ import { Button } from 'react-native-elements'
 import { db, firebase } from '../../firebase'
 import * as ImagePicker from 'expo-image-picker';
 import {Picker} from '@react-native-picker/picker'
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const uploadPostSchema = Yup.object().shape({
   //imageUrl: Yup.string().url().required('A URL is Required'),
@@ -88,6 +89,34 @@ const FormikPostUploader = ({navigation}) => {
       }
     };
 
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(true);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(true);
+    setDate(currentDate);
+  };
+
+  const showMode = (currentMode) => {
+    if (Platform.OS === 'android') {
+      setShow(false);
+      // for iOS, add a button that closes the picker
+    }
+    setMode(currentMode);
+  };
+
+  const showDatePicker = () => {
+    showMode('date');
+    setShow(true);
+  };
+
+  //const showTimepicker = () => {
+    //showMode('time');
+  //};
+
+
   //function uploads the user's post to firebase with image url, caption and all other fields mentioned below
   const uploadPostToFirebase = (caption, address, no_of_people, status_required, gender, date_move_in, no_of_rooms)=>{
     const unsubscribe = db
@@ -109,7 +138,7 @@ const FormikPostUploader = ({navigation}) => {
         no_of_people: no_of_people, //number field
         status_required: status_required, //this dropdown
         gender: gender, //this dropdown
-        date_move_in: date_move_in, //date-picker
+        date_move_in: date.toLocaleDateString(), //date-picker
         no_of_rooms: no_of_rooms, //number field
         owner_email: firebase.auth().currentUser.email
       })
@@ -181,11 +210,11 @@ const FormikPostUploader = ({navigation}) => {
                         itemStyle={{ color: 'white', fontWeight: '700', fontSize: 14 }}
                         selectedValue={values.status_required}
                         onValueChange={handleChange('status_required')}>
-                        <Picker.Item label="student" value="student" />
-                        <Picker.Item label="working proffessional" value="working proffessional" />
+                        <Picker.Item label="Student" value="Student" />
+                        <Picker.Item label="Working Professional" value="Working Professional" />
                         <Picker.Item label="PR" value="PR" />
-                        <Picker.Item label="citizen" value="citizen" />
-                        <Picker.Item label="refugee" value="refugee" />
+                        <Picker.Item label="Citizen" value="Citizen" />
+                        <Picker.Item label="Refugee" value="Refugee" />
                       </Picker>
                       
                       <Text style={{color:'white', fontWeight:'700'}}>Select Gender:</Text>
@@ -194,14 +223,16 @@ const FormikPostUploader = ({navigation}) => {
                         itemStyle={{ color: 'white', fontWeight: '700', fontSize: 14 }}
                         selectedValue={values.gender}
                         onValueChange={handleChange('gender')}>
-                        <Picker.Item label="male" value="male" />
-                        <Picker.Item label="female" value="female" />
-                        <Picker.Item label="transgender" value="transgender" />
-                        <Picker.Item label="gender neutral" value="gender neutral" />
-                        <Picker.Item label="non-binary" value="non-binary" />
-                        <Picker.Item label="genderqueer" value="genderqueer" />
+                        <Picker.Item label="Male" value="Male" />
+                        <Picker.Item label="Female" value="Female" />
+                        <Picker.Item label="Transgender" value="Transgender" />
+                        <Picker.Item label="Gender Neutral" value="Gender Neutral" />
+                        <Picker.Item label="Non-Binary" value="Non-Binary" />
+                        <Picker.Item label="GenderQueer" value="GenderQueer" />
                       </Picker>
 
+                      {
+                        /*
                       <TextInput //Date to Move In Input
                         style={{color:'white', fontSize:14, fontWeight: '600', marginBottom: 25, backgroundColor:'#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5}}
                         placeholder='Date to Move In This Accommodation'
@@ -211,6 +242,21 @@ const FormikPostUploader = ({navigation}) => {
                         onBlur={handleBlur('date_move_in')}
                         value={values.date_move_in}
                         />
+                        */
+                      }
+
+                      {/*<Button title="Show date picker!" onPress={showDatePicker()}/> */}
+                      {/*<Button onPress={showTimepicker} title="Show time picker!"*/}
+                        
+                        {show && (
+                        <DateTimePicker
+                          testID="dateTimePicker"
+                          value={date}
+                          mode={mode}
+                          is24Hour={true}
+                          onChange={onChange}
+                        />
+                      )}
 
                       <TextInput //No Of Rooms Input
                         style={{color:'white', fontSize:14, fontWeight: '600', marginBottom: 25, backgroundColor:'#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5}}
