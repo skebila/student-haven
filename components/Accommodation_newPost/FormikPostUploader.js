@@ -7,6 +7,7 @@ import { Button, Divider } from 'react-native-elements'
 import validUrl from 'valid-url'
 import { db, firebase } from '../../firebase'
 import { Picker } from '@react-native-picker/picker'
+import DateTimePicker from '@react-native-community/datetimepicker'
 
 
 const PLACEHOLDER_IMG = 'https://user-images.githubusercontent.com/101482/29592647-40da86ca-875a-11e7-8bc3-941700b0a323.png'
@@ -21,7 +22,7 @@ const FormikPostUploader = ({navigation}) => {
   
   //gets the image url and the username/email of the user that is currently logged in
   const getUsername = () => {
-    const user = firebase.auth().currentUser 
+    const user = firebase.auth().currentUser
     const unsubscribe = db
       .collection('users')
       .where('owner_uid', '==', user.uid)  //how to use where statement
@@ -126,16 +127,19 @@ const FormikPostUploader = ({navigation}) => {
                         value={values.no_of_people}
                         keyboardType='numeric'
                         />
-                      
-                      <TextInput //Status_of_People Input
-                        style={{color:'white', fontSize:14, fontWeight: '600', marginBottom: 25, backgroundColor:'#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5}}
-                        placeholder='Status of tenants required for this Accommodation'
-                        placeholderTextColor='gray'
-                        multiline={true}
-                        onChangeText={handleChange('status_required')}
-                        onBlur={handleBlur('status_required')}
-                        value={values.status_required}
-                        />
+
+                      <Text style={{color:'white', fontWeight:'700'}}>Select Your Status:</Text>
+                      <Picker //Picker for Gender
+                        style={{color:'white', fontSize: 14, marginBottom: 25}}
+                        itemStyle={{ color: 'white', fontWeight: '700', fontSize: 14 }}
+                        selectedValue={values.status_required}
+                        onValueChange={handleChange('status_required')}>
+                        <Picker.Item label="student" value="student" />
+                        <Picker.Item label="working proffessional" value="working proffessional" />
+                        <Picker.Item label="PR" value="PR" />
+                        <Picker.Item label="citizen" value="citizen" />
+                        <Picker.Item label="refugee" value="refugee" />
+                      </Picker>
                       
                       <Text style={{color:'white', fontWeight:'700'}}>Select Gender:</Text>
                       <Picker //Picker for Gender
@@ -150,16 +154,6 @@ const FormikPostUploader = ({navigation}) => {
                         <Picker.Item label="non-binary" value="non-binary" />
                         <Picker.Item label="genderqueer" value="genderqueer" />
                       </Picker>
-            
-                      {/*<TextInput //Gender of Tenants allowed to apply Input
-                        style={{color:'white', fontSize:20, fontWeight: '700', marginBottom: 25}}
-                        placeholder='Gender of Tenants allowed to apply for this Accommodation'
-                        placeholderTextColor='gray'
-                        multiline={true}
-                        onChangeText={handleChange('gender')}
-                        onBlur={handleBlur('gender')}
-                        value={values.gender}
-                    />*/}
 
                       <TextInput //Date to Move In Input
                         style={{color:'white', fontSize:14, fontWeight: '600', marginBottom: 25, backgroundColor:'#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5}}
