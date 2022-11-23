@@ -95,11 +95,8 @@ const FormikPostUploader = ({navigation}) => {
       .collection('posts')
       .add({
         topic: 'Events',
-<<<<<<< HEAD
         imageUrl: imageURL, //image-picker
-=======
         imageUrl: imageUrl, //image-picker
->>>>>>> 35f32a78da2a44634038756cc630db8e656a63d0
         user: currentLoggedInUser.username,
         profile_picture: currentLoggedInUser.profilePicture,
         owner_uid: firebase.auth().currentUser.uid,
@@ -111,13 +108,9 @@ const FormikPostUploader = ({navigation}) => {
         address: address,
         event_name: event_name,
         event_date: event_date, //date-picker
-<<<<<<< HEAD
-        ticket_price: ticket_price //number-field
-=======
-        // age_restriction: age_restriction, //dropdown
         ticket_price: ticket_price, //number-field
+        // age_restriction: age_restriction, //dropdown
         owner_email: firebase.auth().currentUser.email
->>>>>>> 35f32a78da2a44634038756cc630db8e656a63d0
         //Add some restrictions
       })
       .then(() => navigation.goBack())
