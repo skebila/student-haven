@@ -1,22 +1,24 @@
-import { View, Text, Image, Picker } from 'react-native'
+import { View, Text, Image, Picker, Platform } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import * as Yup from 'yup'
 import { Formik } from 'formik'
 import { TextInput } from 'react-native-gesture-handler'
-import { Button, Divider } from 'react-native-elements'
-import validUrl from 'valid-url'
+import { Button } from 'react-native-elements'
 import { db, firebase } from '../../firebase'
+import * as ImagePicker from 'expo-image-picker';
 
-const PLACEHOLDER_IMG = 'https://user-images.githubusercontent.com/101482/29592647-40da86ca-875a-11e7-8bc3-941700b0a323.png'
 const uploadPostSchema = Yup.object().shape({
-  imageUrl: Yup.string().url().required('A URL is Required'),
+  //imageUrl: Yup.string().url().required('A URL is Required'),
   caption: Yup.string().max(2200, 'Caption has reached the character limit')
 })
 
 const FormikPostUploader = ({navigation}) => {
-  const [thumbnailUrl, setThumbnailUrl] = useState(PLACEHOLDER_IMG)
+
   const [currentLoggedInUser, setCurrentLoggedInUser] = useState(null)
+  const [image, setImage] = useState(null)
+  const [imageURL, setImageURL] = useState(null);
   
+
   //gets the image url and the username/email of the user that is currently logged in
   const getUsername = () => {
     const user = firebase.auth().currentUser 
@@ -36,18 +38,64 @@ const FormikPostUploader = ({navigation}) => {
 
   useEffect(() => {
     getUsername()
-  }, [])
+  }, []);
+
+
+    const pickImage = async () => {
+      // No permissions request is necessary for launching the image library
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+      });
+  
+      console.log(result);
+  
+      if (!result.canceled) {
+        setImage(result.assets[0].uri);
+        const uploadImage = async() => {
+          const response = await fetch(result.assets[0].uri);
+          const blob = await response.blob();
+          const childPath = `post/${firebase.auth().currentUser.email}/${Math.random().toString(36)}}`;
+          const task = firebase.
+          storage().
+          ref().
+          child(childPath)
+          .put(blob);
+    
+          const taskProgress = snapshot => {
+            console.log(`transferred: ${snapshot.bytesTransferred}`)
+          }
+    
+          const taskCompleted =() => {
+            task.snapshot.ref.getDownloadURL().then((downloadURL) => {
+              console.log(downloadURL);
+              setImageURL(downloadURL);
+            })
+          }
+    
+          const taskError = snapshot => {
+            console.log(snapshot)
+          }
+    
+          task.on("state_changed", taskProgress, taskError, taskCompleted);
+        }
+        console.log(result.assets[0].uri);
+        uploadImage();
+
+      }
+    };
 
   //function uploads the user's post to firebase with image url, caption and all other fields mentioned below
-  const uploadPostToFirebase = (imageUrl, caption, address, no_of_people, status_required, gender, date_move_in, no_of_rooms)=>{
+  const uploadPostToFirebase = (caption, address, no_of_people, status_required, gender, date_move_in, no_of_rooms)=>{
     const unsubscribe = db
       .collection('users')
       .doc(firebase.auth().currentUser.email) 
       .collection('posts')
       .add({
-        post_id: id,
         topic: 'Accommodation',
-        imageUrl: imageUrl, //image-picker
+        imageUrl: imageURL, //image-picker
         user: currentLoggedInUser.username,
         profile_picture: currentLoggedInUser.profilePicture,
         owner_uid: firebase.auth().currentUser.uid,
@@ -70,9 +118,9 @@ const FormikPostUploader = ({navigation}) => {
 
   return (
       <Formik
-          initialValues={{ caption: '', imageUrl: '', address: '',no_of_people: '',status_required: '',gender: '', date_move_in: '', no_of_rooms: ''}}
+          initialValues={{ caption: '', address: '',no_of_people: '',status_required: '',gender: '', date_move_in: '', no_of_rooms: ''}}
           onSubmit={values => {
-            uploadPostToFirebase(values.imageUrl, values.caption, values.address, values.no_of_people, values.status_required,values.gender, values.date_move_in, values.no_of_rooms)
+            uploadPostToFirebase(values.caption, values.address, values.no_of_people, values.status_required,values.gender, values.date_move_in, values.no_of_rooms)
           }}
           validationSchema={uploadPostSchema}
           validateOnMount={true}
@@ -165,19 +213,13 @@ const FormikPostUploader = ({navigation}) => {
                         />
 
                       <Image //Image to post
-                        source={{ uri: validUrl.isUri(thumbnailUrl) ? thumbnailUrl : PLACEHOLDER_IMG }}
-                        style={{width:300, height:300, marginBottom: 10, borderRadius: 5}}
+                        source={{ uri: image }}
+                        style={{width:200, height:200, marginBottom: 10, borderRadius: 5}}
                       />
-                      <Divider width={0.2} orientation='vertical' style={{marginBottom: 20}}/>
-                      <TextInput //Image URL
-                        onChange={e=> setThumbnailUrl(e.nativeEvent.text)}
-                        style={{color:'white', fontSize:14, fontWeight: '500',}}
-                        placeholder='Enter Image Url'
-                        placeholderTextColor='gray'
-                        onChangeText={handleChange('imageUrl')}
-                        onBlur={handleBlur('imageUrl')}
-                        value={values.imageUrl}
-                        />
+
+                      <Button title="Pick Image from Gallery" onPress={() => pickImage()} />
+                      
+                      
 
                       {errors.imageUrl && (
                           <Text style={{fontSize: 12, color: '#30AADD'}}>
