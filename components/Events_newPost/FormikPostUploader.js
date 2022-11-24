@@ -172,7 +172,7 @@ const FormikPostUploader = ({navigation}) => {
 
                       <TextInput //Address Input
                         style={{ color: 'white', fontSize: 14, fontWeight: '600', marginBottom: 25, backgroundColor: '#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5 }}
-                        placeholder='Enter address'
+                        placeholder='Enter Address'
                         placeholderTextColor='gray'
                         multiline={true}
                         onChangeText={handleChange('address')}
@@ -188,7 +188,7 @@ const FormikPostUploader = ({navigation}) => {
                         onChangeText={handleChange('event_name')}
                         onBlur={handleBlur('event_name')}
                         value={values.event_name}
-                    />
+                      />
                       
                       <TextInput //Ticket Price Input
                         style={{ color: 'white', fontSize: 14, fontWeight: '600', marginBottom: 25, backgroundColor: '#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5 }}
@@ -209,10 +209,10 @@ const FormikPostUploader = ({navigation}) => {
                         onChangeText={handleChange('caption')}
                         onBlur={handleBlur('caption')}
                         value={values.caption}
-            />
+                      />
             
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                      <Text style={{color:'white', fontWeight:'700', marginRight: 10}}>Select event date:</Text>
+                      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <Text style={{color:'white', fontWeight:'700', marginRight: 10}}>Select Event Date:</Text>
                       {show && (
                         <DateTimePicker
                             testID="dateTimePicker"

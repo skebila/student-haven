@@ -183,9 +183,10 @@ const FormikPostUploader = ({navigation}) => {
                         onBlur={handleBlur('caption')}
                         value={values.caption}
                       />
+                      
                       <TextInput //Address Input
                         style={{color:'white', fontSize:14, fontWeight: '600', marginBottom: 25, backgroundColor:'#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5}}
-                        placeholder='Enter address'
+                        placeholder='Enter Address'
                         placeholderTextColor='gray'
                         multiline={true}
                         onChangeText={handleChange('address')}
@@ -195,17 +196,17 @@ const FormikPostUploader = ({navigation}) => {
 
                         <TextInput //No_of_People Input
                         style={{color:'white', fontSize:14, fontWeight: '600', marginBottom: 25, backgroundColor:'#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5}}
-                        placeholder='No of people for Accommodation'
+                        placeholder='No of People for Accommodation'
                         placeholderTextColor='gray'
                         multiline={true}
                         keyboardType='numeric'
                         onChangeText={handleChange('no_of_people')}
                         onBlur={handleBlur('no_of_people')}
                         value={values.no_of_people}
-            />
+                        />
             
 
-                      <TextInput //No Of Rooms Input
+                        <TextInput //No Of Rooms Input
                         style={{color:'white', fontSize:14, fontWeight: '600', marginBottom: 25, backgroundColor:'#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5}}
                         placeholder='No of Rooms in this Accommodation'
                         placeholderTextColor='gray'
@@ -256,8 +257,6 @@ const FormikPostUploader = ({navigation}) => {
                         <Picker.Item label="GenderQueer" value="GenderQueer" />
                       </Picker>
 
-                      
-
                       <Image //Image to post
                         source={{ uri: image }}
                         style={{width:200, height:200, marginBottom: 10, borderRadius: 5}}
@@ -265,8 +264,6 @@ const FormikPostUploader = ({navigation}) => {
 
                       <Button title="Pick Image from Gallery" onPress={() => pickImage()} />
                       
-                      
-
                       {errors.imageUrl && (
                           <Text style={{fontSize: 12, color: '#30AADD'}}>
                               {errors.imageUrl}
