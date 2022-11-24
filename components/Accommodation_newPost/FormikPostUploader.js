@@ -54,7 +54,7 @@ const FormikPostUploader = ({navigation}) => {
   
       console.log(result);
   
-      if (!result.cancelled) {
+      if (!result.canceled) {
         setImage(result.assets[0].uri);
         const uploadImage = async() => {
           const response = await fetch(result.assets[0].uri);
@@ -202,8 +202,33 @@ const FormikPostUploader = ({navigation}) => {
                         onChangeText={handleChange('no_of_people')}
                         onBlur={handleBlur('no_of_people')}
                         value={values.no_of_people}
+            />
+            
+
+                      <TextInput //No Of Rooms Input
+                        style={{color:'white', fontSize:14, fontWeight: '600', marginBottom: 25, backgroundColor:'#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5}}
+                        placeholder='No of Rooms in this Accommodation'
+                        placeholderTextColor='gray'
+                        keyboardType='numeric'
+                        multiline={true}
+                        onChangeText={handleChange('no_of_rooms')}
+                        onBlur={handleBlur('no_of_rooms')}
+                        value={values.no_of_rooms}
                         />
-                      
+
+            <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 25}}>
+                        <Text style={{color:'white', fontWeight:'700', marginRight: 10}}>Move-in date: </Text>
+                        {show && (
+                          <DateTimePicker
+                              testID="dateTimePicker"
+                              value={date}
+                              mode={mode}
+                              is24Hour={true}
+                              onChange={onChange}
+                            />
+                        )}
+                      </View>
+            
                       <Text style={{color:'white', fontWeight:'700'}}>Select Your Status:</Text>
                       <Picker //Picker for Gender
                         style={{color:'white', fontSize: 14, marginBottom: 25}}
@@ -231,43 +256,7 @@ const FormikPostUploader = ({navigation}) => {
                         <Picker.Item label="GenderQueer" value="GenderQueer" />
                       </Picker>
 
-                      {
-                        /*
-                      <TextInput //Date to Move In Input
-                        style={{color:'white', fontSize:14, fontWeight: '600', marginBottom: 25, backgroundColor:'#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5}}
-                        placeholder='Date to Move In This Accommodation'
-                        placeholderTextColor='gray'
-                        multiline={true}
-                        onChangeText={handleChange('date_move_in')}
-                        onBlur={handleBlur('date_move_in')}
-                        value={values.date_move_in}
-                        />
-                        */
-                      }
-
-                      {/*<Button title="Show date picker!" onPress={showDatePicker()}/> */}
-                      {/*<Button onPress={showTimepicker} title="Show time picker!"*/}
-                        
-                        {show && (
-                        <DateTimePicker
-                          testID="dateTimePicker"
-                          value={date}
-                          mode={mode}
-                          is24Hour={true}
-                          onChange={onChange}
-                        />
-                      )}
-
-                      <TextInput //No Of Rooms Input
-                        style={{color:'white', fontSize:14, fontWeight: '600', marginBottom: 25, backgroundColor:'#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5}}
-                        placeholder='No of Rooms in this Accommodation'
-                        placeholderTextColor='gray'
-                        keyboardType='numeric'
-                        multiline={true}
-                        onChangeText={handleChange('no_of_rooms')}
-                        onBlur={handleBlur('no_of_rooms')}
-                        value={values.no_of_rooms}
-                        />
+                      
 
                       <Image //Image to post
                         source={{ uri: image }}

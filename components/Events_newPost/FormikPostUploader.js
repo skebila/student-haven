@@ -53,7 +53,7 @@ const FormikPostUploader = ({navigation}) => {
 
     console.log(result);
 
-    if (!result.cancelled) {
+    if (!result.canceled) {
       setImage(result.assets[0].uri);
       const uploadImage = async() => {
         const response = await fetch(result.assets[0].uri);
@@ -188,30 +188,8 @@ const FormikPostUploader = ({navigation}) => {
                         onChangeText={handleChange('event_name')}
                         onBlur={handleBlur('event_name')}
                         value={values.event_name}
-                        />
-
-                      {/*
-                      <TextInput //Event Date Input
-                        style={{ color: 'white', fontSize: 14, fontWeight: '600', marginBottom: 25, backgroundColor: '#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5 }}
-                        placeholder='Enter Event Date'
-                        placeholderTextColor='gray'
-                        multiline={true}
-                        onChangeText={handleChange('event_date')}
-                        onBlur={handleBlur('event_date')}
-                        value={values.event_date}
-                        />
-                    */}
-
-                      {show && (
-                        <DateTimePicker
-                          testID="dateTimePicker"
-                          value={date}
-                          mode={mode}
-                          is24Hour={true}
-                          onChange={onChange}
-                        />
-                      )}
-
+                    />
+                      
                       <TextInput //Ticket Price Input
                         style={{ color: 'white', fontSize: 14, fontWeight: '600', marginBottom: 25, backgroundColor: '#0F0D11', paddingTop: 10, padding: 10, borderRadius: 5 }}
                         placeholder='Enter Ticket Price'
@@ -231,7 +209,20 @@ const FormikPostUploader = ({navigation}) => {
                         onChangeText={handleChange('caption')}
                         onBlur={handleBlur('caption')}
                         value={values.caption}
-                      />
+            />
+            
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <Text style={{color:'white', fontWeight:'700', marginRight: 10}}>Select event date:</Text>
+                      {show && (
+                        <DateTimePicker
+                            testID="dateTimePicker"
+                            value={date}
+                            mode={mode}
+                            is24Hour={true}
+                            onChange={onChange}
+                          />
+                      )}
+                      </View>
                       
                       <Image //Image to post
                         source={{ uri: image }}
