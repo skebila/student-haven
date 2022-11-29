@@ -12,7 +12,7 @@ const TopicList = ({navigation}) => {
                 renderItem={({ item }) => <TouchableOpacity onPress={() =>
                     navigation.push(item.key + 'PostScreen')
                 }>
-                    <Text style={styles.item}>{item.key}</Text>
+                    <Text style={styles.item}>--  {item.key}</Text>
                 </TouchableOpacity>
                 }
       />

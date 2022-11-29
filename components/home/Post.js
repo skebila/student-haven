@@ -3,6 +3,7 @@
 */
 import React, {useState, useEffect} from 'react'
 import { View, Text, Image, StyleSheet, TouchableOpacity, Alert } from 'react-native'
+import { ListItem } from 'react-native-elements';
 import { Divider } from 'react-native-elements/dist/divider/Divider'
 import { Ionicons } from 'react-native-vector-icons';
 import {firebase, db} from '../../firebase';
@@ -13,7 +14,7 @@ const Post = ({ post, navigation }) => {
       <View>
           <Divider style={{ marginBottom: 5, opacity: .3 }} />
           <View>
-              <PostBody  post={post} navigation={navigation} />
+              <PostBody post={post} navigation={navigation} />
           </View>
     </View>
   )
@@ -24,7 +25,7 @@ const PostBody = ({ post, navigation }) => {
         const currentLikeStatus = !post.likes_by_users.includes(
             firebase.auth().currentUser.email
         )
-
+    
         db.collection('users')
             .doc(post.owner_email)
             .collection('posts')
@@ -150,7 +151,9 @@ const PostFooter = ({ handleLike, post, navigation }) => {
                             post={post} />
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.footerIconContainer}>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("CommentsScreen", {postId: post.id, uid: post.owner_email})}
+                        style={styles.footerIconContainer}>
                         <Image
                             style={styles.footerIcon}
                             source={{
@@ -183,13 +186,34 @@ const Likes = ({ post }) => ( //likes per post
     </Text>
 )
 
-const CommentsCount = ({ post }) => ( //post count per post
+const CommentsCount = ({ post }) => {
+    const [comments, setComments] = useState([])
+    useEffect(() => {
+        // fetching user data from firebase
+        db.collection('users')
+            .doc(post.owner_email)
+            .collection('posts')
+            .doc(post.id)
+            .collection('comments')
+            .get()
+            .then((snapshot) => {
+            let comments = snapshot.docs.map(doc => {
+                const data = doc.data();
+                const id = doc.id;
+                return { id, ...data}
+            })
+            setComments(comments)
+        })
+    },[])
 
-    <Text style={{ color: 'white', fontSize: 11 }}>
+    return (
+        //post count per post
+        <Text style={{ color: 'white', fontSize: 11 }}>
 
-        {post.comments.length.toLocaleString('en') != 1 ? post.comments.length.toLocaleString('en') + ' Comments' : post.comments.length.toLocaleString('en') + ' Comment'}
-    </Text>
-)
+            {comments.length.toLocaleString('en') != 1 ? comments.length.toLocaleString('en') + ' Comments' : comments.length.toLocaleString('en') + ' Comment'}
+        </Text>
+    )
+}
 
 const Comments = ({ post }) => (
     <>
@@ -230,16 +254,16 @@ const Topics = ({ post, navigation }) => {
 const postFooterIcons = [
     {
         name: 'Like',
-        imageUrl: 'https://cdn.iconfinder.com/stored_data/717149/128/png?token=1668574367-pvqHgoXImoZmFskgGrw937Bk7KlP68ncVekPAaAVGEs%3D',
+        imageUrl: 'https://cdn.iconfinder.com/stored_data/729467/128/png?token=1669163120-dqviahPHVFtahhfrMchykkstIFBkupuyX99wnWlD8lw%3D',
         likedImageUrl: 'https://cdn0.iconfinder.com/data/icons/twitter-24/512/166_Heart_Love_Like_Twitter-512.png'
     },
     {
         name: 'Comment',
-        imageUrl: 'https://cdn.iconfinder.com/stored_data/717184/128/png?token=1668576825-h7sMvaaKlq4bQU7e6yv%2BeF7bpYi%2BjUEuUe01jfNeSNQ%3D',
+        imageUrl: 'https://cdn.iconfinder.com/stored_data/729461/128/png?token=1669162839-%2FP1yS3gP2AHlnFM87MXEuQJ%2BH1XsPGKWfehs17UoYKc%3D',
     },
     {
         name: 'Message',
-        imageUrl: 'https://cdn.iconfinder.com/stored_data/717173/128/png?token=1668576291-y7YW3%2FGHF4TegZXyDHL0JmC6xxXuf55s5MKdfHS3muw%3D',
+        imageUrl: 'https://cdn.iconfinder.com/stored_data/729462/128/png?token=1669162946-jI588Y1dDWoQkJeC7myHE3uRXkPR4EW63xvmg4CIsHg%3D',
     }
 ]
 
