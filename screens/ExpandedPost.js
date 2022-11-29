@@ -23,22 +23,20 @@ const ExpandedPost = ( props ) => {
 }
 
 
-const Header = ({navigation}) => {
+const Header = () => {
   return (
     <View style={styles.headerContainer}>
-      {/*<TouchableOpacity onPress={()=> navigation.goBack()}>
-        <Ionicons name='chevron-back-outline' style={styles.icon} />
-      </TouchableOpacity>*/}
       <View></View>
       <Text style={styles.headerText}>More Details</Text>
       <View></View>
     </View>
   )
 }
-const Body = ({ props }) => {
 
+const Body = ({ props }) => {
   const [postId, setPostId] = useState([])
   const [post, setPost] = useState([])
+
   //sets the post that has been created by the user, orders them by time created in descending order
   useEffect(() => {
     if (props.route.params.postId !== postId) {
@@ -119,6 +117,7 @@ const Body = ({ props }) => {
     )
   }
 }
+
 const styles = StyleSheet.create({
   container: {
       backgroundColor: 'black',

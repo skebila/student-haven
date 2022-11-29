@@ -131,16 +131,16 @@ const PostBody = ({ post, navigation }) => {
 const postFooterIcons = [
     {
         name: 'Like',
-        imageUrl: 'https://cdn.iconfinder.com/stored_data/729467/128/png?token=1669163120-dqviahPHVFtahhfrMchykkstIFBkupuyX99wnWlD8lw%3D',
+        imageUrl: 'https://firebasestorage.googleapis.com/v0/b/student-haven-257b5.appspot.com/o/assets%2Fheart_white.png?alt=media&token=8ea07fce-a4c8-474a-b7c9-bd1fc6944f22',
         likedImageUrl: 'https://cdn0.iconfinder.com/data/icons/twitter-24/512/166_Heart_Love_Like_Twitter-512.png'
     },
     {
         name: 'Comment',
-        imageUrl: 'https://cdn.iconfinder.com/stored_data/729461/128/png?token=1669162839-%2FP1yS3gP2AHlnFM87MXEuQJ%2BH1XsPGKWfehs17UoYKc%3D',
+        imageUrl: 'https://firebasestorage.googleapis.com/v0/b/student-haven-257b5.appspot.com/o/assets%2Fcomment_white.png?alt=media&token=b0c469bf-80ac-4cb9-b947-23183cae158d',
     },
     {
         name: 'Message',
-        imageUrl: 'https://cdn.iconfinder.com/stored_data/729462/128/png?token=1669162946-jI588Y1dDWoQkJeC7myHE3uRXkPR4EW63xvmg4CIsHg%3D',
+        imageUrl: 'https://firebasestorage.googleapis.com/v0/b/student-haven-257b5.appspot.com/o/assets%2Fmessage_icon.png?alt=media&token=8e2bc7f1-93e7-4c5c-bc1d-1447dfd50bba',
     }
 ]
 
