@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@expo/ngrok": "^2.4.3",
     "@react-native-community/datetimepicker": "^6.7.0",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-picker/picker": "^2.4.8",
@@ -23,6 +24,7 @@
     "expo-cli": "^6.0.6",
     "expo-image-picker": "~14.0.2",
     "expo-status-bar": "~1.4.2",
+    "expo-updates": "~0.15.6",
     "firebase": "^9.6.10",
     "formik": "^2.2.9",
     "ios": "^0.0.1",
@@ -46,8 +48,7 @@
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
     "valid-url": "^1.0.9",
-    "yup": "^0.32.11",
-    "expo-updates": "~0.15.6"
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3"
