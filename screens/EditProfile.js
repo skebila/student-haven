@@ -411,7 +411,7 @@ const uploadToFirebase =  (blob) => {
             uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
                 console.log('File available at', downloadURL);
                 db.collection('users')
-                    .doc(firebase.auth().cughrrentUser.email)
+                    .doc(firebase.auth().currentUser.email)
                     .update({
                         profile_picture: downloadURL,
                     }).then(() => {

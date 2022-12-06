@@ -40,7 +40,6 @@ const UserProfile = ({ navigation, route }) => {
                             onPress={() => navigation.navigate('MessengerScreen', {email: user.email})}
                         />
                     }
-
                 </View>
                 <View
                     style={{

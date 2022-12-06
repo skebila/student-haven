@@ -52,7 +52,7 @@ const ChangePasswordBody = ({navigation}) => {
     const ChangePasswordFormSchema = Yup.object().shape({
         oldPassword: Yup.string()
             .required()
-            .min(6, 'Your password must contain atleast 6 characters'),
+            .min(6, 'Your password must contain at least 6 characters'),
         newPassword: Yup.string().
         required()
             .min(6, 'Your password must contain at least 6 characters'),
