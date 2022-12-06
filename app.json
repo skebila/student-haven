@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "StudentHaven",
-    "slug": "StudentHaven",
+    "name": "Student Haven",
+    "slug": "student-haven",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "",
+    "icon": "./assets/icon-black.png",
     "splash": {
-      "image": "",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -17,18 +17,25 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.stevenkebila.studenthaven"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "",
-        "backgroundColor": "#FFFFFF"
-      }
+        "backgroundColor": "#000"
+      },
+      "package": "com.stevenkebila.studenthaven"
     },
     "web": {
       "favicon": ""
     },
-    "description": "A social media platform for students",
-    "githubUrl": "https://github.com/skebila/student-haven"
+    "description": "This is the student social media app",
+    "githubUrl": "https://github.com/skebila/student-haven",
+    "extra": {
+      "eas": {
+        "projectId": "d069bce4-a0e7-4dd4-a938-30fcbffb2a37"
+      }
+    }
   }
 }
